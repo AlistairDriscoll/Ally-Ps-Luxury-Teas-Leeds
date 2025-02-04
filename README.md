@@ -48,8 +48,5 @@ The starting wireframes, ER diagram and website layout can be found in the [feat
 |-------------|-------------|
 | []() |As a manager, I want to add, edit and delete products on my website so I can keep it up to date with what we have. |
 | []() |As a manager, I want to send emails to customers confirming their order, so that my clientele are being informed with their updates. |
-| []() | |
-| []() | |
-| []() | |
-| []() | |
-| []() | |
+| []() |As a manager, I want to be able to see customer data easily such as orders and reviews, so that I can make informed decisions for my business based on customer feedback and sales. |
+| []() |As a manager, I want customers to only be able to leave reviews for products that they have purchased, so that my customer base will have accurate information for the products that interest them. |
