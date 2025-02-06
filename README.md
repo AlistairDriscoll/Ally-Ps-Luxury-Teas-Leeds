@@ -16,9 +16,6 @@ The starting wireframes, ER diagram and website layout can be found in the [feat
 | [#2](https://github.com/AlistairDriscoll/Ally-Ps-Luxury-Teas-Leeds/issues/2) | As a first time user I can create an account so that I can enjoy the benefits of a regular user. |
 | [#18](https://github.com/AlistairDriscoll/Ally-Ps-Luxury-Teas-Leeds/issues/18) | As a first time visitor, I can see a list of the products on sale and filter them so that I can make decisions on what to buy. |
 
-
-| []() |As a first time visitor, I can see a list of the products on sale and filter them so I can make decisions on what to buy. |
-
 ### Regular User
 
 | Issue ID    | User Story |
