@@ -1,0 +1,17 @@
+<h2>Welcome...</h2>
+<h2>To Ally P's Luxury Teas Leeds!</h2>
+<h1>We Deliver WorldWide!</h1>
+
+<nav>
+    <ul>
+        <li><a href="">Shop</a></li>
+        <li><a href="">The Brews Reviews!</a></li>
+        <li><a href="">About Us</a></li>
+        <li><a href="">Contact Us</a></li>
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url 'profile' %}">Your account</a></li>
+        {% else %}
+        <li><a href="{% url 'account_signup' %}">Sign-in/Register</a></li>
+        {% endif %}
+    </ul>
+</nav>

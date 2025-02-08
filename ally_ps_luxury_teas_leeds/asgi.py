@@ -11,6 +11,9 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ally_ps_luxury_teas_leeds.settings')
+os.environ.setdefault(
+    'DJANGO_SETTINGS_MODULE',
+    'ally_ps_luxury_teas_leeds.settings'
+    )
 
 application = get_asgi_application()
