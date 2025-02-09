@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     # my own apps
     'profiles',
     'welcome',
+    'shop',
 
     # other apps
     "django_countries",
