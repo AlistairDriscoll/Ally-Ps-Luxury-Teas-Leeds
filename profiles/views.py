@@ -1,7 +1,7 @@
-from django.shortcuts import HttpResponse
+from django.shortcuts import render
 
 
 def profile(request):
     """ Profile view """
 
-    return HttpResponse("Hello does this work")
+    return render(request, 'profiles/profile.html')

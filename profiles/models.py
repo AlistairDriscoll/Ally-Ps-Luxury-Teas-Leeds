@@ -21,6 +21,9 @@ class UserProfile(models.Model):
     postal_code = models.CharField(max_length=20, blank=True, null=True)
     country = CountryField(blank_label='Country', null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.user.username}'s UserProfile"
+
 
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
