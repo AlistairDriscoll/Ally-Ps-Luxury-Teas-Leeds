@@ -20,11 +20,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include("allauth.urls")),
-    path('', include('welcome.urls')),
-    path('profile/', include('profiles.urls')),
-    path('shop/', include('shop.urls')),
+    path("admin/", admin.site.urls),
+    path("accounts/", include("allauth.urls")),
+    path("profile/", include("profiles.urls")),
+    path("shop/", include("shop.urls")),
+    path("", include("welcome.urls")),
 ]
 
 if settings.DEBUG:

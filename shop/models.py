@@ -1,10 +1,26 @@
 import uuid
+import os
 
 from django.db import models
 
 
 def generate_sku():
-    return str(uuid.uuid4().hex[:8]).upper()  # Example SKU: "A1B2C3D4"
+    """
+    Generate a unique SKU for the product.
+    """
+    while True:
+        new_sku = str(uuid.uuid4().hex[:8]).upper()  # Example SKU: "A1B2C3D4"
+        if not Product.objects.filter(sku=new_sku).exists():
+            return new_sku
+
+
+def product_image_upload_path(instance, filename):
+    """
+    Generate file path for new product image,
+    storing it in a folder named after the SKU.
+    """
+
+    return os.path.join("products", instance.sku, filename)
 
 
 class Product(models.Model):
@@ -24,7 +40,7 @@ class Product(models.Model):
     tea_type = models.IntegerField(choices=TYPES, default=0)
     base_price_number = models.DecimalField(max_digits=4, decimal_places=2)
     picture = models.ImageField(
-        upload_to="products/",
+        upload_to=product_image_upload_path,
         blank=True,
         default='camellia-sinensis.jpg'
     )
