@@ -4,6 +4,18 @@
 
 <h1>Our Products</h1>
 
+<!-- Filter Options -->
+<div>
+    <a href="{% url 'shop' %}" class="btn {% if not selected_type %}btn-primary{% else %}btn-outline-primary{% endif %}">
+        All
+    </a>
+    {% for type_value, type_name in tea_types %}
+        <a href="?type={{ type_value }}" class="btn {% if selected_type == type_value|stringformat:"s" %}btn-primary{% else %}btn-outline-primary{% endif %}">
+            {{ type_name }}
+        </a>
+    {% endfor %}
+</div>
+
 <div class="row">
     {% for product in products %}
     <div class="product col-12 col-md-6 col-lg-4">
