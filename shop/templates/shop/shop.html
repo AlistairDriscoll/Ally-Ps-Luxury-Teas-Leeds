@@ -8,11 +8,11 @@
     {% for product in products %}
     <div class="col-12 col-md-6 col-lg-4">
         <h4>{{ product.name }}</h4>`    `
-        <p>{{ product.tea_type }}</p>
-        <img src="{{ product.image }}" alt="">
+        <p>{{ product.get_tea_type_display }}</p>
+        <img src="{{ product.image.url }}" alt="">
         <p>Starting from: £{{ product.base_price_number }}</p>
         <p>{{ product.sku }}</p>
-        <a href="{% url 'product_detail' sku=product.sku %}"></a>
+        <a href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
     </div>
     {% endfor %}
 </div>

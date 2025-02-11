@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% load shop_tools %}
 
+{% block content %}
+
 <h1>{{ product.name }}</h1>
 
 <img src="{{ product.image.url }}" alt="{{ product.name }}">
 
-
+{% endblock %}
