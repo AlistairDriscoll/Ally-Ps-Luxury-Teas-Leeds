@@ -41,8 +41,8 @@ class Product(models.Model):
     base_price_number = models.DecimalField(max_digits=4, decimal_places=2)
     picture = models.ImageField(
         upload_to=product_image_upload_path,
+        null=True,
         blank=True,
-        default='camellia-sinensis.jpg'
     )
 
     def __str__(self):

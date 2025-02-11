@@ -37,24 +37,23 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     # my own apps
-    'profiles',
-    'welcome',
-    'shop',
-
+    "profiles",
+    "welcome",
+    "shop",
     # other apps
     "django_countries",
+    "crispy_forms",
 ]
 
 SITE_ID = 1
@@ -73,6 +72,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ally_ps_luxury_teas_leeds.urls'
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 TEMPLATES = [
     {

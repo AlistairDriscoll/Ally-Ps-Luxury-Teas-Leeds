@@ -6,10 +6,10 @@
 
 <div class="row">
     {% for product in products %}
-    <div class="col-12 col-md-6 col-lg-4">
-        <h4>{{ product.name }}</h4>`    `
+    <div class="product col-12 col-md-6 col-lg-4">
+        <h4>{{ product.name }}</h4>
         <p>{{ product.get_tea_type_display }}</p>
-        <img src="{{ product.image.url }}" alt="">
+        <img src="{{ product.picture.url }}" alt="{{ product.name }}" class="shop-img">
         <p>Starting from: £{{ product.base_price_number }}</p>
         <p>{{ product.sku }}</p>
         <a href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
