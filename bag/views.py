@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 
 def view_bag(request):
@@ -17,6 +18,7 @@ def add_to_bag(request, product_id):
     valid_weights = {30, 100, 300}
 
     if weight in valid_weights:
+        messages.success(request, "Added to your Bag!")
         weight = str(weight)
         product_id = str(product_id)
         if product_id in bag:
@@ -26,6 +28,8 @@ def add_to_bag(request, product_id):
                 bag[product_id][weight] = 1
         else:
             bag[product_id] = {weight: 1}
+    else:
+        messages.error(request, "You need to select a compatible weight!")
 
     request.session['bag'] = bag
 

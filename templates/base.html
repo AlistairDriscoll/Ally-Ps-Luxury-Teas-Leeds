@@ -5,77 +5,89 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script
-            src="https://kit.fontawesome.com/bc5efad812.js"
-            crossorigin="anonymous"
-        ></script>
+        <meta name="description"
+            content="I travel the world looking for the best teas to sell from my shop based in Leeds. Although based there I ship worldwide! I also built this website to be a great place to find out more about loose leaf teas so there should be plenty for you to click on if you want to learn about it!">
+        <meta name="keywords"
+            content="Leeds tea merchant, Leeds tea store, northern tea seller UK, tea merchant Yorkshire, tea blends Leeds, tea merchant UK, loose leaf tea Leeds, tea supplies Leeds">
+        <script src="https://kit.fontawesome.com/bc5efad812.js"
+                crossorigin="anonymous"></script>
         <!-- Bootstrap 4 -->
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-        />
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
         <!-- My CSS -->
         <link rel="stylesheet" href="{% static 'css/base.css' %}" />
         <!-- Extra custom CSS -->
-        {% block extra_css %} {% endblock %}
+        {% block extra_css %}
+        {% endblock extra_css %}
         <title>Ally P's Luxury Teas Leeds</title>
     </head>
     <body>
         <header>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="{% url 'welcome' %}"
-                            ><h2>Ally P's Luxury Teas</h2></a
-                        >
-                    </li>
-                    <li><a href="{% url 'shop' %}">Shop</a></li>
-                    <li><a href="">The Brews Reviews!</a></li>
-                    <li><a href="">About Us</a></li>
-                    <li><a href="">Contact Us</a></li>
-                    {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'profile' %}">Your account</a></li>
-                    {% else %}
-                    <li>
-                        <a href="{% url 'account_signup' %}"
-                            >Sign-in/Register</a
-                        >
-                    </li>
-                    {% endif %}
-                    <li>
-                        <a href="{% url 'view_bag' %}"
-                            ><i class="fas fa-shopping-bag fa-lg"></i
-                        ></a>
-                    </li>
-                </ul>
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <ul>
+                        <li>
+                            <a href="{% url 'welcome' %}">
+                                <h2>Ally P's Luxury Teas</h2>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'shop' %}">Shop</a>
+                        </li>
+                        <li>
+                            <a href="">The Brews Reviews!</a>
+                        </li>
+                        <li>
+                            <a href="">About Us</a>
+                        </li>
+                        <li>
+                            <a href="">Contact Us</a>
+                        </li>
+                        {% if request.user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'profile' %}">Your account</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'account_signup' %}">Sign-in/Register</a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{% url 'view_bag' %}"><i class="fas fa-shopping-bag fa-lg"></i></a>
+                        </li>
+                    </ul>
+                </div>
             </nav>
         </header>
 
         {% if messages %}
-        <div class="message-container">
-            {% for message in messages %} {% with message.level as level %} {%
-            if level == 40 %} {% include 'includes/toasts/toast_error.html' %}
-            {% elif level == 30 %} {% include
-            'includes/toasts/toast_warning.html' %} {% elif level == 25 %} {%
-            include 'includes/toasts/toast_success.html' %} {% else %} {%
-            include 'includes/toasts/toast_info.html' %} {% endif %} {% endwith
-            %} {% endfor %}
-        </div>
-        {% endif %} {% block content %} {% endblock %}
+            <div class="message-container">
+                {% for message in messages %}
+                    {% with message.level as level %}
+                        {% if level == 40 %}
+                            {% include "includes/toasts/toast_error.html" %}
+                        {% elif level == 30 %}
+                            {% include "includes/toasts/toast_warning.html" %}
+                        {% elif level == 25 %}
+                            {% include "includes/toasts/toast_success.html" %}
+                        {% else %}
+                            {% include "includes/toasts/toast_info.html" %}
+                        {% endif %}
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock content %}
         <!-- Scripts: -->
         <!-- j-query -->
-        <script
-            src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"
-        ></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                crossorigin="anonymous"></script>
         <!-- Stripe -->
         <script src="https://js.stripe.com/v3/"></script>
         <!-- extra custom JS -->
-        {% block extra_js %}
-        <script type="text/javascript">
-            $(".toast").toast("show");
-        </script>
-        {% endblock %}
+        {% block extra_js %}<script type="text/javascript">$(".toast").toast("show");</script>{% endblock %}
     </body>
 </html>
