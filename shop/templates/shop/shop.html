@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
 
@@ -23,7 +23,7 @@
     <div class="product col-12 col-md-6 col-lg-4">
         <h4>{{ product.name }}</h4>
         <p>{{ product.get_tea_type_display }}</p>
-        <img src="{{ product.picture.url }}" alt="{{ product.name }}" class="shop-img">
+        <img src="{{ product.picture.url }}" alt="{{ product.name }}" class="shop-img" width="200px" height="auto">
         <p>Starting from: £{{ product.base_price_number }}</p>
         <p>{{ product.sku }}</p>
         <a href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
@@ -32,5 +32,4 @@
 </div>
 </div>
 
-
-{% endblock %}
+{% endblock content %}

@@ -1,4 +1,3 @@
-
 /* Class for welcome page overlay screen */
 .homepage-overlay {
     height: 100%;
@@ -13,6 +12,4 @@
 .shop-img {
     border-radius: 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    width: 200px !important;
-    height: auto;
 }

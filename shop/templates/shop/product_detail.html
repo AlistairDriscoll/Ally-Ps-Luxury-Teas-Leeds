@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load shop_tools %} {% block content %}
+{% extends "base.html" %} {% load shop_tools %} {% block content %}
 
 <div class="container-fluid">
     <h1>{{ product.name }}</h1>
@@ -7,12 +7,14 @@
         src="{{ product.picture.url }}"
         alt="{{ product.name }}"
         class="shop-img"
+        width="400"
+        height="auto"
     />
 
     <form
         class="form"
         action="{% url 'add_to_bag' product_id=product.id %}"
-        method="POST"
+        method="post"
     >
         {% csrf_token %}
         <label for="weight">Choose Quantity:</label>
@@ -35,4 +37,4 @@
     <a href="{% url 'shop' %}" class="btn">Back to Shop</a>
 </div>
 
-{% endblock %}
+{% endblock content %}
