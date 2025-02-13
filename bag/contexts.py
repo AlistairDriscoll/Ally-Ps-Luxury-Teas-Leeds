@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+
 from shop.models import Product
 
 
@@ -30,6 +32,9 @@ def bag_contents(request):
             elif weight == 300:
                 price = product.base_price_number * 8
             else:
+                messages.error(
+                    request, "You need to select a compatible weight!"
+                )
                 return redirect('product_detail', sku=product.sku)
 
             total += price * quantity
@@ -57,8 +62,15 @@ def bag_contents(request):
                 "subtotal": 0,
             }
         )
-
         total_items += 1
+
+    # customer can no longer get a 5g free sample
+    if total == 0 and sample_added:
+        bag_items = [
+            item for item in bag_items if item["weight"] != 5
+        ]
+        sample_added = False
+        request.session.pop("sample_product_id", None)
 
     context = {
         "bag_items": bag_items,
