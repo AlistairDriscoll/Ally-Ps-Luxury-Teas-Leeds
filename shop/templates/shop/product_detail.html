@@ -1,23 +1,38 @@
-{% extends 'base.html' %}
-{% load shop_tools %}
+{% extends 'base.html' %} {% load shop_tools %} {% block content %}
 
-{% block content %}
+<div class="container">
+    <h1>{{ product.name }}</h1>
 
-<h1>{{ product.name }}</h1>
+    <img
+        src="{{ product.picture.url }}"
+        alt="{{ product.name }}"
+        class="shop-img"
+    />
 
-<img src="{{ product.picture.url }}" alt="{{ product.name }}" class="shop-img">
-
-<form class="form" action="{% url 'add_to_bag' product_id=product.id %}" method="POST">
-    {% csrf_token %}
-    <label for="weight">Choose Quantity:</label>
-    <select name="weight" id="weight">
-        <option value="30">30g: £{{ product.base_price_number|floatformat:2 }}</option>
-        <option value="100">100g: £{{ product.base_price_number|calculate_cost:3|floatformat:2 }}</option>
-        <option value="300">300g: £{{ product.base_price_number|calculate_cost:8|floatformat:2 }}</option>
-    </select>
-    <button type="submit" class="btn btn-primary">Add to Basket</button>
-    <input type="hidden" name="redirect_url" value="{{ request.path }}">
-</form>
-<a href="{% url 'shop' %}" class="btn">Back to Shop</a>
+    <form
+        class="form"
+        action="{% url 'add_to_bag' product_id=product.id %}"
+        method="POST"
+    >
+        {% csrf_token %}
+        <label for="weight">Choose Quantity:</label>
+        <select name="weight" id="weight">
+            <option value="30">
+                30g: £{{ product.base_price_number|floatformat:2 }}
+            </option>
+            <option value="100">
+                100g: £{{
+                product.base_price_number|calculate_cost:3|floatformat:2 }}
+            </option>
+            <option value="300">
+                300g: £{{
+                product.base_price_number|calculate_cost:8|floatformat:2 }}
+            </option>
+        </select>
+        <button type="submit" class="btn btn-primary">Add to Basket</button>
+        <input type="hidden" name="redirect_url" value="{{ request.path }}" />
+    </form>
+    <a href="{% url 'shop' %}" class="btn">Back to Shop</a>
+</div>
 
 {% endblock %}
