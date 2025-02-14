@@ -4,6 +4,7 @@ from django.contrib import messages
 
 def view_bag(request):
     """View to view the contents of the basket in full"""
+
     return render(request, "bag/bag.html")
 
 
