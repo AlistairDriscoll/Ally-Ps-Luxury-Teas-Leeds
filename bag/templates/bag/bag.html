@@ -2,24 +2,39 @@
 
 {% block content %}
 
-<div class="container-fluid">
-    <h1>Your Bag</h1>
-    <hr>
+    <div class="container-fluid">
+        <h1>Your Bag</h1>
+        <hr>
 
-    {% if bag_items %}
-    <div class="row">
-        {% for item in bag_items %}
-        <div class="col-12 col-md-8">
-            <h4>{{ item.product.name }} at weight {{ item.weight }}, {{ item.quantity }}: {{ item.subtotal }}</h4>
-            <img src="{{ item.product.picure.url }}" alt="{{ item.product.name }}" width="200px" height="auto">
-        </div>
-        {% endfor %}
+        {% if bag_items %}
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    <div class="row">
+                        {% for item in bag_items %}
+                            <div class="col-12">
+                                <h4>{{ item.product.name }} at Weight: {{ item.weight }}, Amount: {{ item.quantity }}, Total: {{ item.subtotal }}</h4>
+                                <img src="{{ item.product.picture.url }}"
+                                     alt="{{ item.product.name }}"
+                                     width="200px"
+                                     height="auto">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">{% include "bag/bag_buttons.html" %}</div>
+            </div>
+
+        {% else %}
+            <h2>There are no items in your bag!</h2>
+            <a href="{% url 'shop' %}"
+               class="btn btn-outline-black rounded-0 btn-lg">
+                <span class="icon">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+                <span class="text-uppercase">View our Products</span>
+            </a>
+        {% endif %}
+
     </div>
-    <a href="" class="btn btn-lg">Go to Checkout without sample</a>
-    {% else %}
-    <h2>There are no items in your bag!</h2>
-    <a href="{% url 'shop' }" class="btn btn-lg">View our Products</a>
-    {% endif %}
-</div>
 
 {% endblock content %}

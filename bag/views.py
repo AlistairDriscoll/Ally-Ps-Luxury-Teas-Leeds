@@ -16,7 +16,7 @@ def add_to_bag(request, product_id):
     redirect_url = request.POST.get('redirect_url')
     bag = request.session.get('bag', {})
 
-    valid_weights = {30, 100, 300}
+    valid_weights = {5, 30, 100, 300}
 
     if weight in valid_weights:
         messages.success(request, "Added to your Bag!")

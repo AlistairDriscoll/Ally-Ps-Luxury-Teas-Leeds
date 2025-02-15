@@ -19,11 +19,16 @@ def bag_contents(request):
     total_items = 0
 
     for item_id, weights in bag.items():
-        product = get_object_or_404(Product, pk=item_id)
+        products = Product.objects.all()
+        product = products.filter(id=item_id).first()
 
         for weight, quantity in weights.items():
             weight = int(weight)
             total_items += quantity
+            if weight == 5:
+                sample_product_id = product.id
+                sample_added = True
+                price = 0
             if weight == 30:
                 price = product.base_price_number
             elif weight == 100:
@@ -59,10 +64,7 @@ def bag_contents(request):
     total = round(total, 2)
 
     # customer can no longer get a 5g free sample
-    if total == 0 and sample_added:
-        bag_items = [
-            item for item in bag_items if item["weight"] != 5
-        ]
+    if total_items <= 1 and sample_added:
         sample_added = False
         request.session.pop("sample_product_id", None)
 
@@ -73,5 +75,6 @@ def bag_contents(request):
         "sample_added": sample_added,
         "sample_product": sample_product if sample_added else None,
     }
+    print(sample_added)
 
     return context
