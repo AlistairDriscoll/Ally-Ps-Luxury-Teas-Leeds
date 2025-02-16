@@ -9,11 +9,14 @@ from django_countries.fields import CountryField
 class UserProfile(models.Model):
     """
     A basic UserProfile model for user's data storage
+    Adapted from Code Institute's Boutique Ado walkthrough
     """
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=80, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     subscribed_to_email = models.BooleanField(default=False)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
     address_line1 = models.CharField(max_length=255, blank=True, null=True)
     address_line2 = models.CharField(max_length=255, blank=True, null=True)
     town_or_city = models.CharField(max_length=120, blank=True, null=True)
