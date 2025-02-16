@@ -3,7 +3,7 @@
 {% block content %}
 
     <div class="container-fluid">
-        <h1>Your Bag</h1>
+        <h1 class="text-center">Your Bag</h1>
         <hr>
 
         {% if bag_items %}
@@ -26,15 +26,14 @@
 
         {% else %}
             <h2>There are no items in your bag!</h2>
-            <a href="{% url 'shop' %}"
-               class="btn btn-outline-black rounded-0 btn-lg">
-                <span class="icon">
-                    <i class="fas fa-chevron-left"></i>
-                </span>
-                <span class="text-uppercase">View our Products</span>
-            </a>
         {% endif %}
-
+        <a href="{% url 'shop' %}"
+           class="btn btn-outline-black rounded-0 btn-lg">
+            <span class="icon">
+                <i class="fas fa-chevron-left"></i>
+            </span>
+            <span class="text-uppercase">Go to Shop</span>
+        </a>
     </div>
 
 {% endblock content %}

@@ -75,6 +75,5 @@ def bag_contents(request):
         "sample_added": sample_added,
         "sample_product": sample_product if sample_added else None,
     }
-    print(sample_added)
 
     return context

@@ -14,6 +14,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='product',
             name='picture',
-            field=models.ImageField(blank=True, default='camellia-sinensis.jpg', upload_to=shop.models.product_image_upload_path),
+            field=models.ImageField(
+                blank=True,
+                default='camellia-sinensis.jpg',
+                upload_to=shop.models.product_image_upload_path
+            ),
         ),
     ]
