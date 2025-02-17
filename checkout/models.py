@@ -2,11 +2,22 @@ import uuid
 
 from django.db import models
 from django.db.models import Sum
+from django.core.exceptions import ValidationError
 
 from profiles.models import UserProfile
 from shop.models import Product
 
 from django_countries.fields import CountryField
+
+DELIVERY_CHOICES = [3, 7, 15]
+
+
+def validate_delivery_cost(value):
+    """Makes sure delivery cost is right"""
+    if value not in DELIVERY_CHOICES:
+        raise ValidationError(
+                f"Delivery cost must be {DELIVERY_CHOICES}. Given: {value}"
+            )
 
 
 class Order(models.Model):
@@ -38,7 +49,8 @@ class Order(models.Model):
     postcode = models.CharField(max_length=20, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     delivery_cost = models.IntegerField(
-        null=False, default=3
+        default=3,
+        validators=[validate_delivery_cost]
     )
     order_total = models.DecimalField(
         max_digits=10, decimal_places=2, null=False, default=0
@@ -63,6 +75,7 @@ class Order(models.Model):
         """
         Calculates the delivery cost depending on user location
         Help with making list came from ChatGPT
+        £3 for UK, £7 for Europe, £15 for rest of world
         """
 
         UK = {"GB"}
@@ -119,27 +132,24 @@ class Order(models.Model):
             "VA",
         }
 
-        if self.country in UK:
+        if self.country.code in UK:
             self.delivery_cost = 3
         elif self.country in EUROPEAN_COUNTRIES:
             self.delivery_cost = 7
         else:
             self.delivery_cost = 15
 
-        self.save()
-
     def update_total(self):
         """Calculates the new total whenever a new OrderItem is made"""
 
         self.order_total = (
-            self.lineitems.aggregate(
-                Sum("lineitem_total")
-                )["lineitem_total__sum"] or 0
+            self.lineitems.aggregate(Sum("lineitem_total")).get(
+                "lineitem_total__sum", 0
+            )
+            or 0
         )
 
         self.grand_total = self.order_total + self.delivery_cost
-
-        self.save()
 
     def save(self, *args, **kwargs):
         """
@@ -148,6 +158,11 @@ class Order(models.Model):
         """
         if not self.order_number:
             self.order_number = self._generate_order_number()
+
+        # Ensure delivery cost is calculated before saving
+        self.calculate_delivery()
+        self.update_total()
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -174,8 +189,8 @@ class OrderItem(models.Model):
         on_delete=models.CASCADE,
         related_name='product'
     )
-    weight = models.CharField(max_length=3, null=True, blank=True)
-    quantity = models.IntegerField(null=False, blank=False, default=0)
+    weight = models.CharField(max_length=3, blank=True, default=30)
+    quantity = models.IntegerField(null=False, blank=False, default=1)
     lineitem_total = models.DecimalField(
         max_digits=6,
         decimal_places=2,
@@ -203,7 +218,7 @@ class OrderItem(models.Model):
 
         self.lineitem_total = self.calculate_cost(
             self.weight, self.product.base_price_number
-        )
+        ) * self.quantity
         super().save(*args, **kwargs)
 
     def __str__(self):
