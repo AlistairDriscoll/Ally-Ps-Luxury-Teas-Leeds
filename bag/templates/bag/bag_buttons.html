@@ -1,7 +1,7 @@
 <!-- HTML for the checkout buttons, adapted from Code Institute Boutique Ado-->
 
 {% if sample_added == False %}
-    <a href="" class="btn btn-lg"><strong>Go to Checkout without your free sample...</strong></a>
+    <a href="{% url 'checkout' %}" class="btn btn-lg"><strong>Go to Checkout without your free sample...</strong></a>
 {% else %}
     <a href="" class="btn btn-lg"><strong>Continue to Checkout</strong></a>
 {% endif %}
