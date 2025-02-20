@@ -59,9 +59,7 @@ class Order(models.Model):
         max_digits=10, decimal_places=2, null=False, default=0
     )
     original_bag = models.TextField(blank=False, null=False, default="")
-    stripe_pid = models.CharField(
-        max_length=254, null=False, blank=False, default=""
-    )
+    payment_taken = models.BooleanField(null=False, default=False)
 
     def _generate_order_number(self):
         """
@@ -143,7 +141,7 @@ class Order(models.Model):
         """Calculates the new total whenever a new OrderItem is made"""
 
         self.order_total = (
-            self.lineitems.aggregate(Sum("lineitem_total")).get(
+            self.lineitems.aggregate(Sum("item_total")).get(
                 "lineitem_total__sum", 0
             )
             or 0
@@ -159,11 +157,8 @@ class Order(models.Model):
         if not self.order_number:
             self.order_number = self._generate_order_number()
 
-        # Ensure delivery cost is calculated before saving
-        self.calculate_delivery()
-        self.update_total()
-
         super().save(*args, **kwargs)
+        print('Order model saved')
 
     def __str__(self):
         return self.order_number
@@ -191,14 +186,14 @@ class OrderItem(models.Model):
     )
     weight = models.CharField(max_length=3, blank=True, default=30)
     quantity = models.IntegerField(null=False, blank=False, default=1)
-    lineitem_total = models.DecimalField(
+    item_total = models.DecimalField(
         max_digits=6,
         decimal_places=2,
         null=False,
         blank=False
     )
 
-    def calculate_cost(weight, base_price):
+    def calculate_cost(self, weight, base_price):
         if weight == 5:
             return 0
         elif weight == 30:
@@ -216,7 +211,7 @@ class OrderItem(models.Model):
         And update the order total
         """
 
-        self.lineitem_total = self.calculate_cost(
+        self.item_total = self.calculate_cost(
             self.weight, self.product.base_price_number
         ) * self.quantity
         super().save(*args, **kwargs)
