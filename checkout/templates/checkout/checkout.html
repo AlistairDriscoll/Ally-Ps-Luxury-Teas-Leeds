@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
     <div class="container">
         <div class="row">
@@ -25,7 +25,8 @@
                     <div class="row">
                         <div class="col-2 mb-1">
                             <a href="{% url 'product_detail' sku=item.product.sku %}">
-                                <img class="border rounded mr-3" width="100px"
+                                <img class="border rounded mr-3"
+                                     width="100px"
                                      height="auto"
                                      src="{{ item.product.picture.url }}"
                                      alt="{{ item.product.name }}">
@@ -46,13 +47,13 @@
                 <hr class="my-0">
                 <div class="row text-black text-right">
                     <div class="col-10 offset-2">
-                        <p class="my-0">Order Total: £{{ order_total|floatformat:2 }}</p>
+                        <p class="my-0">Order Total: £{{ total|floatformat:2 }}</p>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-lg-6">
                 <p class="text-muted">Please fill out the delivery form:</p>
-                <form action="{% url 'checkout' %}" method="post" id="delivery-form">
+                <form action="{% url 'payment' %}" method="post" id="delivery-form">
                     {% csrf_token %}
                     <fieldset class="rounded px-3 mb-5">
                         <legend class="fieldset-label small text-black px-2 w-auto">Details</legend>
@@ -92,7 +93,7 @@
                             <span class="font-weight-bold">Adjust bag</span>
                         </a>
                         <button type="submit" class="btn btn-black rounded-0" id="submit-button">
-                            <span class="font-weight-bold">Complete order</span>
+                            <span class="font-weight-bold">Go to Payment</span>
                             <span class="icon">
                                 <i class="fas fa-lock"></i>
                             </span>
@@ -108,15 +109,5 @@
             </div>
         </div>
     </div>
-    <div id="loading-overlay">
-        <h3 class="text-light logo-font loading-spinner">
-            <span class="icon">
-                <i class="fas fa-3x fa-sync-alt fa-spin"></i>
-            </span>
-        </h3>
-    </div>
+
 {% endblock content %}
-
-{% block extra_js %}
-
-{% endblock extra_js %}
