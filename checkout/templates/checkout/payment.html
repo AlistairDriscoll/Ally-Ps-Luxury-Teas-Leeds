@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+    <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
@@ -15,14 +15,33 @@
         </div>
     </div>
 
-    <form action=""></form>
-    <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
-    <!-- A stripe card element will go here -->
-    <div class="mb-3" id="card-element"></div>
-    <!-- Used to display form errors -->
-    <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-    <!-- Pass the client secret to the view so we can get the payment intent id -->
-    <input type="hidden" value="{{ client_secret }}" name="client_secret">
+    <div class="row">
+        <div class="col-12 col-md-10 offset-1">
+            <div class="row">
+                <div class="col-12 col-md-3">
+                    <form action="{% url 'payment' order_id=order.id %}">
+                        <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+                        <!-- A stripe card element will go here -->
+                        <div class="mb-3" id="card-element"></div>
+                        <!-- Used to display form errors -->
+                        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                        <!-- Pass the client secret to the view so we can get the payment intent id -->
+                        <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                        <label for="id-email-subscription" class="form-check-label">
+                            Would you like to subscribe to our email in order to find out about our latest offers and other news?
+                        </label>
+                        <input type="checkbox"
+                               id="id-email-subscription"
+                               name="subscribe_to_email"
+                               class="form-check-input ml-2 mr-0">
+                        <button type="submit" class="btn mt-2" id="submit-button">
+                            <p class="font-weight-bold">Make Payment</p>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="loading-overlay">
         <h3 class="text-light logo-font loading-spinner">

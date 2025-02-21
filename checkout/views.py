@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 
 from .forms import OrderForm
-from .models import OrderItem
+from .models import OrderItem, Order
 from shop.models import Product
+from profiles.models import UserProfile
 
 import json
 
@@ -13,6 +14,7 @@ def checkout(request):
 
     if request.method == "POST":
         bag = request.session.get("bag", {})
+        save_info = request.POST("save_info")
 
         form_data = {
             "full_name": request.POST["full_name"],
@@ -29,11 +31,24 @@ def checkout(request):
         order_form = OrderForm(form_data)
 
         if order_form.is_valid():
+            if request.user.is_authenticated:
+                profile = get_object_or_404(UserProfile, user=request.user)
+                if save_info:
+                    profile.full_name = form_data['full_name']
+                    profile.email = form_data['email']
+                    profile.phone_number = form_data['phone_number']
+                    profile.country = form_data['country']
+                    profile.postal_code = form_data['postcode']
+                    profile.town_or_city = form_data['town_or_city']
+                    profile.address_line1 = form_data['address_line1']
+                    profile.address_line2 = form_data['address_line2']
+                    profile.state_or_region = form_data['state_or_region']
+                    profile.save()
+
             order = order_form.save(commit=False)
             order.original_bag = json.dumps(bag)
             order.calculate_delivery()
             order.save()
-            print('Order saved in views')
             for item_id, weights in bag.items():
                 try:
                     product = Product.objects.get(pk=item_id)
@@ -55,6 +70,7 @@ def checkout(request):
 
             order.update_total()
             order.save()
+
             context = {
                 'order': order,
             }
@@ -70,7 +86,7 @@ def checkout(request):
 
         if not bag:
             messages.error(request, "There is nothing in your bag!")
-            return redirect(reverse('products'))
+            return redirect(reverse('shop'))
 
         order_form = OrderForm()
         template = 'checkout/checkout.html'
@@ -81,10 +97,14 @@ def checkout(request):
         return render(request, template, context)
 
 
-def payment(request):
+def payment(request, order_id):
     """Renders the payment section of the form"""
 
+    if request.method == "GET":
+        order = get_object_or_404(Order, pk=order_id)
+
     context = {
+        'order': order,
         "stripe_public_key": """pk_test_51QPRXqGHaqkD0AzD6fypQbKMWij5eQ1RMRVys8
         kd4Tyj9TxwAfmM1dpoiCNXQ2tCbPCbtGeIpW761yBFeW3ll1bF00CrFQHp3G""",
         "client_secret": "Test client secret",
