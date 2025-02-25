@@ -2,7 +2,9 @@
 
 Ally P's Luxury Teas Leeds in an e-commerce website for selling tea online.
 
-The starting wireframes, ER diagram and website layout can be found in the [features](FEATURES.md) file.
+The starting wireframes, can be found in the [wireframes](WIREFRAMES.md) file.
+
+ER diagram and website layout can be found in the [features](FEATURES.md) file.
 
 ## User Stories
 

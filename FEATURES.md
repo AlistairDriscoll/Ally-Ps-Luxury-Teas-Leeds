@@ -7,3 +7,4 @@
 ## ER Diagram
 
 ![ERD](documentation/basics/EDR-diagram.jpg)
+
