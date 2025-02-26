@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
     <div class="container">
         <div class="row">
@@ -47,7 +52,7 @@
                 <hr class="my-0">
                 <div class="row text-black text-right">
                     <div class="col-10 offset-2">
-                        <p class="my-0" id="order-total">Total: £{{ total|floatformat:2 }}</p>
+                        <p class="my-0">Total: £<span id="order-total">{{ total|floatformat:2 }}</span></p>
                         <p class="my-0" id="display-delivery"></p>
                         <p class="my-0" id="display-grand-total"></p>
                     </div>
