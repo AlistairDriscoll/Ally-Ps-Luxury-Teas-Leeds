@@ -8,6 +8,19 @@ class OrderForm(forms.ModelForm):
     Taken and adapted from Code Institute's boutique Ado walkthrough
     """
 
+    delivery_cost = forms.DecimalField(
+        max_digits=2,
+        required=False,
+        widget=forms.HiddenInput(),
+    )
+
+    grand_total = forms.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        required=False,
+        widget=forms.HiddenInput(),
+    )
+
     class Meta:
         model = Order
         fields = (
@@ -20,6 +33,8 @@ class OrderForm(forms.ModelForm):
             "state_or_region",
             "country",
             "postcode",
+            "delivery_cost",
+            "grand_total",
         )
 
     def __init__(self, *args, **kwargs):
@@ -43,6 +58,8 @@ class OrderForm(forms.ModelForm):
 
         self.fields["full_name"].widget.attrs["autofocus"] = True
         for field in self.fields:
+            if field in ['delivery_cost', 'grand_total']:
+                continue
             if field != "country":
                 if self.fields[field].required:
                     placeholder = f"{placeholders[field]} *"

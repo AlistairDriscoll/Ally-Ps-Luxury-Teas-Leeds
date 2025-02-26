@@ -47,7 +47,6 @@ def checkout(request):
 
             order = order_form.save(commit=False)
             order.original_bag = json.dumps(bag)
-            order.calculate_delivery()
             order.save()
             for item_id, weights in bag.items():
                 try:
@@ -57,6 +56,7 @@ def checkout(request):
                             order=order,
                             product=product,
                             weight=weight,
+                            quantity=quantity
                         )
                         order_item.save()
                 except Product.DoesNotExist:
@@ -68,7 +68,6 @@ def checkout(request):
                     order.delete()
                     return redirect(reverse("view_bag"))
 
-            order.update_total()
             order.save()
 
             context = {
@@ -97,7 +96,7 @@ def checkout(request):
         return render(request, template, context)
 
 
-def payment(request, order_id):
+def checkout_success(request, order_id):
     """Renders the payment section of the form"""
 
     if request.method == "GET":

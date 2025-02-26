@@ -1,7 +1,6 @@
 import uuid
 
 from django.db import models
-from django.db.models import Sum
 from django.core.exceptions import ValidationError
 
 from profiles.models import UserProfile
@@ -68,86 +67,6 @@ class Order(models.Model):
         """
 
         return uuid.uuid4().hex.upper()
-
-    def calculate_delivery(self):
-        """
-        Calculates the delivery cost depending on user location
-        Help with making list came from ChatGPT
-        £3 for UK, £7 for Europe, £15 for rest of world
-        """
-
-        UK = {"GB"}
-        EUROPEAN_COUNTRIES = {
-            "AL",
-            "AD",
-            "AM",
-            "AT",
-            "AZ",
-            "BY",
-            "BE",
-            "BA",
-            "BG",
-            "HR",
-            "CY",
-            "CZ",
-            "DK",
-            "EE",
-            "FI",
-            "FR",
-            "GE",
-            "DE",
-            "GR",
-            "HU",
-            "IS",
-            "IE",
-            "IT",
-            "KZ",
-            "XK",
-            "LV",
-            "LI",
-            "LT",
-            "LU",
-            "MT",
-            "MD",
-            "MC",
-            "ME",
-            "NL",
-            "MK",
-            "NO",
-            "PL",
-            "PT",
-            "RO",
-            "RU",
-            "SM",
-            "RS",
-            "SK",
-            "SI",
-            "ES",
-            "SE",
-            "CH",
-            "TR",
-            "UA",
-            "VA",
-        }
-
-        if self.country.code in UK:
-            self.delivery_cost = 3
-        elif self.country in EUROPEAN_COUNTRIES:
-            self.delivery_cost = 7
-        else:
-            self.delivery_cost = 15
-
-    def update_total(self):
-        """Calculates the new total whenever a new OrderItem is made"""
-
-        self.order_total = (
-            self.lineitems.aggregate(Sum("item_total")).get(
-                "lineitem_total__sum", 0
-            )
-            or 0
-        )
-
-        self.grand_total = self.order_total + self.delivery_cost
 
     def save(self, *args, **kwargs):
         """
