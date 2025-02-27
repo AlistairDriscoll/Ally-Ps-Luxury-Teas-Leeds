@@ -52,3 +52,7 @@ ER diagram and website layout can be found in the [features](FEATURES.md) file.
 | [#37](https://github.com/AlistairDriscoll/Ally-Ps-Luxury-Teas-Leeds/issues/37) |As a manager, I want to send emails to customers confirming their order, so that my clientele are being informed with their updates. |
 | [#38](https://github.com/AlistairDriscoll/Ally-Ps-Luxury-Teas-Leeds/issues/38) |As a manager, I want to be able to see customer data easily such as orders and reviews, so that I can make informed decisions for my business based on customer feedback and sales. |
 | [#39](https://github.com/AlistairDriscoll/Ally-Ps-Luxury-Teas-Leeds/issues/39) |As a manager, I want customers to only be able to leave reviews for products that they have purchased, so that my customer base will have accurate information for the products that interest them. |
+
+## Deployment
+
+Info how to deploy etc can be found in the [DEPLOYMENT.md](DEPLOYMENT.md) file.
