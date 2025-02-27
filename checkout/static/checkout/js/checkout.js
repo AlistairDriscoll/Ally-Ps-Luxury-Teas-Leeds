@@ -70,8 +70,9 @@ let displayGrandTotal = $('#display-grand-total');
  */
 countrySelector.on('change', function () {
     let country = countrySelector.val();
+    console.log(country)
     let deliveryCost = 15;
-    if (country === "UK") {
+    if (country === "GB") {
         deliveryCost = 3;
     } else if (europeanCountries.includes(country)) {
         deliveryCost = 7;

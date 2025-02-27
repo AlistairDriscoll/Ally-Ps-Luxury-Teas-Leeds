@@ -19,7 +19,7 @@ def checkout(request):
 
     if request.method == "POST":
         bag = request.session.get("bag", {})
-        save_info = request.POST("save_info")
+        save_info = request.session.get("save_info")
 
         form_data = {
             "full_name": request.POST["full_name"],
@@ -76,10 +76,13 @@ def checkout(request):
             order.save()
 
             context = {
-
                 'order': order,
             }
-            return redirect(reverse("payment", args=[order.id]))
+
+            return redirect(
+                reverse("checkout_success", args=[order.order_number])
+                )
+
         else:
             messages.error(
                 request,
@@ -96,7 +99,7 @@ def checkout(request):
         current_bag = bag_contents(request)
         bag_total = current_bag['total']
         stripe_total = round(bag_total * 100)
-
+        stripe.api_key = stripe_secret_key
         intent = stripe.PaymentIntent.create(
             amount=stripe_total,
             currency=settings.STRIPE_CURRENCY,
@@ -107,21 +110,20 @@ def checkout(request):
         context = {
             "order_form": order_form,
             "stripe_public_key": stripe_public_key,
-            "client_secret": "Test client secret",
+            "client_secret": intent.client_secret,
         }
 
         return render(request, template, context)
 
 
-def checkout_success(request, order_id):
+def checkout_success(request, order_number):
     """Renders the payment section of the form"""
 
     if request.method == "GET":
-        order = get_object_or_404(Order, pk=order_id)
+        order = get_object_or_404(Order, order_number=order_number)
 
     context = {
         'order': order,
-
     }
 
-    return render(request, 'checkout/payment.html', context)
+    return render(request, 'checkout/checkout_success.html', context)
