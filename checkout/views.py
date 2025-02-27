@@ -1,16 +1,21 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
+from django.conf import settings
 
 from .forms import OrderForm
 from .models import OrderItem, Order
 from shop.models import Product
 from profiles.models import UserProfile
+from bag.contexts import bag_contents
 
 import json
+import stripe
 
 
 def checkout(request):
     """View for the checkout"""
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     if request.method == "POST":
         bag = request.session.get("bag", {})
@@ -71,6 +76,7 @@ def checkout(request):
             order.save()
 
             context = {
+
                 'order': order,
             }
             return redirect(reverse("payment", args=[order.id]))
@@ -87,10 +93,21 @@ def checkout(request):
             messages.error(request, "There is nothing in your bag!")
             return redirect(reverse('shop'))
 
+        current_bag = bag_contents(request)
+        bag_total = current_bag['total']
+        stripe_total = round(bag_total * 100)
+
+        intent = stripe.PaymentIntent.create(
+            amount=stripe_total,
+            currency=settings.STRIPE_CURRENCY,
+        )
+
         order_form = OrderForm()
         template = 'checkout/checkout.html'
         context = {
             "order_form": order_form,
+            "stripe_public_key": stripe_public_key,
+            "client_secret": "Test client secret",
         }
 
         return render(request, template, context)
@@ -104,9 +121,7 @@ def checkout_success(request, order_id):
 
     context = {
         'order': order,
-        "stripe_public_key": """pk_test_51QPRXqGHaqkD0AzD6fypQbKMWij5eQ1RMRVys8
-        kd4Tyj9TxwAfmM1dpoiCNXQ2tCbPCbtGeIpW761yBFeW3ll1bF00CrFQHp3G""",
-        "client_secret": "Test client secret",
+
     }
 
     return render(request, 'checkout/payment.html', context)

@@ -12,6 +12,9 @@
     Creates up a card element and gives it some styling
     Mounts the card element onto the div with the id of 'card-element'
 */
+
+// code taken and adapted from code institute boutique ado walkthrough
+
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var clientSecret = $('#id_client_secret').text().slice(1, -1);
 var stripe = Stripe(stripePublicKey);
@@ -34,6 +37,19 @@ var style = {
 var card = elements.create('card', { style: style });
 card.mount('#card-element');
 
+// for handling and explaining errors
 card.addEventListener('change', function (event) {
-    var errorDiv = document.getElementById('card-errors')
-})
+    var errorDiv = document.getElementById('card-errors');
+    if (event.error) {
+        var html = `
+            <span class="icon" role="alert">
+                <i class="fas fa-times"></i>
+            </span>
+            <span>${event.error.message}</span>
+        `
+
+        $(errorDiv).html(html);
+    } else {
+        errorDiv.textContent = '';
+    }
+});
