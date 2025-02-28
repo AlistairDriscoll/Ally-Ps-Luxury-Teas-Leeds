@@ -74,7 +74,7 @@ class Order(models.Model):
 
         self.order_total = (
             self.lineitems.aggregate(
-                Sum("item_total")).get("lineitem_total__sum", 0)
+                Sum("item_total")).get("item_total__sum", 0)
             or 0
         )
 

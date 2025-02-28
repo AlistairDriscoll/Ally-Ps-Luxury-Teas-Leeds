@@ -54,7 +54,7 @@ const europeanCountries = ["AL", // Albania
     "UA", // Ukraine
     "VA", // Vatican City
     ];
-let countrySelector = $('#id_country');
+let countrySelect = $('#id_country');
 let orderTotal = parseFloat($('#order-total').text());
 let hiddenDeliveryCost = $('#id_delivery_cost');
 let hiddenGrandTotal = $('#id_grand_total');
@@ -68,8 +68,8 @@ let displayGrandTotal = $('#display-grand-total');
  * Calculates grand total based on this and displays it, along with
  * adding the values to the submit_order form
  */
-countrySelector.on('change', function () {
-    let country = countrySelector.val();
+countrySelect.on('change', function () {
+    let country = countrySelect.val();
     console.log(country)
     let deliveryCost = 15;
     if (country === "GB") {
@@ -83,4 +83,7 @@ countrySelector.on('change', function () {
     let grandTotal = orderTotal + deliveryCost;
     displayGrandTotal.text("Grand total: " + grandTotal);
     hiddenGrandTotal.val(orderTotal + deliveryCost);
+
+    console.log(hiddenDeliveryCost.val())
+    console.log(hiddenGrandTotal.val())
 });

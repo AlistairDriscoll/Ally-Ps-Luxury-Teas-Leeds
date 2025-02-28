@@ -57,13 +57,12 @@ def checkout(request):
                 try:
                     product = Product.objects.get(pk=item_id)
                     for weight, quantity in weights.items():
-                        order_item = OrderItem(
+                        OrderItem.objects.create(
                             order=order,
                             product=product,
                             weight=weight,
                             quantity=quantity
                         )
-                        order_item.save()
                 except Product.DoesNotExist:
                     messages.error(
                         request,
@@ -117,10 +116,14 @@ def checkout(request):
 
 
 def checkout_success(request, order_number):
-    """Renders the payment section of the form"""
+    """
+    Displays once succesful checkout is made
+    """
 
-    if request.method == "GET":
-        order = get_object_or_404(Order, order_number=order_number)
+    order = get_object_or_404(Order, order_number=order_number)
+
+    if "bag" in request.session:
+        del request.session["bag"]
 
     context = {
         'order': order,
