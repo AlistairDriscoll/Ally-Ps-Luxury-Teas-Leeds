@@ -122,6 +122,19 @@ def checkout_success(request, order_number):
 
     order = get_object_or_404(Order, order_number=order_number)
 
+    if order.delivery_cost == 3:
+        messages_time = "two days time."
+    elif order.delivery_cost == 7:
+        messages_time = "one weeks time."
+    else:
+        messages_time = "two weeks time."
+
+    messages.success(
+        request,
+        f"""We have received your order for processing!
+            Your order will arrive in {messages_time}""",
+    )
+
     if "bag" in request.session:
         del request.session["bag"]
 
