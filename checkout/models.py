@@ -59,7 +59,6 @@ class Order(models.Model):
         max_digits=10, decimal_places=2, null=False, default=0
     )
     original_bag = models.TextField(blank=False, null=False, default="")
-    payment_taken = models.BooleanField(null=False, default=False)
 
     def _generate_order_number(self):
         """

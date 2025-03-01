@@ -31,6 +31,7 @@ DEBUG = 'DEVELOPMENT' in os.environ
 ALLOWED_HOSTS = [
     '8000-alistairdri-allypsluxur-n9beuidlyqx.ws.codeinstitute-ide.net',
     '127.0.0.1',
+    'localhost',
     ]
 
 
