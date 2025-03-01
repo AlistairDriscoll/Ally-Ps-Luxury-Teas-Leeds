@@ -51,6 +51,7 @@ def checkout(request):
                     profile.save()
 
             order = order_form.save(commit=False)
+            order.user_profile = profile
             order.original_bag = json.dumps(bag)
             order.save()
             for item_id, weights in bag.items():
