@@ -65,7 +65,7 @@ def checkout(request):
                             quantity=quantity
                         )
                 except Product.DoesNotExist:
-                    messages.error(
+                    messages.warning(
                         request,
                         "One of your products doesn't exist in our database!"
                         "Please contact us for further information."
