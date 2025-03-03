@@ -25,10 +25,15 @@
         <header>
             <nav class="navbar">
                 <div class="container-fluid">
-                    <ul class="list-inline">
-                        <li class="list-inline-item">
+                    <ul class="list-inline mx-auto">
+                        <li class="d-sm-none d-lg-inline-block list-inline-item">
                             <a href="{% url 'welcome' %}">
-                                <h2>Ally P's Luxury Teas</h2>
+                                <h3>Ally P's Luxury Teas</h3>
+                            </a>
+                        </li>
+                        <li class="list-inline-item d-lg-none">
+                            <a href="{% url 'welcome' %}">
+                                <h3>Home</h3>
                             </a>
                         </li>
                         <li class="list-inline-item">

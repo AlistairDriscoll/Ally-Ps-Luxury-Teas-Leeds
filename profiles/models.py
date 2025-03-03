@@ -12,7 +12,11 @@ class UserProfile(models.Model):
     Adapted from Code Institute's Boutique Ado walkthrough
     """
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='user_profile'
+    )
     full_name = models.CharField(max_length=80, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     subscribed_to_email = models.BooleanField(default=False)

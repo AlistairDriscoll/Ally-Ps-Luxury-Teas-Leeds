@@ -12,7 +12,6 @@ class UserProfileForm(forms.ModelForm):
         fields = [
             "full_name",
             "email",
-            "subscribed_to_email",
             "phone_number",
             "address_line1",
             "address_line2",
@@ -21,9 +20,6 @@ class UserProfileForm(forms.ModelForm):
             "postal_code",
             "country",
         ]
-        widgets = {
-            "subscribed_to_email": forms.CheckboxInput(),
-        }
 
     def __init__(self, *args, **kwargs):
         """
@@ -34,6 +30,7 @@ class UserProfileForm(forms.ModelForm):
         placeholders = {
             "full_name": "Full Name",
             "email": "Email Address",
+            "subscribed_to_email": "Subscribed to Email",
             "phone_number": "Phone Number",
             "address_line1": "Address Line 1",
             "address_line2": "Address Line 2",

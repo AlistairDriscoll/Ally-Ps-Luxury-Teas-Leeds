@@ -34,7 +34,7 @@ def view_order(request, order_number):
     # checks to see if order belongs to current user
     if request.user.pk != order.user_profile.user.pk:
         messages.error(request, 'Apologies, but you cannot view this order!')
-        return redirect('profile')
+        return redirect('shop')
 
     context = {
         'order_items': order_items,
@@ -45,13 +45,43 @@ def view_order(request, order_number):
 
 
 @login_required
-def edit_profile(request):
+def edit_profile(request, userkey):
     """View for presenting the user details form"""
 
-    user_profile_form = UserProfileForm
+    try:
+        userkey = int(userkey)
+    except ValueError:
+        messages.error(request, "Invalid user profile.")
+        return redirect("shop")
+
+    # Redirect if the logged-in user is not the same as the profile owner
+    if request.user.pk != userkey:
+        messages.error(request, "Apologies, but you cannot view this profile!")
+        return redirect("shop")
+
+    user_profile = get_object_or_404(UserProfile, pk=userkey)
+
+    if request.method == "POST":
+        user_profile_form = UserProfileForm(
+            request.POST, instance=user_profile)
+        if user_profile_form.is_valid():
+            user_profile_form.save()
+            subscribed_to_email = request.POST.get(
+                'subscribed_to_email') == 'on'
+            user_profile.subscribed_to_email = subscribed_to_email
+            user_profile.save()
+        else:
+            messages.error(
+                request,
+                ("There was an error processing your details,"
+                 "please contact us!"),
+            )
+    else:
+        user_profile_form = UserProfileForm(instance=user_profile)
 
     context = {
         'form': user_profile_form,
+        'user_profile': user_profile,
     }
 
     return render(request, 'profiles/edit_form.html', context)
