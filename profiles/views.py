@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 from .models import UserProfile
 from checkout.models import Order
@@ -29,7 +30,7 @@ def view_order(request, order_number):
     """
 
     order = get_object_or_404(Order, order_number=order_number)
-    order_items = order.order_items
+    order_items = order.lineitems.all()
 
     # checks to see if order belongs to current user
     if request.user.pk != order.user_profile.user.pk:
@@ -54,12 +55,10 @@ def edit_profile(request, userkey):
         messages.error(request, "Invalid user profile.")
         return redirect("shop")
 
-    # Redirect if the logged-in user is not the same as the profile owner
+    user_profile = get_object_or_404(UserProfile, user__id=userkey)
     if request.user.pk != userkey:
-        messages.error(request, "Apologies, but you cannot view this profile!")
-        return redirect("shop")
-
-    user_profile = get_object_or_404(UserProfile, pk=userkey)
+        messages.warning(request, 'You cannot view that profile!')
+        return redirect('shop')
 
     if request.method == "POST":
         user_profile_form = UserProfileForm(
@@ -85,3 +84,33 @@ def edit_profile(request, userkey):
     }
 
     return render(request, 'profiles/edit_form.html', context)
+
+
+@login_required
+def account_deletion(request, userkey):
+    """
+    Will take the user to a page where they can delete their account
+    """
+
+    try:
+        userkey = int(userkey)
+    except ValueError:
+        messages.error(request, "Invalid user profile.")
+        return redirect("shop")
+
+    if request.user.pk != userkey:
+        messages.error(request, "Apologies, but you cannot view this page!")
+        return redirect("shop")
+
+    user = get_object_or_404(User, pk=userkey)
+
+    if request.method == 'POST':
+        user.delete()
+        messages.info(request, 'Your profile has now been deleted.')
+        return redirect('shop')
+    else:
+        context = {
+            'user': user
+        }
+
+        return render(request, 'profiles/account_deletion.html', context)
