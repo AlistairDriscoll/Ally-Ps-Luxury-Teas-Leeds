@@ -6,14 +6,15 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description"
-            content="I travel the world looking for the best teas to sell from my shop based in Leeds. Although based there I ship worldwide! I also built this website to be a great place to find out more about loose leaf teas so there should be plenty for you to click on if you want to learn about it!">
+              content="I travel the world looking for the best teas to sell from my shop based in Leeds. Although based there I ship worldwide! I also built this website to be a great place to find out more about loose leaf teas so there should be plenty for you to click on if you want to learn about it!">
         <meta name="keywords"
-            content="Leeds tea merchant, Leeds tea store, northern tea seller UK, tea merchant Yorkshire, tea blends Leeds, tea merchant UK, loose leaf tea Leeds, tea supplies Leeds">
+              content="Leeds tea merchant, Leeds tea store, northern tea seller UK, tea merchant Yorkshire, tea blends Leeds, tea merchant UK, loose leaf tea Leeds, tea supplies Leeds">
         <script src="https://kit.fontawesome.com/bc5efad812.js"
                 crossorigin="anonymous"></script>
         <!-- Bootstrap 4 -->
         <link rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+              href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
         <!-- My CSS -->
         <link rel="stylesheet" href="{% static 'css/base.css' %}" />
         <!-- Extra custom CSS -->
@@ -28,19 +29,22 @@
                     <ul class="list-inline mx-auto">
                         <li class="d-sm-none d-lg-inline-block list-inline-item">
                             <a href="{% url 'welcome' %}">
-                                <h3>Ally P's Luxury Teas</h3>
+                                <p>Ally P's Luxury Teas</p>
                             </a>
                         </li>
                         <li class="list-inline-item d-lg-none">
                             <a href="{% url 'welcome' %}">
-                                <h3>Home</h3>
+                                <p>Home</p>
                             </a>
                         </li>
                         <li class="list-inline-item">
                             <a href="{% url 'shop' %}">Shop</a>
                         </li>
-                        <li class="list-inline-item">
+                        <li class="list-inline-item d-none d-lg-inline-block">
                             <a href="">The Brews Reviews!</a>
+                        </li>
+                        <li class="list-inline-item d-lg-none">
+                            <a href="">Blog</a>
                         </li>
                         <li class="list-inline-item">
                             <a href="">About Us</a>
@@ -51,7 +55,20 @@
 
                         <li class="list-inline-item">
                             {% if request.user.is_authenticated %}
-                                <a href="{% url 'profile' %}">Your account</a>
+                                <li class="list-inline-item dropdown">
+                                    <a class="nav-link dropdown-toggle"
+                                       href="#"
+                                       id="accountDropdown"
+                                       role="button"
+                                       data-toggle="dropdown"
+                                       aria-expanded="false">Account</a>
+                                    <div class="dropdown-menu dropdown-menu-right"
+                                         aria-labelledby="accountDropdown">
+                                        <a class="dropdown-item" href="{% url 'profile' %}">View Profile</a>
+                                        <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                                    </div>
+                                </li>
+
                             {% else %}
                                 <a href="{% url 'account_signup' %}">Sign-in/Register</a>
                             {% endif %}
@@ -88,16 +105,16 @@
         <!-- J-Query -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- Bootstrap 4.6 JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Stripe -->
         <script src="https://js.stripe.com/v3/"></script>
         <!-- Extra custom JS -->
         {% block extra_js %}
-        <script type="text/javascript">
+            <script type="text/javascript">
             $(document).ready(function() {
             $(".toast").toast("show");
         });
-        </script>
+            </script>
         {% endblock extra_js %}
     </body>
 </html>
