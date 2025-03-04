@@ -16,6 +16,7 @@ def bag_contents(request):
     bag_items = []
     total = 0
     total_items = 0
+    sample_product = None
 
     for item_id, weights in bag.items():
         products = Product.objects.all()
@@ -44,7 +45,10 @@ def bag_contents(request):
                 }
             )
 
-    if sample_added:
+    if sample_added and not any(
+        item["product"].id == sample_product_id and item["weight"] == 5
+        for item in bag_items
+    ):
         sample_product = get_object_or_404(Product, id=sample_product_id)
         bag_items.append(
             {
@@ -55,6 +59,7 @@ def bag_contents(request):
                 "subtotal": 0,
             }
         )
+
         total_items += 1
 
     total = round(total, 2)
@@ -64,6 +69,6 @@ def bag_contents(request):
         "total_items": total_items,
         "total": total,
         "sample_added": sample_added,
-        "sample_product": sample_product if sample_added else None,
+        "sample_product": sample_product,
     }
     return context
