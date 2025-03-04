@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "shop",
     "bag",
     'checkout',
+    'brewsreviews',
     # other apps
     "django_countries",
     "crispy_forms",

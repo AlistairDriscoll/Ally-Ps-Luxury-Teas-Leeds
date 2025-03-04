@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>The Brews Reviews!</h1>
+
+{% for post in blog_posts %}
+<h2>{{ blog.title }}</h2>
+<p>{{ blog.content|truncatechars:90 }}</p>
+{% endfor %}
+
+{% endblock content %}
