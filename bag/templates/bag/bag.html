@@ -12,31 +12,52 @@
                     <div class="row">
                         {% for item in bag_items %}
                             <div class="col-12">
-                                <h4>{{ item.product.name }}</h4>
+                                {% if item.weight == 5 or item.weight == 20 %}
+                                    <h4>A free sample of {{ item.product.name }}</h4>
+                                {% else %}
+                                    <h4>{{ item.product.name }}</h4>
+                                {% endif %}
                                 <img src="{{ item.product.picture.url }}"
                                      alt="{{ item.product.name }}"
                                      width="200px"
                                      height="auto">
 
-                                <form action="{% url 'edit_bag' product_id=item.product.id %}" method="post">
-                                    {% csrf_token %}
-                                    <label for="weight">Weight:</label>
-                                    <select name="weight" class="form-control w-50 d-inline">
-                                        {% for w in weight_options %}
-                                            <option value="{{ w }}" {% if w == weight %}selected{% endif %}>{{ w }}g</option>
-                                        {% endfor %}
-                                    </select>
+                                {% if item.weight == 5 or item.weight == 20 %}
+                                    <!-- Delete Form Only -->
+                                    <a href="{% url 'delete_from_bag' product_id=item.product.id weight=item.weight %}"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Are you sure you want to remove this item?');">
+                                        <span>Delete From Bag</span>
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                {% else %}
+                                    <!-- Update and Delete Forms -->
+                                    <form action="{% url 'edit_bag' product_id=item.product.id %}"
+                                          method="post">
+                                        {% csrf_token %}
+                                        <label for="weight">Weight:</label>
+                                        <select name="weight" class="form-control w-50 d-inline">
+                                            {% for w in weight_options %}
+                                                <option value="{{ w }}" {% if w == weight %}selected{% endif %}>{{ w }}g</option>
+                                            {% endfor %}
+                                        </select>
 
-                                    <!-- Quantity Input -->
-                                    <label for="quantity">Quantity:</label>
-                                    <input type="number"
-                                           name="quantity"
-                                           value="{{ item.quantity }}"
-                                           min="0"
-                                           class="form-control w-25 d-inline">
-
-                                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                                </form>
+                                        <!-- Quantity Input -->
+                                        <label for="quantity">Quantity:</label>
+                                        <input type="number"
+                                               name="quantity"
+                                               value="{{ item.quantity }}"
+                                               min="0"
+                                               class="form-control w-25 d-inline">
+                                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                    </form>
+                                    <a href="{% url 'delete_from_bag' product_id=item.product.id weight=item.weight %}"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Are you sure you want to remove this item?');">
+                                        <span>Delete From Bag</span>
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                {% endif %}
                             </div>
                         {% endfor %}
                     </div>

@@ -1,4 +1,4 @@
-{% if not sample_added %}
+{% if sample_added == False %}
     {% if breakfast_blend_sample %}
         <p>Since you're buying one of everything, we'd love to give you a 20g sample of our Breakfast Blend!</p>
         <form action="{% url 'add_to_bag' product_id=breakfast_blend_sample %}" method="post">
@@ -21,7 +21,7 @@
                         <input type="hidden" name="is_sample" value="true">
                         <input type="hidden" name="redirect_url" value="{% url 'view_bag' %}">
                         <button type="submit" class="btn btn-sm btn-info">
-                            5g of {{ tea.name }}
+                            Continue with 5g of {{ tea.name }}
                         </button>
                     </form>
                 </li>
