@@ -146,10 +146,15 @@ def checkout_success(request, order_number):
     return render(request, 'checkout/checkout_success.html', context)
 
 
-def checkout_with_sample(request, sample):
+def checkout_with_sample(request, pk):
     """View to go to checkout with a sample submitted"""
 
-    sample_product = get_object_or_404(Product, pk=sample)
+    bag = request.session.get('bag', {})
+    if not bag:
+        messages.error(request, "There is nothing in your bag!")
+        return redirect(reverse('shop'))
+
+    sample_product = get_object_or_404(Product, pk=pk)
 
     messages.success(
         request,

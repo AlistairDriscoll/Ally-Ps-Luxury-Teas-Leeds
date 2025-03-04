@@ -1,25 +1,43 @@
-<!-- HTML for the checkout buttons, adapted from Code Institute Boutique Ado -->
+{% if not sample_added %}
+    {% if breakfast_blend_sample %}
+        <p>Since you're buying one of everything, we'd love to give you a 20g sample of our Breakfast Blend!</p>
+        <form action="{% url 'add_to_bag' product_id=breakfast_blend_sample %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="weight" value="20">
+            <input type="hidden" name="is_sample" value="true">
+            <input type="hidden" name="redirect_url" value="{% url 'view_bag' %}">
+            <button type="submit" class="btn btn-lg btn-success">
+                <strong>Claim Free Sample</strong>
+            </button>
+        </form>
+    {% else %}
+        <p>We'd love to offer you a sample of one of our other teas!</p>
+        <ul>
+            {% for tea in sample_or_samples %}
+                <li>
+                    <form action="{% url 'add_to_bag' product_id=tea.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="weight" value="5">
+                        <input type="hidden" name="is_sample" value="true">
+                        <input type="hidden" name="redirect_url" value="{% url 'view_bag' %}">
+                        <button type="submit" class="btn btn-sm btn-info">
+                            5g of {{ tea.name }}
+                        </button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-{% if breakfast_blend_sample %}
-    <p>
-        Thanks so much for your loyalty! Since you're buying one of everything, we're giving you an extra <strong>20g of our signature Breakfast Blend tea!</strong>
-    </p>
-    <a href="{% url 'checkout_with_sample' tea_pk=breakfast_blend_sample.pk %}}"
-       class="btn btn-lg btn-success">
-        <strong>Checkout with your free sample!</strong>
+    <a href="{% url 'checkout' %}" class="btn btn-lg btn-warning">
+        <strong>Continue to Checkout Without Claiming Free Sample</strong>
     </a>
+
 {% else %}
-    <p>We would love to offer you a sample of one of our other teas!</p>
-    <ul>
-        {% for tea in sample_or_samples %}
-            <li>
-                <a href="{% url 'checkout_with_sample' tea_pk=tea.pk %}">
-                   class="btn btn-sm btn-primary">Try 5g of {{ tea.name }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <p><strong>You've already selected your free sample!</strong></p>
+
+    <a href="{% url 'checkout' %}" class="btn btn-lg btn-primary">
+        <strong>Proceed to Checkout</strong>
+    </a>
 {% endif %}
 
-<a href="{% url 'checkout' %}" class="btn btn-lg btn-secondary">
-    <strong>Go to Checkout without your free sample...</strong>
-</a>

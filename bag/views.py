@@ -51,11 +51,11 @@ def add_to_bag(request, product_id):
     """View to add products to the basket"""
 
     weight = int(request.POST.get("weight"))
-    redirect_url = request.POST.get("redirect_url")
+    redirect_url = request.POST.get("redirect_url", "view_bag")
     sample_added = request.POST.get("sample_added")
     bag = request.session.get("bag", {})
 
-    valid_weights = {5, 30, 100, 300}
+    valid_weights = {5, 20, 30, 100, 300}
 
     if weight in valid_weights:
         if weight == 5 and sample_added is False:
