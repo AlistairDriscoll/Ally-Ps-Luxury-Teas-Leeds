@@ -70,6 +70,7 @@ def add_to_bag(request, product_id):
                 return redirect("view_bag")
 
             request.session["sample_added"] = True
+            request.session["sample_product_id"] = product_id
 
         # Add product to bag
         weight = str(weight)
