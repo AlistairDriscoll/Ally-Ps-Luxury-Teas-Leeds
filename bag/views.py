@@ -1,5 +1,6 @@
 import random
 
+from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -42,6 +43,7 @@ def view_bag(request):
     context = {
         "breakfast_blend_sample": breakfast_blend_sample,
         "sample_or_samples": sample_or_samples,
+        "weight_options": [30, 100, 300],
     }
 
     return render(request, "bag/bag.html", context)
@@ -94,3 +96,42 @@ def add_to_bag(request, product_id):
     request.session.modified = True
 
     return redirect(redirect_url)
+
+
+@require_POST
+def edit_bag(request, product_id):
+    """
+    View to enable the user to edit the quantity and amount of each bag item
+    """
+
+    new_weight = request.POST.get("weight")
+    new_quantity = int(request.POST.get("quantity", 0))
+    bag = request.session.get('bag', {})
+
+    product_id = str(product_id)
+    # If weight has changed, remove old weight and replace with the new one
+    if product_id in bag:
+        if new_weight in bag[product_id]:
+            # Update the quantity or weight
+            if new_quantity > 0:
+                bag[product_id][new_weight] = new_quantity
+                messages.success(request, "Bag updated successfully!")
+            else:
+                del bag[product_id][new_weight]
+                messages.success(request, "Weight removed from your bag!")
+
+                # If no weights remain for this product, remove entirely
+                if not bag[product_id]:
+                    del bag[product_id]
+                    messages.success(request, "Item removed from your bag!")
+
+        else:
+            messages.error(
+                request, "Weight not found for this product in your bag!")
+
+        request.session["bag"] = bag
+        request.session.modified = True
+    else:
+        messages.error(request, "Item not found in your bag!")
+
+    return redirect("view_bag")
