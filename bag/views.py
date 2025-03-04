@@ -52,22 +52,29 @@ def add_to_bag(request, product_id):
 
     weight = int(request.POST.get("weight"))
     redirect_url = request.POST.get("redirect_url", "view_bag")
-    sample_added = request.POST.get("sample_added")
+    # makes it a boolean value
+    is_sample = request.POST.get("is_sample") == "true"
     bag = request.session.get("bag", {})
 
     valid_weights = {5, 20, 30, 100, 300}
 
+    # Ensure sample tracking exists in the session
+    if "sample_added" not in request.session:
+        request.session["sample_added"] = False
+
     if weight in valid_weights:
-        if weight == 5 and sample_added is False:
-            sample_added = True
-        elif weight == 5 and sample_added is True:
-            messages.warning(
-                request, "You have already added a sample to your bag!"
-                )
-            return render(request, "bag/bag.html")
-        messages.success(request, "Added to your Bag!")
+        if is_sample:
+            if request.session["sample_added"]:
+                messages.warning(
+                    request, "You have already claimed a free sample!")
+                return redirect("view_bag")
+
+            request.session["sample_added"] = True
+
+        # Add product to bag
         weight = str(weight)
         product_id = str(product_id)
+
         if product_id in bag:
             if weight in bag[product_id]:
                 bag[product_id][weight] += 1
@@ -75,10 +82,14 @@ def add_to_bag(request, product_id):
                 bag[product_id][weight] = 1
         else:
             bag[product_id] = {weight: 1}
+
+        messages.success(request, "Added to your Bag!")
+
     else:
         messages.error(request, "You need to select a compatible weight!")
-        return render(request, 'shop/shop.html')
+        return redirect("shop")
 
     request.session["bag"] = bag
+    request.session.modified = True
 
     return redirect(redirect_url)
