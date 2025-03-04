@@ -19,7 +19,10 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from . import views
+
 urlpatterns = [
+    path("about_us/", views.about_us, name="about_us"),
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("profile/", include("profiles.urls")),
