@@ -1,15 +1,50 @@
+import random
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
+
+from shop.models import Product
 
 
 def view_bag(request):
     """
-    View to view the contents of the basket in full
-    Gets a list of what samples the customer hasn't ordered
-    If they have ordered everything then add 5g of a random tea
+    View to see the contents of the basket in full.
+    Gets a list of missing products.
+    If they have ordered everything, offer 20g of Breakfast Blend.
+    Otherwise, offer 5g of up to 3 missing teas for the user to choose from.
     """
 
-    return render(request, "bag/bag.html")
+    bag = request.session.get("bag", {})
+
+    # turn it into integers
+    all_product_ids = set(Product.objects.values_list("id", flat=True))
+    bag_product_ids = set(map(int, bag.keys()))
+
+    missing_products = list(all_product_ids - bag_product_ids)
+
+    breakfast_blend_sample = None
+    sample_or_samples = []
+
+    # functionality to get sample products
+    if not missing_products:
+        breakfast_blend_sample = (
+            Product.objects.filter(name="Breakfast Blend")
+            .values_list("id", flat=True)
+            .first()
+        )
+    elif 1 <= len(missing_products) <= 3:
+        sample_or_samples = list(
+            Product.objects.filter(id__in=missing_products)[:3])
+    else:
+        sample_or_samples = list(
+            Product.objects.filter(id__in=random.sample(missing_products, 3)))
+
+    context = {
+        "breakfast_blend_sample": breakfast_blend_sample,
+        "sample_or_samples": sample_or_samples,
+    }
+
+    return render(request, "bag/bag.html", context)
 
 
 def add_to_bag(request, product_id):

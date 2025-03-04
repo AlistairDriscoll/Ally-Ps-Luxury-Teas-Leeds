@@ -144,3 +144,16 @@ def checkout_success(request, order_number):
     }
 
     return render(request, 'checkout/checkout_success.html', context)
+
+
+def checkout_with_sample(request, sample):
+    """View to go to checkout with a sample submitted"""
+
+    sample_product = get_object_or_404(Product, pk=sample)
+
+    messages.success(
+        request,
+        f"Your order now includes a free 5g sample of {sample_product}",
+    )
+
+    return redirect(request, "checkout/checkout.html")

@@ -1,7 +1,25 @@
-<!-- HTML for the checkout buttons, adapted from Code Institute Boutique Ado-->
+<!-- HTML for the checkout buttons, adapted from Code Institute Boutique Ado -->
 
-{% if sample_added == False %}
-    <a href="{% url 'checkout' %}" class="btn btn-lg"><strong>Go to Checkout without your free sample...</strong></a>
+{% if breakfast_blend_sample %}
+    <p>
+        Thanks so much for your loyalty! Since you're buying one of everything, we're giving you an extra <strong>20g of our signature Breakfast Blend tea!</strong>
+    </p>
+    <a href="{% url 'checkout_with_sample' tea_pk=breakfast_blend_sample.pk %}}"
+       class="btn btn-lg btn-success">
+        <strong>Checkout with your free sample!</strong>
+    </a>
 {% else %}
-    <a href="" class="btn btn-lg"><strong>Continue to Checkout</strong></a>
+    <p>We would love to offer you a sample of one of our other teas!</p>
+    <ul>
+        {% for tea in sample_or_samples %}
+            <li>
+                <a href="{% url 'checkout_with_sample' tea_pk=tea.pk %}">
+                   class="btn btn-sm btn-primary">Try 5g of {{ tea.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endif %}
+
+<a href="{% url 'checkout' %}" class="btn btn-lg btn-secondary">
+    <strong>Go to Checkout without your free sample...</strong>
+</a>
