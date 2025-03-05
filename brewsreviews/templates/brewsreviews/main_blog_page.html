@@ -2,11 +2,17 @@
 {% load static %}
 
 {% block content %}
-<h1>The Brews Reviews!</h1>
+    <h1>The Brews Reviews!</h1>
 
-{% for post in blog_posts %}
-<h2>{{ blog.title }}</h2>
-<p>{{ blog.content|truncatechars:90 }}</p>
-{% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-lg-center text-md-left text-sm-left text-xs-left">
+                {% for post in blog_posts %}
+                    <a href="{% url 'blog_post' pk=post.pk %}"><h2>{{ post.title }}</h2></a>
+                    <p>{{ post.content|truncatechars:90 }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}

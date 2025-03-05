@@ -14,10 +14,10 @@ def main_blog_page(request):
     return render(request, 'brewsreviews/main_blog_page.html', context)
 
 
-def blog_post(request, blog_key):
+def blog_post(request, pk):
     """View to render the page of a full blog post"""
 
-    post = get_object_or_404(BlogPost, pk=blog_key)
+    post = get_object_or_404(BlogPost, pk=pk)
 
     context = {
         'post': post,
