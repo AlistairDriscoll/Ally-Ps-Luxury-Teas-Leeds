@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 if os.path.isfile('env.py'):
     import env  # noqa
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,10 +30,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 DEBUG = 'DEVELOPMENT' in os.environ
 
 ALLOWED_HOSTS = [
-    '8000-alistairdri-allypsluxur-n9beuidlyqx.ws.codeinstitute-ide.net',
-    '127.0.0.1',
-    'localhost',
-    ]
+    "8000-alistairdri-allypsluxur-n9beuidlyqx.ws.codeinstitute-ide.net",
+    "127.0.0.1",
+    "localhost",
+    "https://ally-ps-luxury-teas-leeds-b0596c3cdc59.herokuapp.com/",
+]
 
 
 # Application definition
@@ -116,12 +118,19 @@ WSGI_APPLICATION = 'ally_ps_luxury_teas_leeds.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ["DATABASE_URL"])
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+
 
 STRIPE_CURRENCY = "gbp"
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
@@ -192,9 +201,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ["CLOUD_NAME"],
-    'API_KEY': os.environ["API_KEY"],
-    'API_SECRET': os.environ["API_SECRET"],
+    "CLOUDINARY_CLOUD_NAME": os.environ["CLOUDINARY_CLOUD_NAME"],
+    "API_KEY": os.environ["API_KEY"],
+    "API_SECRET": os.environ["API_SECRET"],
 }
 
 

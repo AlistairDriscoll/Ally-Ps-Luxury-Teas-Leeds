@@ -1,0 +1,1 @@
+web: gunicorn ally_ps_luxury_teas_leeds.wsgi:application
