@@ -3,6 +3,8 @@ import os
 
 from django.db import models
 
+from cloudinary.models import CloudinaryField
+
 
 def generate_sku():
     """
@@ -39,9 +41,8 @@ class Product(models.Model):
 
     tea_type = models.IntegerField(choices=TYPES, default=0)
     base_price_number = models.DecimalField(max_digits=4, decimal_places=2)
-    picture = models.ImageField(
-        upload_to=product_image_upload_path,
-        default='camellia-sinensis.jpg',
+    picture = CloudinaryField(
+        default='placeholder',
         blank=True,
     )
 

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "cloudinary_storage",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
     # other apps
     "django_countries",
     "crispy_forms",
+    "cloudinary",
 ]
 
 SITE_ID = 1
@@ -69,14 +71,15 @@ LOGOUT_REDIRECT_URL = '/shop/'
 
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'ally_ps_luxury_teas_leeds.urls'
@@ -182,9 +185,17 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ["CLOUD_NAME"],
+    'API_KEY': os.environ["API_KEY"],
+    'API_SECRET': os.environ["API_SECRET"],
+}
 
 
 # Default primary key field type
