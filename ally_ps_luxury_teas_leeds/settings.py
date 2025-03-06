@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     "https://ally-ps-luxury-teas-leeds-b0596c3cdc59.herokuapp.com/",
+    "ally-ps-luxury-teas-leeds-b0596c3cdc59.herokuapp.com",
 ]
 
 
