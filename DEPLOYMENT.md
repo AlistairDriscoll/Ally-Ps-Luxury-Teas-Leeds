@@ -135,4 +135,8 @@ Then create the superuser.
 
 and follow the instructions to make one.
 
+Lastly if you're on Heroku hit the deploy button in the bottom of the deploy section
+
+![Deploy button](documentation/deployment/deploy-btn.png)
+
 You're all set!
