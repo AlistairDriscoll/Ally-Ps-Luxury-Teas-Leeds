@@ -6,38 +6,54 @@
 {% endblock extra_css %}
 
 {% block content %}
-<div class="container-fluid welcome-delivery-banner mt-0">
-	<div class="row">
-		<div class="col-12 text-center">
-			<h1>We Deliver Worldwide!</h1>
-		</div>
-	</div>
-</div>
+    <div class="container-fluid welcome-delivery-banner mt-0 mb-2">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1>We Deliver Worldwide!</h1>
+            </div>
+        </div>
+    </div>
 
-    <div
-         class="homepage-overlay d-flex justify-content-center">
-        <h2>Welcome...</h2>
-        <h2>To Ally P's Luxury Teas Leeds!</h2>
-
-        <ul>
-            <li>
-                <a href="{% url 'shop' %}">Shop</a>
-            </li>
-            <li>
-                <a href="{% url 'blog' %}">The Brews Reviews!</a>
-            </li>
-            <li>
-                <a href="{% url 'about_us' %}">About Us</a>
-            </li>
-            {% if request.user.is_authenticated %}
-                <li>
-                    <a href="{% url 'profile' %}">Your account</a>
-                </li>
-            {% else %}
-                <li>
-                    <a href="{% url 'account_signup' %}">Sign-in/Register</a>
-                </li>
-            {% endif %}
-        </ul>
+    <div class="homepage-overlay d-flex justify-content-center">
+        <div class="container-div">
+            <div class="container-sm">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="col-12">
+                                    <h2>Welcome...</h2>
+                                </div>
+                                <div class="col-12 text-right my-5">
+                                    <h2 class="heavier-font">To Ally P's Luxury Teas Leeds!</h2>
+                                </div>
+                                <div class="col-12">
+                                    <ul class="list-inline-block mx-auto">
+                                        <li class="list-inline-item">
+                                            <a href="{% url 'shop' %}">Shop</a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="{% url 'blog' %}">The Brews Reviews!</a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="{% url 'about_us' %}">About Us</a>
+                                        </li>
+                                        {% if request.user.is_authenticated %}
+                                            <li class="list-inline-item">
+                                                <a href="{% url 'profile' %}">Your account</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="list-inline-item">
+                                                <a href="{% url 'account_signup' %}">Sign-in/Register</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}
