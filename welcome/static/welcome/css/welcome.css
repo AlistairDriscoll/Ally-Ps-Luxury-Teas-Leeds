@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* For the banner at the top */
+.welcome-delivery-banner {
+    background-color: #3CA400;
+    color: white;
+    z-index: 1001 !important;
+    position: relative;
+}
+
+/* Class for welcome page overlay screen */
+.homepage-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    color: black;
+    position: fixed;
+    background: #2f4858;
+    z-index: 100;
+}
+
