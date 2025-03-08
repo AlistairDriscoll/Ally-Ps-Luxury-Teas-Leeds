@@ -88,7 +88,6 @@ def add_to_bag(request, product_id):
 
     # Add the product and weight to the bag
     if product_id in bag:
-        print("Adding from the view")
         if weight in bag[product_id]:
             bag[product_id][weight] += 1  # Increment quantity
         else:
@@ -152,7 +151,6 @@ def delete_from_bag(request, product_id, weight):
     # Convert product_id and weight to strings
     product_id = str(product_id)
     weight = str(weight)
-    print(f"Product ID: {product_id}, Weight: {weight}, Bag Contents: {bag}")
 
     if product_id in bag:
         if weight in bag[product_id]:
