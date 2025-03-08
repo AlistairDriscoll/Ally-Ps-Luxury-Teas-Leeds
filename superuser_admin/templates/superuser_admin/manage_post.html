@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
 
     <h1>Manage {{ post.title }}</h1>
@@ -13,6 +15,7 @@
             <button>
                 <a href="{% url 'superuser_admin_page' %}">Back to Admin Page</a>
             </button>
+            <button><a href="{% url 'delete_post' post_pk=post.pk %}">Delete Post</a></button>
         </form>
     </div>
 

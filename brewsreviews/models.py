@@ -9,7 +9,11 @@ class BlogPost(models.Model):
 
     title = models.CharField(max_length=100, blank=True, null=False)
     tea = models.OneToOneField(
-        Product, on_delete=models.PROTECT, related_name="blog_post"
+        Product,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name="blog_post",
     )
     date_added = models.DateTimeField(
         auto_now_add=True

@@ -89,3 +89,16 @@ def manage_post(request, post_pk):
     else:
         messages.warning(request, "You are not allowed to visit this page")
         return redirect("shop")
+
+
+def delete_post(request, post_pk):
+    """View for the superuser to delete a blog post"""
+
+    if request.user.is_superuser:
+        post = get_object_or_404(BlogPost, pk=post_pk)
+        post.delete()
+
+        return redirect('superuser_admin_page')
+    else:
+        messages.warning(request, "You are not allowed to visit this page")
+        return redirect("shop")
