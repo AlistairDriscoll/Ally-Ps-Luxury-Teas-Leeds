@@ -90,3 +90,4 @@ A customer review system, so that customers could find out more from other membe
 
 A tea subscription system, as it would prove to help customers stay loyal if they had the choice to buy their favourite tea at a regular discount. To implement both a subscription service and customer review system were both in my original plans that you can see in the features file linked at the top of this page. I didn't have the time in the end to get it done now but plan to implement in the future.
 
+Another thing would be to have the superuser be able to implement CRUD functionality with the Product model also without going onto the admin.
