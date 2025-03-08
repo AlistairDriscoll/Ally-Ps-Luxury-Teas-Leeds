@@ -1,0 +1,9 @@
+Hello {{ order.full_name }}!
+
+We're just emailing you to confirm we have received your order you made with us on {{ order.date }} and it is now in the process of being made and shipped.
+
+If you have any other questions please contact us @ {{ default_from_email }}.
+
+Thank you again!
+
+The Ally P's Luxury Teas team.

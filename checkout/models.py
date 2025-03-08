@@ -3,6 +3,9 @@ import uuid
 from django.db import models
 from django.db.models import Sum
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
 
 from profiles.models import UserProfile
 from shop.models import Product
@@ -28,6 +31,28 @@ class Order(models.Model):
     orders
     Adapted from Code Institute's Order model
     """
+
+    def _send_confirmation_email(self):
+        """
+        Sends the user a confirmation email
+        Taken and adapted from code institute
+        """
+        cust_email = self.email
+        subject = render_to_string(
+            'checkout/confirmation_emails/confirmation_email_subject.txt',
+            {'order': self},
+        )
+        body = render_to_string(
+            "checkout/confirmation_emails/confirmation_email_body.txt",
+            {"order": self, "default_from_email": settings.DEFAULT_FROM_EMAIL},
+        )
+
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [cust_email]
+        )
 
     order_number = models.CharField(max_length=32, null=False, editable=False)
 
@@ -84,8 +109,12 @@ class Order(models.Model):
         Override the original save method to set the order number
         If it hasn't been set already
         """
+
         if not self.order_number:
             self.order_number = self._generate_order_number()
+
+        if not self.pk:
+            self._send_confirmation_email()
 
         super().save(*args, **kwargs)
 
