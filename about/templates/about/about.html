@@ -35,9 +35,10 @@
                 <p>
                     More questions about any of our teas? Do you want to work for me? Send me some fan mail? Slide into my DMs? For any and all enquiries please fill out the contact form below!
                 </p>
-                <form action="{% url 'about_us' %}">
+                <form action="{% url 'about_us' %}" method="post">
                     {% csrf_token %}
                     {{ form|crispy }}
+                    <button type="submit">Send Enquiry</button>
                 </form>
             </div>
 

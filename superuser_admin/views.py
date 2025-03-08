@@ -10,13 +10,12 @@ from .forms import BlogPostForm
 
 def superuser_admin_page(request):
     """Renders the superuser admin page"""
-    print("Request made, rendering...")
+
     if not request.user.is_superuser:
         print("Redirecting to shop")
         messages.warning(request, "You are not allowed to visit this page")
         return redirect('shop')
     else:
-        print("User is superuser")
         orders = Order.objects.all()
         enquiries = Enquiry.objects.all()
         products = Product.objects.all()
