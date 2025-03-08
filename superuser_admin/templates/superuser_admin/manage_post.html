@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Manage {{ post.title }}</h1>
+    <h1>Manage {{ post.title }}</h1>
 
-<div class="form-container">
-    <form action="{% url 'manage_post' %}">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit">Edit Post</button>
-    </form>
-</div>
+    <div class="col-12 col-md-10 col-lg-6 mx-auto">
+        <form action="{% url 'manage_post' post_pk=post.pk %}" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="text-right">
+                <button type="submit">Edit Post</button>
+            </div>
+            <button>
+                <a href="{% url 'superuser_admin_page' %}">Back to Admin Page</a>
+            </button>
+        </form>
+    </div>
 
 {% endblock content %}

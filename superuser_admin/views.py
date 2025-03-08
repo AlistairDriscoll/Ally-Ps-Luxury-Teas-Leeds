@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 
 from shop.models import Product
@@ -34,15 +34,59 @@ def superuser_admin_page(request):
         )
 
 
+def add_post(request):
+    """View for the superuser to add a blog post"""
+
+    if request.user.is_superuser:
+        if request.method == "GET":
+            form = BlogPostForm()
+
+            context = {
+                'form': form
+            }
+
+            return render(request, "superuser_admin/add_post.html", context)
+
+        else:
+            blog_post_form = BlogPostForm(request.POST)
+
+            if blog_post_form.is_valid():
+                blog_post_form.save()
+                messages.success(request, 'Blog post succesfully added!')
+                return redirect("superuser_admin_page")
+            else:
+                messages.error(
+                    request, "There was an error with your form.",
+                )
+                return redirect("superuser_admin_page")
+
+    else:
+        messages.warning(request, "You are not allowed to visit this page.")
+        return redirect("shop")
+
+
 def manage_post(request, post_pk):
     """View for superuser management of blog posts"""
 
-    post = BlogPost.objects.filter(pk=post_pk)
-    form = BlogPostForm(post)
+    if request.user.is_superuser:
+        post = get_object_or_404(BlogPost, pk=post_pk)
+        if request.method == "GET":
+            form = BlogPostForm(instance=post)
 
-    context = {
-        'post': post,
-        'form': form
-    }
+            context = {
+                'post': post,
+                'form': form,
+            }
 
-    return render(request, 'superuser_admin/manage_post.html', context)
+            return render(request, 'superuser_admin/manage_post.html', context)
+        else:
+            blog_post_form = BlogPostForm(request.POST, instance=post)
+            if blog_post_form.is_valid():
+                blog_post_form.save()
+                messages.success(request, 'Succesfully edited Post!')
+
+                return redirect("superuser_admin_page")
+
+    else:
+        messages.warning(request, "You are not allowed to visit this page")
+        return redirect("shop")

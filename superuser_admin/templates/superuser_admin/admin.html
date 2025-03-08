@@ -16,6 +16,7 @@
             {% for post in blog_posts %}
             <p>{{ post.title }} <a href="{% url 'manage_post' post_pk=post.pk %}">View/manage post</a></p>
             {% endfor %}
+            <a href="{% url 'add_post' %}">Add a new blog post</a>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
             <h4>All Orders</h4>
