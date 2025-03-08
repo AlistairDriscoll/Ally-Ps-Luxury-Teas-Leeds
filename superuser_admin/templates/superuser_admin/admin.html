@@ -2,5 +2,23 @@
 {% load static %}
 
 {% block content %}
+<h1>Superuser Admin</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-4">
+            {% for order in orders %}
+            <a href="">{{ order.order_number }}</a>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            {% for product in products %}
+            <a href="">{{ product.name }}</a>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            {% for enquiry in enquiries %}
+            <a href="">{{ enquiry.pk }}: {{ enquiry.subject }}</a>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
