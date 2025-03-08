@@ -58,3 +58,35 @@ ER diagram and website layout can be found in the [features](FEATURES.md) file.
 ## Deployment
 
 Info how to deploy etc can be found in the [DEPLOYMENT.md](DEPLOYMENT.md) file.
+
+## Web Marketing
+
+The business model I have used is a B2C model, where we as a business sell loose leaf tea to the general public. This means the audience is a very niche one which comes with its pros and cons.
+
+Cons: In the world of tea drinking, most people are content going actually their whole lives only drinking low grade supermarket standard tea, so even amongst the tea drinking community the website is aimed at a minority amount.
+
+Pros: The audience have a much more educated idea of what they want, and as high quality tea in the grand scheme of things is still cheap, they are happy to spend a lot of money to get a lot more of it. The clientele are also happy to try new things all the time as it's hard to find a loose leaf tea that they may be less of a fan of.
+
+Another pro is that the product transcends ages, genders, locations, classes, religions and is in almost every culture to a certain degree, so although loose leaf tea drinkers are a minority of the minority of the worlds population that drinks tea, they can be found amongst every social group in existence nearly.
+
+### Keywords
+
+After market research of trying different searches, I settled on the following keywords to add to the project as although search engines do not take them into account as much as they used to I thought I would still add some: 'Leeds tea merchant, Leeds tea store, northern tea seller UK, tea merchant Yorkshire, tea blends Leeds, tea merchant UK, loose leaf tea Leeds, tea supplies Leeds'
+
+### Facebook
+
+To reach out to more people I have utilised Facebook to make a page of my tea selling company.
+
+!(Facebook top part)[documentation/fb-images/fb-page-top-half.png]
+!(Facebook bottom part)[documentation/fb-images/fb-page-bottom-half.png]
+
+## Future Development
+
+Things to do in the future could include:
+
+Selling teaware (strainers, mugs, spoons that hole the right amount of tea for one mug of tea) given that the customer has already made it to the website they will just come back off it if they don't have teaware as they will have to buy that first anyway, so why not sell the right equipment as well?
+
+A customer review system, so that customers could find out more from other members of the tea drinking community instead of only knowing about the tea from the person selling it.
+
+A tea subscription system, as it would prove to help customers stay loyal if they had the choice to buy their favourite tea at a regular discount. To implement both a subscription service and customer review system were both in my original plans that you can see in the features file linked at the top of this page. I didn't have the time in the end to get it done now but plan to implement in the future.
+
