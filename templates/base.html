@@ -12,11 +12,14 @@
         <script src="https://kit.fontawesome.com/bc5efad812.js"
                 crossorigin="anonymous"></script>
 
-        <link rel="icon" href="https://img.icons8.com/?size=100&id=66650&format=png&color=000000" type="image/png">
+        <link rel="icon"
+              href="https://img.icons8.com/?size=100&id=66650&format=png&color=000000"
+              type="image/png">
         <!-- Google font-delius -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap"
+              rel="stylesheet">
         <!-- Bootstrap 4 -->
         <link rel="stylesheet"
               href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
@@ -56,7 +59,11 @@
                         </li>
 
                         <li class="list-inline-item">
-                            {% if request.user.is_authenticated %}
+                            {% if request.user.is_superuser %}
+                                <li class="list-inline-item">
+                                    <a href="{% url 'superuser_admin_page' %}">Go to the superuser admin</a>
+                                </li>
+                            {% elif request.user.is_authenticated %}
                                 <li class="list-inline-item dropdown">
                                     <a class="nav-link dropdown-toggle"
                                        href="#"

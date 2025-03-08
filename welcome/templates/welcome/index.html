@@ -38,7 +38,11 @@
                                         <li class="list-inline-item">
                                             <a href="{% url 'about_us' %}">About Us</a>
                                         </li>
-                                        {% if request.user.is_authenticated %}
+                                        {% if request.user.is_superuser %}
+                                            <li class="list-inline-item">
+                                                <a href="{% url 'superuser_admin_page' %}">Go to the superuser admin</a>
+                                            </li>
+                                        {% elif request.user.is_authenticated %}
                                             <li class="list-inline-item">
                                                 <a href="{% url 'profile' %}">Your account</a>
                                             </li>

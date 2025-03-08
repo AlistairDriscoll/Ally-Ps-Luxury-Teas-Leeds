@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "checkout",
     "brewsreviews",
     "about",
+    "superuser_admin",
     # other apps
     "django_countries",
     "crispy_forms",
