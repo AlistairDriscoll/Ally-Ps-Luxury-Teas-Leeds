@@ -1,22 +1,33 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block content %}
 <h1>Superuser Admin</h1>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-md-6 col-lg-4">
-            {% for order in orders %}
-            <a href="">{{ order.order_number }}</a>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-12 col-lg-3">
+            <h4>Product List</h4>
             {% for product in products %}
-            <a href="">{{ product.name }}</a>
+            <a href=""><p>{{ product.name }}</p></a>
+            {% endfor %}
         </div>
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-3">
+            <h4>Your Blog Posts</h4>
+            {% for post in blog_posts %}
+            <p>{{ post.title }} <a href="{% url 'manage_post' post_pk=post.pk %}">View/manage post</a></p>
+            {% endfor %}
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <h4>All Orders</h4>
+            {% for order in orders %}
+            <a href=""><p>{{ order.order_number }}</p></a>
+            {% endfor %}
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <h4>All Enquiries</h4>
             {% for enquiry in enquiries %}
             <a href="">{{ enquiry.pk }}: {{ enquiry.subject }}</a>
+            {% endfor %}
         </div>
     </div>
 </div>
