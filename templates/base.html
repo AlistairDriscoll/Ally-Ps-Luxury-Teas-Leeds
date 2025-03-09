@@ -36,26 +36,26 @@
                 <div class="container-fluid">
                     <ul class="list-inline mx-auto">
                         <li class="d-sm-none d-lg-inline-block list-inline-item">
-                            <a href="{% url 'welcome' %}">
+                            <a aria-label="Go to home page" href="{% url 'welcome' %}">
                                 <p>Ally P's Luxury Teas</p>
                             </a>
                         </li>
                         <li class="list-inline-item d-lg-none">
-                            <a href="{% url 'welcome' %}">
+                            <a aria-label="Go to home page" href="{% url 'welcome' %}">
                                 <p>Home</p>
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="{% url 'shop' %}">Shop</a>
+                            <a aria-label="Go to shop" href="{% url 'shop' %}">Shop</a>
                         </li>
                         <li class="list-inline-item d-none d-lg-inline-block">
-                            <a href="{% url 'blog' %}">The Brews Reviews!</a>
+                            <a aria-label="Go to blog page" href="{% url 'blog' %}">The Brews Reviews!</a>
                         </li>
                         <li class="list-inline-item d-lg-none">
-                            <a href="{% url 'blog' %}">Blog</a>
+                            <a aria-label="Go to blog page" href="{% url 'blog' %}">Blog</a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="{% url 'about_us' %}">About Us</a>
+                            <a aria-label="Go to about us page" href="{% url 'about_us' %}">About Us</a>
                         </li>
 
                         {% if request.user.is_authenticated %}
@@ -74,12 +74,12 @@
                             </li>
                         {% else %}
                             <li class="list-inline-item">
-                                <a href="{% url 'account_signup' %}">Sign-in/Register</a>
+                                <a aria-label="Account signup page" href="{% url 'account_signup' %}">Sign-in/Register</a>
                             </li>
                         {% endif %}
 
                     <li class="list-inline-item">
-                        <a href="{% url 'view_bag' %}"><i class="fas fa-shopping-bag fa-lg"></i></a>
+                        <a aria-label="View your bag" href="{% url 'view_bag' %}"><i class="fas fa-shopping-bag fa-lg"></i></a>
                     </li>
                 </ul>
             </div>
