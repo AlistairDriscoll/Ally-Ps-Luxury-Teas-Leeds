@@ -7,7 +7,7 @@
         <h1>Our Products</h1>
 
         <!-- Filter Options, made with the basis of Code Institute's Boutique Ado plus Chat GPT -->
-        <div>
+        <div class="mx-auto text-center">
             <a aria-label="Search all products" href="{% url 'shop' %}"
                class="btn {% if not selected_type %}btn-primary{% else %}btn-outline-primary{% endif %}">All</a>
             {% for type_value, type_name in tea_types %}
