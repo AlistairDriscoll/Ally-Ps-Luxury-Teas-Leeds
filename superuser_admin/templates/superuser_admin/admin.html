@@ -8,7 +8,8 @@
             <div class="col-12 col-md-12 col-lg-3">
                 <h4>Product List</h4>
                 {% for product in products %}
-                    <a aria-label="View product in full" href="{% url 'product_detail' sku=product.sku %}">
+                    <a aria-label="View product in full"
+                       href="{% url 'superuser_view_product' sku=product.sku %}">
                         <p>{{ product.name }}</p>
                     </a>
                 {% endfor %}
@@ -17,7 +18,8 @@
                 <h4>Your Blog Posts</h4>
                 {% for post in blog_posts %}
                     <p>
-                        {{ post.title }} <a aria-label="Post management" href="{% url 'manage_post' post_pk=post.pk %}">View/manage post</a>
+                        {{ post.title }} <a aria-label="Post management"
+    href="{% url 'manage_post' post_pk=post.pk %}">View/manage post</a>
                     </p>
                 {% endfor %}
                 <a aria-label="Add blog post" href="{% url 'add_post' %}">Add a new blog post</a>
@@ -25,14 +27,18 @@
             <div class="col-12 col-md-6 col-lg-3">
                 <h4>All Orders</h4>
                 {% for order in orders %}
-                    <a aria-label="View order" href="">
+                    <a aria-label="View order"
+                       href="{% url 'superuser_view_order' pk=order.pk %}">
                         <p>{{ order.order_number }}</p>
                     </a>
                 {% endfor %}
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <h4>All Enquiries</h4>
-                {% for enquiry in enquiries %}<a href="">{{ enquiry.pk }}: {{ enquiry.subject }}</a>{% endfor %}
+                {% for enquiry in enquiries %}
+                    <a aria-label="View enquiry"
+                       href="{% url 'view_enquiry' pk=enquiry.pk %}">{{ enquiry.pk }}: {{ enquiry.subject }}</a>
+                {% endfor %}
             </div>
         </div>
     </div>

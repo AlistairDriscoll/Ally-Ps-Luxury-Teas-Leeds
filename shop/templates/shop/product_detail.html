@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 {% load shop_tools %}
+{% load static %}
 
 {% block content %}
 
     <div class="container">
         <h1>{{ product.name }}</h1>
         <div class="row">
-            <div class="col-12 col-md-6">
-                <img src="{{ product.picture.url }}"
-                     alt="{{ product.name }}"
-                     class="shop-img"
+            {% if "placeholder" in product.picture.url %}
+                <img class="shop-img"
                      width="400"
-                     height="auto" />
-
+                     height="auto"
+                     src="{% static 'images/camellia-sinensis.jpg' %}"
+                     alt="Camellia sinensis plant">
+            {% else %}
+                <div class="col-12 col-md-6">
+                    <img src="{{ product.picture.url }}"
+                         alt="{{ product.name }}"
+                         class="shop-img"
+                         width="400"
+                         height="auto" />
+                {% endif %}
                 <form class="form"
                       action="{% url 'add_to_bag' product_id=product.id %}"
                       method="post">
@@ -28,7 +36,8 @@
                 </form>
                 {% if product.blog_post %}
                     <p>{{ product.blog_post.content|truncatechars:90 }}</p>
-                    <a aria-label="Read the blog post of this tea" href="{% url 'blog_post' pk=product.blog_post.pk %}">Read more about the tea here!</a>
+                    <a aria-label="Read the blog post of this tea"
+                       href="{% url 'blog_post' pk=product.blog_post.pk %}">Read more about the tea here!</a>
                 {% else %}
                     <p>A blog post will follow soon!</p>
                 {% endif %}
@@ -36,30 +45,30 @@
             <div class="col-12 col-md-6 text-right">
                 <div class="row">
                     <div class="col-12">
-                        {% if not from_superuser %}
-                        <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn">
-                            <span>Back to Shop</span>
-                            <span>
-                                <i class="fas fa-shopping-bag"></i>
-                            </span>
-                        </a>
+                        {% if from_superuser == True %}
+                        <a aria-label="Back to superuser admin"
+                               href="{% url 'superuser_admin_page' %}"
+                               class="btn">Back to Superuser admin</a>
                         {% else %}
-                        <a aria-label="Back to superuser admin" href="{% url 'superuser_admin_page' %}" class="btn">
-                            Back to Superuser admin
-                        </a>
-                        {% endif %}
-                    </div>
-                    {% if not from_superuser %}
-                    <div class="col-12">
-                        {% if bag_items %}
-                            <a href="{% url 'view_bag' %}" class="btn" aria-label="Go to checkout">
-                                <span class="text-uppercase">Go To Secure Checkout</span>
-                                <span class="icon">
-                                    <i class="fas fa-lock"></i>
+                        <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn">
+                                <span>Back to Shop</span>
+                                <span>
+                                    <i class="fas fa-shopping-bag"></i>
                                 </span>
                             </a>
                         {% endif %}
                     </div>
+                    {% if not from_superuser %}
+                        <div class="col-12">
+                            {% if bag_items %}
+                                <a href="{% url 'view_bag' %}" class="btn" aria-label="Go to checkout">
+                                    <span class="text-uppercase">Go To Secure Checkout</span>
+                                    <span class="icon">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </a>
+                            {% endif %}
+                        </div>
                     {% endif %}
                 </div>
             </div>

@@ -109,18 +109,63 @@ def delete_post(request, post_pk):
         return redirect("shop")
 
 
+@login_required
 def superuser_view_product(request, sku):
     """
     View for the superuser to view products with ease from the admin panel
     """
 
-    template = "shop/product_detail.html"
+    if request.user.is_superuser:
+        template = "shop/product_detail.html"
 
-    product = get_object_or_404(Product, sku=sku)
+        product = get_object_or_404(Product, sku=sku)
 
-    context = {
-        "product": product,
-        "from_superuser": True,
-    }
+        context = {
+            "product": product,
+            "from_superuser": True,
+        }
 
-    return render(request, template, context)
+        print(context)
+
+        return render(request, template, context)
+    else:
+        messages.warning(request, "You are not allowed to visit this page")
+        return redirect("shop")
+
+
+@login_required
+def superuser_view_order(request, pk):
+    """View for the superuser to see an order detail"""
+
+    if request.user.is_superuser:
+        order = get_object_or_404(Order, pk=pk)
+        template = 'checkout/checkout_success.html'
+
+        context = {
+            'order': order,
+            'from_superuser': True
+        }
+
+        return render(request, template, context)
+
+    else:
+        messages.warning(request, "You are not allowed to visit this page")
+        return redirect("shop")
+
+
+@login_required
+def view_enquiry(request, pk):
+    """Request to view an enquiry sent to the superuser"""
+
+    if request.user.is_superuser:
+        enquiry = get_object_or_404(Enquiry, pk=pk)
+
+        context = {
+            'enquiry': enquiry
+        }
+
+        return render(request, 'superuser_admin/view_enquiry.html', context)
+
+    else:
+        messages.warning(request, "You are not allowed to visit this page")
+        return redirect("shop")

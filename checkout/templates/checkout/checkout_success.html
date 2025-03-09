@@ -5,23 +5,29 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <h1>Success!</h1>
+                {% if from_superuser %}
+                    <h1>Order No: {{ order.order_number }}</h1>
+                {% else %}
+                    <h1>Success!</h1>
+                {% endif %}
             </div>
         </div>
     </div>
 
     <div class="overlay"></div>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <hr>
-                <h2 class="logo-font mb-4">Thank You</h2>
-                <hr>
-                <p class="text-black">
-                    Your order information is below. A confirmation email will be sent to <strong>{{ order.email }}</strong>.
-                </p>
+        {% if not from_superuser %}
+            <div class="row">
+                <div class="col">
+                    <hr>
+                    <h2 class="logo-font mb-4">Thank You</h2>
+                    <hr>
+                    <p class="text-black">
+                        Your order information is below. A confirmation email will be sent to <strong>{{ order.email }}</strong>.
+                    </p>
+                </div>
             </div>
-        </div>
+        {% endif %}
         <!-- taken and adapted from Code Institute's Boutique Ado walkthrough -->
         <div class="row">
             <div class="col-12 col-lg-7">
@@ -198,12 +204,18 @@
         </div>
         <div class="row">
             <div class="col-12 col-lg-7 text-right">
-                <a href="{% url 'shop' %}" class="btn btn-black rounded-0 my-2" aria-label="Go back to shop">
-                    <span class="icon mr-2">
-                        <i class="fas fa-gifts"></i>
-                    </span>
-                    <span class="text-uppercase">Back to the Shop</span>
-                </a>
+                {% if from_superuser %}
+                    <a href="{% url 'superuser_admin_page' %}">Back to Superuser admin</a>
+                {% else %}
+                    <a href="{% url 'shop' %}"
+                       class="btn btn-black rounded-0 my-2"
+                       aria-label="Go back to shop">
+                        <span class="icon mr-2">
+                            <i class="fas fa-gifts"></i>
+                        </span>
+                        <span class="text-uppercase">Back to the Shop</span>
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>

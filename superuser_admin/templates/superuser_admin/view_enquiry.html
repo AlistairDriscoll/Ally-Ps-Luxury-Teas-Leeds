@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col mx-auto">
+            <h1>{{ enquiry.pk }}: {{ enquiry.subject }}</h1>
+            <p>{{ enquiry.content }}</p>
+            <button><a aria-label="Back to superuser panel" href="{% url 'superuser_admin_page' %}">Back to Admin Panel</a></button>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

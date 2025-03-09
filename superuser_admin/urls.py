@@ -10,5 +10,11 @@ urlpatterns = [
         "superuser_view_product/<sku>",
         views.superuser_view_product,
         name='superuser_view_product'
-    )
+    ),
+    path(
+        "superuser_view_order/<pk>",
+        views.superuser_view_order,
+        name="superuser_view_order"
+    ),
+    path("view_enquiry/<pk>", views.view_enquiry, name="view_enquiry")
 ]
