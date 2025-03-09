@@ -26,11 +26,17 @@
                     <button type="submit" class="btn">Add to Basket</button>
                     <input type="hidden" name="redirect_url" value="{{ request.path }}" />
                 </form>
+                {% if product.blog_post %}
+                    <p>{{ product.blog_post.content|truncatechars:90 }}</p>
+                    <a aria-label="Read the blog post of this tea" href="{% url 'blog_post' pk=product.blog_post.pk %}">Read more about the tea here!</a>
+                {% else %}
+                    <p>A blog post will follow soon!</p>
+                {% endif %}
             </div>
             <div class="col-12 col-md-6 text-right">
                 <div class="row">
                     <div class="col-12">
-                        <a href="{% url 'shop' %}" class="btn">
+                        <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn">
                             <span>Back to Shop</span>
                             <span>
                                 <i class="fas fa-shopping-bag"></i>
@@ -39,7 +45,7 @@
                     </div>
                     <div class="col-12">
                         {% if bag_items %}
-                            <a href="{% url 'view_bag' %}" class="btn">
+                            <a href="{% url 'view_bag' %}" class="btn" aria-label="Go to checkout">
                                 <span class="text-uppercase">Go To Secure Checkout</span>
                                 <span class="icon">
                                     <i class="fas fa-lock"></i>

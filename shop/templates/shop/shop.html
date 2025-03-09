@@ -8,10 +8,10 @@
 
         <!-- Filter Options, made with the basis of Code Institute's Boutique Ado plus Chat GPT -->
         <div>
-            <a href="{% url 'shop' %}"
+            <a aria-label="Search all products" href="{% url 'shop' %}"
                class="btn {% if not selected_type %}btn-primary{% else %}btn-outline-primary{% endif %}">All</a>
             {% for type_value, type_name in tea_types %}
-                <a href="?type={{ type_value }}"
+                <a aria-label="Search by type" href="?type={{ type_value }}"
                    class="btn {% if selected_type == type_value|stringformat:"s" %}btn-primary{% else %}btn-outline-primary{% endif %}">
                     {{ type_name }}
                 </a>
@@ -39,7 +39,7 @@
                     {% endif %}
                     <p>Starting from: £{{ product.base_price_number }}</p>
                     <p>{{ product.sku }}</p>
-                    <a href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
+                    <a aria-label="Go to product page" href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
                 </div>
             {% endfor %}
         </div>

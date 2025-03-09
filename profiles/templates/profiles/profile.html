@@ -23,12 +23,18 @@
             </div>
             <div class="col-12 col-md-6 text-right">
                 <h3 class="text-md-center">Your Information:</h3>
+                {% if user.user_profile.subscribed_to_email %}
+                    <p class="display-info">You are currently subscribed to our email marketing service.</p>
+                {% else %}
+                    <p>
+                        You aren't currently subscribed to our email marketing service, to do so follow our <a href="{% url 'edit_profile' userkey=profile.user.pk %}"
+    aria-label="Manage your account information"
+    class="btn">Profile Management link!</a>
+                    </p>
+                {% endif %}
                 <div id="info-div">
                     {% if user.user_profile.full_name %}<p class="display-info">{{ user.user_profile.full_name }}</p>{% endif %}
                     {% if user.user_profile.email %}<p class="display-info">{{ user.user_profile.email }}</p>{% endif %}
-                    {% if user.user_profile.subscribed_to_email %}
-                        <p class="display-info">You are currently subscribed to our email marketing service.</p>
-                    {% endif %}
                     {% if user.user_profile.phone_number %}<p class="display-info">{{ user.user_profile.phone_number }}</p>{% endif %}
                     {% if user.user_profile.address_line1 %}<p class="display-info">{{ user.user_profile.address_line1 }}</p>{% endif %}
                     {% if user.user_profile.address_line2 %}<p class="display-info">{{ user.user_profile.address_line2 }}</p>{% endif %}
@@ -39,7 +45,9 @@
                     {% if user.user_profile.postal_code %}<p class="display-info">{{ user.user_profile.postal_code }}</p>{% endif %}
                     {% if user.user_profile.country %}<p class="display-info">{{ user.user_profile.country }}</p>{% endif %}
                 </div>
-                <a href="{% url 'edit_profile' userkey=profile.user.pk %}" aria-label="Manage your account information" class="btn">Profile Management</a>
+                <a href="{% url 'edit_profile' userkey=profile.user.pk %}"
+                   aria-label="Manage your account information"
+                   class="btn">Profile Management</a>
             </div>
         </div>
     </div>
