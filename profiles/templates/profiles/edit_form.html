@@ -10,7 +10,8 @@
                 <form class="mt-3"
                       action="{% url 'edit_profile' userkey=user_profile.user.pk %}"
                       method="post"
-                      id="profile-update-form">
+                      id="profile-update-form"
+                      aria-label="Update profile form">
                     {% csrf_token %}
                     {{ form|crispy }}
                     <div class="form-check">
@@ -25,7 +26,7 @@
                 </form>
             </div>
 			<div class="col-12 col-md-2 col-lg-4">
-				<a href="{% url 'account_deletion' userkey=user_profile.user.pk %}">Account Management</a>
+				<a aria-label="Manage account deletion" href="{% url 'account_deletion' userkey=user_profile.user.pk %}">Account Management</a>
 			</div>
         </div>
     </div>

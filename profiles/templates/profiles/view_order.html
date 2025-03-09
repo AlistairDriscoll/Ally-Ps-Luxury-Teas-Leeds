@@ -43,7 +43,7 @@
                 <img src="{{ item.product.picture.url }}" alt="{{ item.product.name }}" width="100px" height="auto">
             {% endfor %}
         </div>
-        <a href="{% url 'profile' %}">Go Back</a>
+        <a href="{% url 'profile' %}" aria-label="Go back to your profile">Go Back</a>
     </div>
 </div>
 {% endblock content %}

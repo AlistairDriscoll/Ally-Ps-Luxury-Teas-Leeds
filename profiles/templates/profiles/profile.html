@@ -39,7 +39,7 @@
                     {% if user.user_profile.postal_code %}<p class="display-info">{{ user.user_profile.postal_code }}</p>{% endif %}
                     {% if user.user_profile.country %}<p class="display-info">{{ user.user_profile.country }}</p>{% endif %}
                 </div>
-                <a href="{% url 'edit_profile' userkey=profile.user.pk %}" class="btn">Profile Management</a>
+                <a href="{% url 'edit_profile' userkey=profile.user.pk %}" aria-label="Manage your account information" class="btn">Profile Management</a>
             </div>
         </div>
     </div>
