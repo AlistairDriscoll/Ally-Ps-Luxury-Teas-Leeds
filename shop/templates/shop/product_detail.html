@@ -36,13 +36,20 @@
             <div class="col-12 col-md-6 text-right">
                 <div class="row">
                     <div class="col-12">
+                        {% if not from_superuser %}
                         <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn">
                             <span>Back to Shop</span>
                             <span>
                                 <i class="fas fa-shopping-bag"></i>
                             </span>
                         </a>
+                        {% else %}
+                        <a aria-label="Back to superuser admin" href="{% url 'superuser_admin_page' %}" class="btn">
+                            Back to Superuser admin
+                        </a>
+                        {% endif %}
                     </div>
+                    {% if not from_superuser %}
                     <div class="col-12">
                         {% if bag_items %}
                             <a href="{% url 'view_bag' %}" class="btn" aria-label="Go to checkout">
@@ -53,6 +60,7 @@
                             </a>
                         {% endif %}
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from shop.models import Product
 from checkout.models import Order
@@ -8,6 +9,7 @@ from brewsreviews.models import BlogPost
 from .forms import BlogPostForm
 
 
+@login_required
 def superuser_admin_page(request):
     """Renders the superuser admin page"""
 
@@ -33,6 +35,7 @@ def superuser_admin_page(request):
         )
 
 
+@login_required
 def add_post(request):
     """View for the superuser to add a blog post"""
 
@@ -64,6 +67,7 @@ def add_post(request):
         return redirect("shop")
 
 
+@login_required
 def manage_post(request, post_pk):
     """View for superuser management of blog posts"""
 
@@ -91,6 +95,7 @@ def manage_post(request, post_pk):
         return redirect("shop")
 
 
+@login_required
 def delete_post(request, post_pk):
     """View for the superuser to delete a blog post"""
 
@@ -102,3 +107,20 @@ def delete_post(request, post_pk):
     else:
         messages.warning(request, "You are not allowed to visit this page")
         return redirect("shop")
+
+
+def superuser_view_product(request, sku):
+    """
+    View for the superuser to view products with ease from the admin panel
+    """
+
+    template = "shop/product_detail.html"
+
+    product = get_object_or_404(Product, sku=sku)
+
+    context = {
+        "product": product,
+        "from_superuser": True,
+    }
+
+    return render(request, template, context)
