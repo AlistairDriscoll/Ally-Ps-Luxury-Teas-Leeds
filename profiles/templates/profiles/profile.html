@@ -47,5 +47,6 @@
 {% endblock content %}
 
 {% block extra_js %}
+    {{ block.super }}
     <script src="{% static 'profiles/js/display_info.js' %}"></script>
 {% endblock extra_js %}

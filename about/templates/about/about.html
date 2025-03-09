@@ -4,9 +4,9 @@
 {% block content %}
     <h1>About Us</h1>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <div class="col-12 col-md-8 col-lg-4 order-md-1 order-lg-2">
+            <div class="col-12">
                 <h4 class="text-center">
                     <strong>Well hello, good visitor of my website!</strong>
                 </h4>
@@ -19,11 +19,12 @@
                     Although I am based in Leeds, West Yorkshire I do sell my products worldwide.
                     Excellent tea must be accessible to all! And you best believe mine are certifiably banging. Get ready for a good time!
                     If you still don't believe the hype you can read more info on each of my teas that I post <a href="{% url 'blog' %}"><strong>on my blog.</strong></a>
-                    Other ways to find out about our antics here you can subscribe to emails below if you always want to find out the hot news!
+                    Other ways to find out about our antics here you can go to your user profile page and subscribe to emails!
                 </p>
+
             </div>
 
-            <div class="col-12 col-md-4 col-lg-4 order-md-2 order-lg-1">
+            <div class="col-12 col-md-6">
                 <h4 class="text-center">Contact:</h4>
                 <p>
                     Our Facebook page link can be found
@@ -40,9 +41,10 @@
                     {{ form|crispy }}
                     <button type="submit">Send Enquiry</button>
                 </form>
+
             </div>
 
-            <div class="col-12 col-lg-4 order-md-3 order-lg-3">
+            <div class="col-12 col-md-6">
                 <h4 class="text-center">FAQs</h4>
                 <div class="row">
                     <div class="col-12">
@@ -80,7 +82,9 @@
                         </p>
                     </div>
                     <div class="col-12">
-                        <a target="_blank" href="https://www.termsfeed.com/live/ec1f74d6-bb05-414c-9065-7c3e8df910e6">Click here to see our privacy policy!</a>
+                        <a target="_blank"
+                         aria-label="See our privacy policy"
+                           href="https://www.termsfeed.com/live/ec1f74d6-bb05-414c-9065-7c3e8df910e6">Click here to see our privacy policy!</a>
                     </div>
                 </div>
             </div>
