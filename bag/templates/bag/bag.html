@@ -26,6 +26,7 @@
                                     <!-- Delete Form Only -->
                                     <a href="{% url 'delete_from_bag' product_id=item.product.id weight=item.weight %}"
                                        class="btn btn-sm btn-danger"
+                                       aria-label="Delete sample from bag"
                                        onclick="return confirm('Are you sure you want to remove this item?');">
                                         <span>Delete From Bag</span>
                                         <i class="fas fa-trash-alt"></i>
@@ -33,7 +34,7 @@
                                 {% else %}
                                     <!-- Update and Delete Forms -->
                                     <form action="{% url 'edit_bag' product_id=item.product.id %}"
-                                          method="post">
+                                          method="post" aria-label="Update product in bag">
                                         {% csrf_token %}
                                         <label for="weight">Weight:</label>
                                         <select name="weight" class="form-control w-50 d-inline">
@@ -53,6 +54,7 @@
                                     </form>
                                     <a href="{% url 'delete_from_bag' product_id=item.product.id weight=item.weight %}"
                                        class="btn btn-sm btn-danger"
+                                       aria-label="Delete product from bag"
                                        onclick="return confirm('Are you sure you want to remove this item?');">
                                         <span>Delete From Bag</span>
                                         <i class="fas fa-trash-alt"></i>

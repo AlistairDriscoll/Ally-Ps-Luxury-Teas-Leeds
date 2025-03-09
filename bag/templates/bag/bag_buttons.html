@@ -5,7 +5,7 @@
             {% csrf_token %}
             <input type="hidden" name="weight" value="20">
             <input type="hidden" name="is_sample" value="true">
-            <input type="hidden" name="redirect_url" value="{% url 'view_bag' %}">
+            <input type="hidden" name="redirect_url" value="{% url 'add_to_bag' %}">
             <button type="submit" class="btn btn-lg btn-success">
                 <strong>Claim Free Sample</strong>
             </button>
@@ -15,7 +15,7 @@
         <ul>
             {% for tea in sample_or_samples %}
                 <li>
-                    <form action="{% url 'add_to_bag' product_id=tea.id %}" method="post">
+                    <form action="{% url 'add_to_bag' product_id=tea.id %}" method="post" aria-label="Add sample to bag">
                         {% csrf_token %}
                         <input type="hidden" name="weight" value="5">
                         <input type="hidden" name="is_sample" value="true">
@@ -29,14 +29,14 @@
         </ul>
     {% endif %}
 
-    <a href="{% url 'checkout' %}" class="btn btn-lg btn-warning">
+    <a href="{% url 'checkout' %}" class="btn btn-lg btn-warning" aria-label="Go to checkout without free sample">
         <strong>Continue to Checkout Without Claiming Free Sample</strong>
     </a>
 
 {% else %}
     <p><strong>You've already selected your free sample!</strong></p>
 
-    <a href="{% url 'checkout' %}" class="btn btn-lg btn-primary">
+    <a href="{% url 'checkout' %}" class="btn btn-lg btn-primary" aria-label="Go to checkout">
         <strong>Proceed to Checkout</strong>
     </a>
 {% endif %}
