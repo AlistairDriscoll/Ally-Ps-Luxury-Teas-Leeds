@@ -31,6 +31,26 @@ class Product(models.Model):
     """
 
     TYPES = ((0, "Black"), (1, "Green"), (2, "Herbal"))
+    ORIGINS = (
+        ("China", "China"),
+        ("India", "India"),
+        ("Japan", "Japan"),
+        ("Sri Lanka", "Sri Lanka"),
+        ("Kenya", "Kenya"),
+        ("Others", "Others"),
+        )
+
+    FLAVOR_PROFILES = (("Floral", "Floral"),
+                       ("Fruity", "Fruity"),
+                       ("Earthy", "Earthy"),
+                       ("Malty", "Malty"),
+                       ("Smoky", "Smoky"),
+                       ("Others", "Others"),)
+
+    CAFFEINE_LEVELS = (("High", "High"),
+                       ("Medium", "Medium"),
+                       ("Low", "Low"),
+                       ("Caffeine-Free", "Caffeine-Free"),)
 
     name = models.CharField(max_length=65)
     sku = models.CharField(
@@ -40,6 +60,13 @@ class Product(models.Model):
     )
 
     tea_type = models.IntegerField(choices=TYPES, default=0)
+    origin = models.CharField(max_length=20, choices=ORIGINS, default="Others")
+    flavor_profile = models.CharField(
+        max_length=20, choices=FLAVOR_PROFILES, default="Others"
+        )
+    caffeine_level = models.CharField(
+        max_length=20, choices=CAFFEINE_LEVELS, default="Medium"
+        )
     base_price_number = models.DecimalField(max_digits=4, decimal_places=2)
     picture = CloudinaryField(
         default='placeholder',

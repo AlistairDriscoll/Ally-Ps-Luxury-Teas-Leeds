@@ -4,7 +4,8 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width,.float: none;margin-left:0;margin-right:0;text-align:center;align-self: flex-start, initial-scale=1.0" />
+        <meta name="viewport"
+              content="width=device-width,.float: none;margin-left:0;margin-right:0;text-align:center;align-self: flex-start, initial-scale=1.0" />
         <meta name="description"
               content="I travel the world looking for the best teas to sell from my shop based in Leeds. Although based there I ship worldwide! I also built this website to be a great place to find out more about loose leaf teas so there should be plenty for you to click on if you want to learn about it!">
         <meta name="keywords"
@@ -34,31 +35,36 @@
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container">
-                    <div class="navbar-collapse justify-content-center" id="navbarNav">
-                        <ul class="navbar-nav text-center">
-                            <li class="nav-item d-sm-none d-lg-inline-block">
-                                <a class="nav-link" aria-label="Go to home page" href="{% url 'welcome' %}">
-                                    Ally P's Luxury Teas
-                                </a>
-                            </li>
-                            <li class="nav-item d-lg-none">
-                                <a class="nav-link" aria-label="Go to home page" href="{% url 'welcome' %}">
-                                    Home
-                                </a>
+                    <!-- Navbar Brand (Logo / Home Link) -->
+                    <a class="navbar-brand" href="{% url 'welcome' %}">Ally P's Luxury Teas</a>
+
+                    <!-- Burger Button for Mobile Screens -->
+                    <button class="navbar-toggler"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#navbarNav"
+                            aria-controls="navbarNav"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Collapsible Navbar Content -->
+                    <div class="collapse navbar-collapse justify-content-around"
+                         id="navbarNav">
+                        <ul class="navbar-nav w-100 d-flex justify-content-around align-items-center">
+                            <!-- Main Links -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'shop' %}">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-label="Go to shop" href="{% url 'shop' %}">Shop</a>
-                            </li>
-                            <li class="nav-item d-none d-lg-inline-block">
-                                <a class="nav-link" aria-label="Go to blog page" href="{% url 'blog' %}">The Brews Reviews!</a>
-                            </li>
-                            <li class="nav-item d-lg-none">
-                                <a class="nav-link" aria-label="Go to blog page" href="{% url 'blog' %}">Blog</a>
+                                <a class="nav-link" href="{% url 'blog' %}">The Brews Reviews!</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-label="Go to about us page" href="{% url 'about_us' %}">About Us</a>
+                                <a class="nav-link" href="{% url 'about_us' %}">About Us</a>
                             </li>
 
+                            <!-- Account Dropdown -->
                             {% if request.user.is_authenticated %}
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle"
@@ -75,69 +81,83 @@
                                 </li>
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link" aria-label="Account signup page" href="{% url 'account_signup' %}">Sign-in/Register</a>
+                                    <a class="nav-link" href="{% url 'account_signup' %}">Sign-in/Register</a>
                                 </li>
                             {% endif %}
 
-                            <li class="nav-item">
-                                <a class="nav-link" aria-label="View your bag" href="{% url 'view_bag' %}"><i class="fas fa-shopping-bag fa-lg"></i></a>
-                            </li>
+                            <!-- Bag Icon (Only if items exist in bag) -->
+                            {% if bag_items %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'view_bag' %}">
+                                        <i class="fas fa-shopping-bag fa-lg"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
             </nav>
+
             {% if request.user.is_superuser %}
-            <div class="container">
-                <div class="row">
-                    <div class="col text-center">
-                        <h3><a href="{% url 'superuser_admin_page' %}">Go To Superuser Admin Page</a></h3>
+                <div class="container">
+                    <div class="row">
+                        <div class="col text-center">
+                            <h3>
+                                <a href="{% url 'superuser_admin_page' %}">Go To Superuser Admin Page</a>
+                            </h3>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endif %}
         </header>
 
-    {% if messages %}
-        <div class="message-container">
-            {% for message in messages %}
-                {% with message.level as level %}
-                    {% if level == 40 %}
-                        {% include "includes/toasts/toast_error.html" %}
-                    {% elif level == 30 %}
-                        {% include "includes/toasts/toast_warning.html" %}
-                    {% elif level == 25 %}
-                        {% include "includes/toasts/toast_success.html" %}
-                    {% else %}
-                        {% include "includes/toasts/toast_info.html" %}
-                    {% endif %}
-                {% endwith %}
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    <main>
-        {% block content %}
-        {% endblock content %}
-    </main>
-    <footer class="text-center mt-3">
-        <h4>Contact:</h4>
-        <p><a aria-label="Go to about page" href="#" rel="noopener"><span class="fab fa-facebook-f" aria-hidden="true"></span>Find us on Facebook!</p></a>
-        <p>Or go to our <a href="{% url 'about_us' %}">About Us</a> page to fill out the enquiry form!</p>
-    </footer>
-    <!-- Scripts: -->
-    <!-- J-Query -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap 4.6 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Stripe -->
-    <script src="https://js.stripe.com/v3/"></script>
-    <!-- Extra custom JS -->
-    {% block extra_js %}
-        <script type="text/javascript">
+        {% if messages %}
+            <div class="message-container">
+                {% for message in messages %}
+                    {% with message.level as level %}
+                        {% if level == 40 %}
+                            {% include "includes/toasts/toast_error.html" %}
+                        {% elif level == 30 %}
+                            {% include "includes/toasts/toast_warning.html" %}
+                        {% elif level == 25 %}
+                            {% include "includes/toasts/toast_success.html" %}
+                        {% else %}
+                            {% include "includes/toasts/toast_info.html" %}
+                        {% endif %}
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <main>
+            {% block content %}
+            {% endblock content %}
+        </main>
+        <footer class="text-center mt-3">
+            <h4>Contact:</h4>
+            <p>
+                <a aria-label="Link to Facebook"
+                   href="https://facebook.com"
+                   rel="noopener"
+                   target="_blank"><span class="fab fa-facebook-f" aria-hidden="true"></span>Find us on Facebook!</a>
+            </p>
+            <p>
+                Or go to our <a aria-label="Go to about page" href="{% url 'about_us' %}">About Us</a> page to fill out the enquiry form!
+            </p>
+        </footer>
+        <!-- Scripts: -->
+        <!-- J-Query -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Bootstrap 4.6 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Stripe -->
+        <script src="https://js.stripe.com/v3/"></script>
+        <!-- Extra custom JS -->
+        {% block extra_js %}
+            <script type="text/javascript">
             $(document).ready(function() {
             $(".toast").toast("show");
         });
-        </script>
-    {% endblock extra_js %}
-</body>
+            </script>
+        {% endblock extra_js %}
+    </body>
 </html>

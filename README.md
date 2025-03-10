@@ -8,6 +8,8 @@ The starting wireframes, can be found in the [wireframes](WIREFRAMES.md) file.
 
 ER diagram and website layout can be found in the [features](FEATURES.md) file.
 
+**Card number for payment testing: 4242424242424242**
+
 ## User Stories
 
 ### First Time User
@@ -76,9 +78,8 @@ After market research of trying different searches, I settled on the following k
 ### Facebook
 
 To reach out to more people I have utilised Facebook to make a page of my tea selling company.
-
-!(Facebook top part)[documentation/fb-images/fb-page-top-half.png]
-!(Facebook bottom part)[documentation/fb-images/fb-page-bottom-half.png]
+![Facebook top part](documentation/fb-images/fb-page-top-half.png)
+![Facebook bottom part](documentation/fb-images/fb-page-bottom-half.png)
 
 ## Future Development
 

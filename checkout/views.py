@@ -19,7 +19,7 @@ def checkout(request):
 
     if request.method == "POST":
         bag = request.session.get("bag", {})
-        save_info = request.session.get("save_info")
+        save_info = request.POST["save_info"]
 
         form_data = {
             "full_name": request.POST["full_name"],
