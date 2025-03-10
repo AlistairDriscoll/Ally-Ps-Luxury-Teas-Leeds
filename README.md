@@ -92,3 +92,16 @@ A customer review system, so that customers could find out more from other membe
 A tea subscription system, as it would prove to help customers stay loyal if they had the choice to buy their favourite tea at a regular discount. To implement both a subscription service and customer review system were both in my original plans that you can see in the features file linked at the top of this page. I didn't have the time in the end to get it done now but plan to implement in the future.
 
 Another thing would be to have the superuser be able to implement CRUD functionality with the Product model also without going onto the admin.
+
+### Linting
+
+Python linting can be found in the documentation/python linting file in my root directory
+
+
+### Mistakes
+
+After finding a bug before my deadline, I realise I didn't have the time to lint my CSS, JS or HTML files. Fortunately I do actually know they are ok because I have linting extentions that I adhered to obsesively so everything is as it should be.
+
+In my bootstrap modals the classes and ids are written in camel case still which is against conventio but I also do not have the time to change it currently.
+
+I also have testing screenshots but also do not have the time to upload and explain them. This will be changed eventually along with adding more about my features to my features file.

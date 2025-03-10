@@ -20,12 +20,12 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-    )
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 """
     Handler urls and views made with the help of my menton Julias e_commerce
     app, ChatGPT and Code Institute walkthrough
 """
-handler404 = views.handler404 # noqa
-handler500 = views.handler500 # noqa
+
+handler404 = views.handler404  # noqa
+handler500 = views.handler500  # noqa

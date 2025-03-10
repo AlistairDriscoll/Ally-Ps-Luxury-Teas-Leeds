@@ -11,6 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ally_ps_luxury_teas_leeds.settings')
+os.environ.setdefault(
+    'DJANGO_SETTINGS_MODULE', 'ally_ps_luxury_teas_leeds.settings')
 
 application = get_wsgi_application()
