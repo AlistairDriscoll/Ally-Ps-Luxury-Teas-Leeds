@@ -7,18 +7,18 @@
     <div class="container">
         <h1>{{ product.name }}</h1>
         <div class="row">
-            {% if "placeholder" in product.picture.url %}
-                <img class="shop-img"
-                     width="400"
-                     height="auto"
-                     src="{% static 'images/camellia-sinensis.jpg' %}"
-                     alt="Camellia sinensis plant">
-            {% else %}
-                <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6">
+                {% if "placeholder" in product.picture.url %}
+                    <img class="shop-img"
+                         width="100%"
+                         height="auto"
+                         src="{% static 'images/camellia-sinensis.jpg' %}"
+                         alt="Camellia sinensis plant">
+                {% else %}
                     <img src="{{ product.picture.url }}"
                          alt="{{ product.name }}"
                          class="shop-img"
-                         width="400"
+                         width="100%"
                          height="auto" />
                 {% endif %}
                 <form class="form"
@@ -34,23 +34,27 @@
                     <button type="submit" class="btn">Add to Basket</button>
                     <input type="hidden" name="redirect_url" value="{{ request.path }}" />
                 </form>
+            </div>
+            <div class="col-12 col-md-6 text-right">
                 {% if product.blog_post %}
-                    <p>{{ product.blog_post.content|truncatechars:90 }}</p>
-                    <a aria-label="Read the blog post of this tea"
-                       href="{% url 'blog_post' pk=product.blog_post.pk %}">Read more about the tea here!</a>
+
+                    <p>
+                        <em>" {{ product.blog_post.content|truncatechars:120 }}"</em>
+                    </p>
+                    <span><a aria-label="Read the blog post of this tea"
+   href="{% url 'blog_post' pk=product.blog_post.pk %}"
+   class="btn mb-2">Blog Post Available Here!</a></span>
                 {% else %}
                     <p>A blog post will follow soon!</p>
                 {% endif %}
-            </div>
-            <div class="col-12 col-md-6 text-right">
                 <div class="row">
                     <div class="col-12">
                         {% if from_superuser %}
-                        <a aria-label="Back to superuser admin"
+                            <a aria-label="Back to superuser admin"
                                href="{% url 'superuser_admin_page' %}"
                                class="btn">Back to Superuser admin</a>
                         {% else %}
-                        <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn mb-2">
+                            <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn mb-2">
                                 <span>Back to Shop</span>
                                 <span>
                                     <i class="fas fa-shopping-bag"></i>
@@ -58,19 +62,28 @@
                             </a>
                         {% endif %}
                     </div>
-                    {% if not from_superuser %}
+                </div>
+
+                {% if not from_superuser %}
+                    {% if bag_items %}
+                    {% if request.user.is_authenticated %}
                         <div class="col-12">
-                            {% if bag_items %}
-                                <a href="{% url 'view_bag' %}" class="btn" aria-label="Go to checkout">
-                                    <span class="text-uppercase">Go To Secure Checkout</span>
-                                    <span class="icon">
-                                        <i class="fas fa-lock"></i>
-                                    </span>
-                                </a>
-                            {% endif %}
+                            <a href="{% url 'view_bag' %}" class="btn" aria-label="Go to checkout">
+                                <span class="text-uppercase">Go To Secure Checkout</span>
+                                <span class="icon">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="col-12">
+                            <a href="{{ signup_url }}" class="btn" aria-label="Go to sign up">
+                                <span class="text-uppercase">Sign up to go to checkout!</span>
+                            </a>
                         </div>
                     {% endif %}
-                </div>
+                {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>

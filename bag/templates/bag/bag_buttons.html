@@ -29,8 +29,8 @@
         </ul>
     {% endif %}
 
-    <a href="{% url 'checkout' %}" class="btn btn-lg btn-warning" aria-label="Go to checkout without free sample">
-        <strong>Continue to Checkout Without Claiming Free Sample</strong>
+    <a href="{% url 'checkout' %}" class="btn" aria-label="Go to checkout without free sample">
+        Continue to Checkout Without Claiming Free Sample
     </a>
 
 {% else %}
@@ -41,7 +41,7 @@
         <strong>Proceed to Checkout</strong>
     </a>
     {% else %}
-        <p>You must be logged in to go to checkout! <a href="{% 'account_login' %}">click here to sign in.</a></p>
+        <p>You must be logged in to go to checkout! <a href="{{ login_url }}">click here to sign in.</a></p>
     {% endif %}
 {% endif %}
 
