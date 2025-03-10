@@ -19,7 +19,7 @@ def checkout(request):
 
     if request.method == "POST":
         bag = request.session.get("bag", {})
-        save_info = request.POST["save_info"]
+        save_info = request.POST.get("save_info", False)
 
         form_data = {
             "full_name": request.POST["full_name"],
@@ -39,21 +39,22 @@ def checkout(request):
             if request.user.is_authenticated:
                 profile = get_object_or_404(UserProfile, user=request.user)
                 if save_info:
-                    profile.full_name = form_data['full_name']
-                    profile.email = form_data['email']
-                    profile.phone_number = form_data['phone_number']
-                    profile.country = form_data['country']
-                    profile.postal_code = form_data['postcode']
-                    profile.town_or_city = form_data['town_or_city']
-                    profile.address_line1 = form_data['address_line1']
-                    profile.address_line2 = form_data['address_line2']
-                    profile.state_or_region = form_data['state_or_region']
+                    profile.full_name = form_data["full_name"]
+                    profile.email = form_data["email"]
+                    profile.phone_number = form_data["phone_number"]
+                    profile.country = form_data["country"]
+                    profile.postal_code = form_data["postcode"]
+                    profile.town_or_city = form_data["town_or_city"]
+                    profile.address_line1 = form_data["address_line1"]
+                    profile.address_line2 = form_data["address_line2"]
+                    profile.state_or_region = form_data["state_or_region"]
                     profile.save()
 
             order = order_form.save(commit=False)
             order.user_profile = profile
             order.original_bag = json.dumps(bag)
             order.save()
+
             for item_id, weights in bag.items():
                 try:
                     product = Product.objects.get(pk=item_id)
@@ -62,42 +63,39 @@ def checkout(request):
                             order=order,
                             product=product,
                             weight=weight,
-                            quantity=quantity
+                            quantity=quantity,
                         )
                 except Product.DoesNotExist:
                     messages.warning(
                         request,
-                        "One of your products doesn't exist in our database!"
-                        "Please contact us for further information."
+                        "One of your products doesn't exist in our database! "
+                        "Please contact us for further information.",
                     )
                     order.delete()
                     return redirect(reverse("view_bag"))
 
             order.save()
 
-            context = {
-                'order': order,
-            }
-
             return redirect(
-                reverse("checkout_success", args=[order.order_number])
-                )
+                reverse("checkout_success", args=[order.order_number]))
 
         else:
             messages.error(
                 request,
-                ("There was an error with your form."
-                 "Please double check your information."),
+                (
+                    "There was an error with your form. "
+                    "Please double-check your information."
+                ),
             )
     else:
-        bag = request.session.get('bag', {})
+        bag = request.session.get("bag", {})
 
         if not bag:
             messages.error(request, "There is nothing in your bag!")
-            return redirect(reverse('shop'))
+            return redirect(reverse("shop"))
 
         current_bag = bag_contents(request)
-        bag_total = current_bag['total']
+        bag_total = current_bag["total"]
         stripe_total = round(bag_total * 100)
         stripe.api_key = stripe_secret_key
         intent = stripe.PaymentIntent.create(
@@ -105,8 +103,22 @@ def checkout(request):
             currency=settings.STRIPE_CURRENCY,
         )
 
-        order_form = OrderForm()
-        template = 'checkout/checkout.html'
+        user_profile = getattr(request.user, "user_profile", None)
+
+        initial_data = {
+            "full_name": getattr(user_profile, "full_name", ""),
+            "email": getattr(user_profile, "email", ""),
+            "phone_number": getattr(user_profile, "phone_number", ""),
+            "address_line1": getattr(user_profile, "address_line1", ""),
+            "address_line2": getattr(user_profile, "address_line2", ""),
+            "town_or_city": getattr(user_profile, "town_or_city", ""),
+            "state_or_region": getattr(user_profile, "state_or_region", ""),
+            "country": getattr(user_profile, "country", ""),
+            "postcode": getattr(user_profile, "postcode", ""),
+        }
+
+        order_form = OrderForm(initial=initial_data)
+        template = "checkout/checkout.html"
         context = {
             "order_form": order_form,
             "stripe_public_key": stripe_public_key,
@@ -118,7 +130,7 @@ def checkout(request):
 
 def checkout_success(request, order_number):
     """
-    Displays once succesful checkout is made
+    Displays once successful checkout is made
     """
 
     order = get_object_or_404(Order, order_number=order_number)
@@ -126,39 +138,50 @@ def checkout_success(request, order_number):
     if order.delivery_cost == 3:
         messages_time = "two days time."
     elif order.delivery_cost == 7:
-        messages_time = "one weeks time."
+        messages_time = "one week's time."
     else:
-        messages_time = "two weeks time."
+        messages_time = "two weeks' time."
 
     messages.success(
         request,
-        f"""We have received your order for processing!
-            Your order will arrive in {messages_time}""",
+        f"We have received your order for processing! "
+        f"Your order will arrive in {messages_time}",
     )
 
-    if "bag" in request.session:
-        del request.session["bag"]
+    request.session.pop("bag", None)
+    request.session.pop("sample_product_id", None)
+    request.session.modified = True
 
     context = {
-        'order': order,
+        "order": order,
     }
 
-    return render(request, 'checkout/checkout_success.html', context)
+    return render(request, "checkout/checkout_success.html", context)
 
 
 def checkout_with_sample(request, pk):
-    """View to go to checkout with a sample submitted"""
+    """
+    Handles checkout when a user selects a free sample.
+    """
 
-    bag = request.session.get('bag', {})
+    bag = request.session.get("bag", {})
+
     if not bag:
         messages.error(request, "There is nothing in your bag!")
-        return redirect(reverse('shop'))
+        return redirect(reverse("shop"))
 
     sample_product = get_object_or_404(Product, pk=pk)
 
+    if "sample_product_id" in request.session:
+        messages.warning(request, "You have already claimed a free sample!")
+        return redirect("view_bag")
+
+    request.session["sample_product_id"] = pk
+    request.session.modified = True
+
     messages.success(
         request,
-        f"Your order now includes a free 5g sample of {sample_product}",
+        f"Your order now includes a free 5g sample of {sample_product}!",
     )
 
-    return redirect(request, "checkout/checkout.html")
+    return redirect("checkout")

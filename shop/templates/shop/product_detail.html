@@ -36,6 +36,10 @@
                 </form>
             </div>
             <div class="col-12 col-md-6 text-right">
+                <p>Origin: {{ product.origin }}</p>
+                <p>Profile: {{ product.flavor_profile }}</p>
+                <p>Caffiene level: {{ product.caffeine_level }}</p>
+                
                 {% if product.blog_post %}
 
                     <p>

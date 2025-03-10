@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404
-
 from shop.models import Product
 
 
@@ -19,20 +18,27 @@ def bag_contents(request):
     sample_product = None
 
     for item_id, weights in bag.items():
-        products = Product.objects.all()
-        product = products.filter(id=item_id).first()
+        product = Product.objects.filter(id=item_id).first()
+
+        if not product:
+            continue  # Skip any invalid product IDs in the bag
 
         for weight, quantity in weights.items():
             weight = int(weight)
             total_items += quantity
-            if weight == 5:
+
+            # Ensure samples (5g & 20g) are free
+            if weight == 5 or weight == 20:
                 price = 0
+                request.session["sample_product_id"] = product.id
             elif weight == 30:
                 price = product.base_price_number
             elif weight == 100:
                 price = product.base_price_number * 3
             elif weight == 300:
                 price = product.base_price_number * 8
+            else:
+                price = 0  # Default safeguard
 
             total += price * quantity
             bag_items.append(
@@ -45,6 +51,7 @@ def bag_contents(request):
                 }
             )
 
+    # Ensure sample is added if user has selected it
     if sample_added and not any(
         item["product"].id == sample_product_id and item["weight"] == 5
         for item in bag_items
@@ -59,7 +66,6 @@ def bag_contents(request):
                 "subtotal": 0,
             }
         )
-
         total_items += 1
 
     total = round(total, 2)
