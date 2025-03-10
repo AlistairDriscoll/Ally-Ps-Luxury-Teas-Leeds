@@ -44,7 +44,6 @@ class Product(models.Model):
                        ("Fruity", "Fruity"),
                        ("Earthy", "Earthy"),
                        ("Malty", "Malty"),
-                       ("Smoky", "Smoky"),
                        ("Others", "Others"),)
 
     CAFFEINE_LEVELS = (("High", "High"),

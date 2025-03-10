@@ -45,7 +45,7 @@
             <div class="col-12 col-md-6 text-right">
                 <div class="row">
                     <div class="col-12">
-                        {% if from_superuser == True %}
+                        {% if from_superuser %}
                         <a aria-label="Back to superuser admin"
                                href="{% url 'superuser_admin_page' %}"
                                class="btn">Back to Superuser admin</a>

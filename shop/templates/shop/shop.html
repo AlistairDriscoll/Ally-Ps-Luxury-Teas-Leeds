@@ -4,42 +4,50 @@
 {% block content %}
 
     <div class="container-fluid">
-        <h1>Our Products</h1>
-
         <!-- Filter Options, made with the basis of Code Institute's Boutique Ado plus Chat GPT -->
-        <div class="mx-auto text-center">
-            <a aria-label="Search all products" href="{% url 'shop' %}"
+        <div>
+            <h1 class="d-inline">Our Products:</h1>
+            <a aria-label="Search all products"
+               href="{% url 'shop' %}"
                class="btn {% if not selected_type %}btn-primary{% else %}btn-outline-primary{% endif %}">All</a>
             {% for type_value, type_name in tea_types %}
-                <a aria-label="Search by type" href="?type={{ type_value }}"
-                   class="btn {% if selected_type == type_value|stringformat:"s" %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <a aria-label="Search by type"
+                   href="?type={{ type_value }}"
+                   class="btn {% if selected_type == type_value|stringformat:'s' %}btn-primary{% else %}btn-outline-primary{% endif %}">
                     {{ type_name }}
                 </a>
             {% endfor %}
         </div>
 
         <!-- display each tea-->
-        <div class="row">
+        <div class="row d-flex flex-wrap justify-content-start">
             {% for product in products %}
-                <div class="product col-12 col-md-6 col-lg-4">
-                    <h4>{{ product.name }}</h4>
-                    <p>{{ product.get_tea_type_display }}</p>
-                    {% if "placeholder" in product.picture.url %}
-                        <img class="shop-img"
-                             width="200px"
-                             height="auto"
-                             src="{% static 'images/camellia-sinensis.jpg' %}"
-                             alt="Camellia sinensis plant">
-                    {% else %}
-                        <img class="shop-img"
-                             src="{{ product.picture.url }}"
-                             alt="{{ product.name }}"
-                             width="200px"
-                             height="auto">
-                    {% endif %}
-                    <p>Starting from: £{{ product.base_price_number }}</p>
-                    <p>{{ product.sku }}</p>
-                    <a aria-label="Go to product page" href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
+                <div class="col-12 col-md-6 col-lg-4 d-flex flex-column align-items-center mt-5">
+                    <div class="product col-10 mx-auto mx-2 p-2">
+                        <h4 class="text-center mb-3">{{ product.name }}</h4>
+
+                        {% if "placeholder" in product.picture.url %}
+                            <img class="shop-img mx-auto product-img mb-3"
+                                 src="{% static 'images/camellia-sinensis.jpg' %}"
+                                 alt="Camellia sinensis plant"
+                                 width="80%"
+                                 height="auto">
+                        {% else %}
+                            <img class="shop-img mx-auto product-img mb-3"
+                                 src="{{ product.picture.url }}"
+                                 alt="{{ product.name }}"
+                                 width="80%"
+                                 height="auto">
+                        {% endif %}
+
+                        <div class="text-left w-80">
+                            <p>{{ product.get_tea_type_display }}</p>
+                            <p>Starting from: £{{ product.base_price_number }}</p>
+                            <p>{{ product.sku }}</p>
+                            <a aria-label="Go to product page"
+                               href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
+                        </div>
+                    </div>
                 </div>
             {% endfor %}
         </div>

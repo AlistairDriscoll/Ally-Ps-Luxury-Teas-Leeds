@@ -3,10 +3,6 @@
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-h1 {
-    text-align: center;
-}
-
 .heavier-font {
     font-weight: 600;
 }
@@ -31,4 +27,23 @@ main {
 
 .message-container {
     position: absolute;
+}
+
+@media (min-width: 768px) {
+
+    /*
+    md breakpoint in Bootstrap
+    made with the help of chatGPT
+    */
+
+    h1 {
+        margin-left: 0.5rem;
+        /* Equivalent to Bootstrap's ml-2 */
+    }
+}
+
+.product {
+    border: 2px solid black;
+    border-style: dashed;
+    border-radius: 10px;
 }
