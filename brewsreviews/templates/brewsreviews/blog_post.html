@@ -4,9 +4,24 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-12 col-lg-6 mx-auto">
+            {% if post.tea %}
+            <div class="col-12 col-lg-8 mx-auto">
+                <div class="row">
+                    <div class="col-6">
+                        <img src="{{ post.tea.picture.url }}" alt="{{ post.tea.name }}" width="100%" height="auto">
+                    </div>
+                    <div class="col-6 text-right">
+                        
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <div class="col-12 col-lg-8 mx-auto">
+
+            </div>
+            <div class="col-12 col-lg-8 mx-auto">
                 <h1>{{ post.title }}</h1>
-                <p>{{ post.content }}</p>
+                <p>{{ post.content|linebreaks }}</p>
             </div>
         </div>
     </div>

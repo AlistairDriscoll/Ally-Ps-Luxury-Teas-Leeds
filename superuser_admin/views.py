@@ -103,9 +103,10 @@ def delete_post(request, post_pk):
         post = get_object_or_404(BlogPost, pk=post_pk)
         post.delete()
 
+        messages.success(request, 'Post succesfully deleted!')
         return redirect('superuser_admin_page')
     else:
-        messages.warning(request, "You are not allowed to visit this page")
+        messages.warning(request, "You are not allowed to visit this page.")
         return redirect("shop")
 
 
@@ -129,7 +130,7 @@ def superuser_view_product(request, sku):
 
         return render(request, template, context)
     else:
-        messages.warning(request, "You are not allowed to visit this page")
+        messages.warning(request, "You are not allowed to visit this page.")
         return redirect("shop")
 
 
@@ -149,7 +150,7 @@ def superuser_view_order(request, pk):
         return render(request, template, context)
 
     else:
-        messages.warning(request, "You are not allowed to visit this page")
+        messages.warning(request, "You are not allowed to visit this page.")
         return redirect("shop")
 
 
@@ -167,5 +168,5 @@ def view_enquiry(request, pk):
         return render(request, 'superuser_admin/view_enquiry.html', context)
 
     else:
-        messages.warning(request, "You are not allowed to visit this page")
+        messages.warning(request, "You are not allowed to visit this page.")
         return redirect("shop")
