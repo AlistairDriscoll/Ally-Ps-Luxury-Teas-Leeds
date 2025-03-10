@@ -1,0 +1,23 @@
+.btn-orange {
+    background-color: rgba(205, 102, 51, 1);
+
+    border-color: rgba(205, 102, 51, 1);
+    color: white;
+}
+
+.btn-orange:hover {
+    background-color: rgba(180, 80, 30, 1);
+    border-color: rgba(180, 80, 30, 1);
+    color: white;
+}
+
+.btn-outline-orange {
+    background-color: transparent;
+    border-color: rgba(205, 102, 51, 1);
+    color: black;
+}
+
+.btn-outline-orange:hover {
+    background-color: rgba(205, 102, 51, 0.2);
+    color: white;
+}

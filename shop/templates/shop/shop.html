@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
 
     <div class="container-fluid">
@@ -9,11 +13,11 @@
             <h1 class="d-inline">Our Products:</h1>
             <a aria-label="Search all products"
                href="{% url 'shop' %}"
-               class="btn {% if not selected_type %}btn-primary{% else %}btn-outline-primary{% endif %}">All</a>
+               class="btn {% if not selected_type %}btn-orange{% else %}btn-outline-orange{% endif %}">All</a>
             {% for type_value, type_name in tea_types %}
                 <a aria-label="Search by type"
                    href="?type={{ type_value }}"
-                   class="btn {% if selected_type == type_value|stringformat:'s' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                   class="btn {% if selected_type == type_value|stringformat:'s' %}btn-orange{% else %}btn-outline-orange{% endif %}">
                     {{ type_name }}
                 </a>
             {% endfor %}
@@ -30,13 +34,13 @@
                             <img class="shop-img mx-auto product-img mb-3"
                                  src="{% static 'images/camellia-sinensis.jpg' %}"
                                  alt="Camellia sinensis plant"
-                                 width="80%"
+                                 width="100%"
                                  height="auto">
                         {% else %}
                             <img class="shop-img mx-auto product-img mb-3"
                                  src="{{ product.picture.url }}"
                                  alt="{{ product.name }}"
-                                 width="80%"
+                                 width="100%"
                                  height="auto">
                         {% endif %}
 
@@ -44,8 +48,11 @@
                             <p>{{ product.get_tea_type_display }}</p>
                             <p>Starting from: £{{ product.base_price_number }}</p>
                             <p>{{ product.sku }}</p>
-                            <a aria-label="Go to product page"
-                               href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
+                            <button>
+                                <a aria-label="Go to product page"
+                                   href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
+                            </button>
+
                         </div>
                     </div>
                 </div>

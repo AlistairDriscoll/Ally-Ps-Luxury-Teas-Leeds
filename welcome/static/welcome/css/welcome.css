@@ -1,17 +1,14 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Roboto, Helvetica;
-}
-
 /* For the banner at the top */
 .welcome-delivery-banner {
-    background-color: #00974b;
+    background: rgba(102, 205, 102, 0.9);
     color: white;
     z-index: 1001 !important;
     position: absolute;
     top: 0;
+}
+
+.welcome-delivery-banner-base {
+    display: none;
 }
 
 /* Class for welcome page overlay screen */
