@@ -10,15 +10,13 @@
                     <div class="col-6">
                         <img src="{{ post.tea.picture.url }}" alt="{{ post.tea.name }}" width="100%" height="auto">
                     </div>
-                    <div class="col-6 text-right">
-                        
+                    <div class="col-6 d-flex flex-column align-items-center justify-content-center">
+                        <p>Starting from £{{ post.tea.base_price_number }}!</p>
+                        <a href="{% url 'product_detail' sku=post.tea.sku %}" aria-label="See product of blog post">Go to Product's Page</a>
                     </div>
                 </div>
             </div>
             {% endif %}
-            <div class="col-12 col-lg-8 mx-auto">
-
-            </div>
             <div class="col-12 col-lg-8 mx-auto">
                 <h1>{{ post.title }}</h1>
                 <p>{{ post.content|linebreaks }}</p>
