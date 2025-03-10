@@ -33,12 +33,11 @@
     </head>
     <body>
         <header>
+            <!-- Header contents -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container">
-                    <!-- Navbar Brand (Logo / Home Link) -->
                     <a class="navbar-brand" href="{% url 'welcome' %}">Ally P's Luxury Teas</a>
 
-                    <!-- Burger Button for Mobile Screens -->
                     <button class="navbar-toggler"
                             type="button"
                             data-toggle="collapse"
@@ -49,11 +48,9 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-                    <!-- Collapsible Navbar Content -->
                     <div class="collapse navbar-collapse justify-content-around"
                          id="navbarNav">
                         <ul class="navbar-nav w-100 d-flex justify-content-around align-items-center">
-                            <!-- Main Links -->
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'shop' %}">Shop</a>
                             </li>
@@ -64,7 +61,6 @@
                                 <a class="nav-link" href="{% url 'about_us' %}">About Us</a>
                             </li>
 
-                            <!-- Account Dropdown -->
                             {% if request.user.is_authenticated %}
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle"
@@ -85,11 +81,10 @@
                                 </li>
                             {% endif %}
 
-                            <!-- Bag Icon (Only if items exist in bag) -->
                             {% if bag_items %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'view_bag' %}">
-                                        <i class="fas fa-shopping-bag fa-lg"></i>
+                                        View Bag
                                     </a>
                                 </li>
                             {% endif %}

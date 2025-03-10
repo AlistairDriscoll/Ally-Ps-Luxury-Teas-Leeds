@@ -19,6 +19,7 @@ h1 {
 }
 
 body {
+    font-family: "Delius", cursive;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
