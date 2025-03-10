@@ -64,6 +64,7 @@ def add_to_bag(request, product_id):
 
     # Retrieve session data
     sample_product_id = request.session.get("sample_product_id")
+    print(sample_product_id)
     bag = request.session.get("bag", {})
 
     # Validate weight

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -8,7 +9,7 @@
 
         {% if bag_items %}
             <div class="row">
-                <div class="col-12 col-lg-8">
+                <div class="col-12 col-lg-6">
                     <div class="row">
                         {% for item in bag_items %}
                             <div class="col-12">
@@ -17,10 +18,17 @@
                                 {% else %}
                                     <h4>{{ item.product.name }}</h4>
                                 {% endif %}
-                                <img src="{{ item.product.picture.url }}"
-                                     alt="{{ item.product.name }}"
-                                     width="200px"
-                                     height="auto">
+                                {% if "placeholder" in item.product.picture.url %}
+                                <img width="200px"
+                                     height="auto"
+                                     src="{% static 'images/camellia-sinensis.jpg' %}"
+                                     alt="Camellia sinensis plant">
+                            {% else %}
+                                <img width="200px"
+                                     height="auto"
+                                     src="{{ item.product.picture.url }}"
+                                     alt="{{ item.product.name }}">
+                            {% endif %}
 
                                 {% if item.weight == 5 or item.weight == 20 %}
                                     <!-- Delete Form Only -->

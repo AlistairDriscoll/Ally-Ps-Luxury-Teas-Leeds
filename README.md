@@ -2,7 +2,7 @@
 
 Ally P's Luxury Teas Leeds in an e-commerce website for selling tea online.
 
-A link to deployed website can be found (here)[https://ally-ps-luxury-teas-leeds-b0596c3cdc59.herokuapp.com/].
+A link to deployed website can be found [here](https://ally-ps-luxury-teas-leeds-b0596c3cdc59.herokuapp.com/).
 
 The starting wireframes, can be found in the [wireframes](WIREFRAMES.md) file.
 

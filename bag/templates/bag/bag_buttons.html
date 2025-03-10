@@ -41,7 +41,7 @@
         <strong>Proceed to Checkout</strong>
     </a>
     {% else %}
-        <p>You must be logged in to go to checkout! <a href="{{ login_url }}">click here to sign in.</a></p>
+        <p>You must be logged in to go to checkout! <a href="{% url 'account_login' %}">click here to sign in.</a></p>
     {% endif %}
 {% endif %}
 
