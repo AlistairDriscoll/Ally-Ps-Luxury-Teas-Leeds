@@ -36,8 +36,10 @@
             <div class="col-12 col-md-6 col-lg-3">
                 <h4>All Enquiries</h4>
                 {% for enquiry in enquiries %}
-                    <a aria-label="View enquiry"
-                       href="{% url 'view_enquiry' pk=enquiry.pk %}">{{ enquiry.pk }}: {{ enquiry.subject }}</a>
+                    <div class="col">
+                        <a aria-label="View enquiry"
+                           href="{% url 'view_enquiry' pk=enquiry.pk %}">{{ enquiry.pk }}: {{ enquiry.subject }}</a>
+                    </div>
                 {% endfor %}
             </div>
         </div>

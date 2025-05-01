@@ -28,12 +28,16 @@
                 </div>
                 {% for item in bag_items %}
                     <div class="row">
-                        <div class="col-2 mb-1">
+                        <div class="col-2 my-2">
                             <a aria-label="View product page" href="{% url 'product_detail' sku=item.product.sku %}">
                                 <img class="border rounded mr-3"
                                      width="100px"
                                      height="auto"
-                                     src="{{ item.product.picture.url }}"
+                                     {% if "placeholder" in item.product.picture.url %}
+                                        src="{% static 'images/camellia-sinensis.jpg' %}"
+                                     {% else %}
+                                        src="{{ item.product.picture.url }}"
+                                     {% endif %}
                                      alt="{{ item.product.name }}">
                             </a>
                         </div>
