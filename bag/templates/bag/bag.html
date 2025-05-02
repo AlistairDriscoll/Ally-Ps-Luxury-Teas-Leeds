@@ -19,13 +19,13 @@
                                     <h4>{{ item.product.name }}</h4>
                                 {% endif %}
                                 {% if "placeholder" in item.product.picture.url %}
-                                <img width="200px"
-                                     height="auto"
+                                <img width="200"
+                                     height="200"
                                      src="{% static 'images/camellia-sinensis.jpg' %}"
                                      alt="Camellia sinensis plant">
                             {% else %}
-                                <img width="200px"
-                                     height="auto"
+                                <img width="200"
+                                     height="200"
                                      src="{{ item.product.picture.url }}"
                                      alt="{{ item.product.name }}">
                             {% endif %}

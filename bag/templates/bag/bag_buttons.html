@@ -34,7 +34,7 @@
     </a>
 
 {% else %}
-    <p><strong>You've already selected your free sample!</strong></p>
+    <p><strong>You've selected your free sample!</strong></p>
 
     {% if request.user.is_authenticated %}
     <a href="{% url 'checkout' %}" class="btn btn-lg btn-primary" aria-label="Go to checkout">

@@ -10,16 +10,16 @@
             <div class="col-12 col-md-6">
                 {% if "placeholder" in product.picture.url %}
                     <img class="shop-img"
-                         width="100%"
-                         height="auto"
+                         height="540"
+                         width="540"
                          src="{% static 'images/camellia-sinensis.jpg' %}"
                          alt="Camellia sinensis plant">
                 {% else %}
                     <img src="{{ product.picture.url }}"
+                         height="540"
+                         width="540"
                          alt="{{ product.name }}"
-                         class="shop-img"
-                         width="100%"
-                         height="auto" />
+                         class="shop-img">
                 {% endif %}
                 <form class="form"
                       action="{% url 'add_to_bag' product_id=product.id %}"
@@ -32,14 +32,14 @@
                         <option value="300">300g: £{{ product.base_price_number|calculate_cost:8|floatformat:2 }}</option>
                     </select>
                     <button type="submit" class="btn">Add to Basket</button>
-                    <input type="hidden" name="redirect_url" value="{{ request.path }}" />
+                    <input type="hidden" name="redirect_url" value="{{ request.path }}">
                 </form>
             </div>
             <div class="col-12 col-md-6 text-right">
                 <p>Origin: {{ product.origin }}</p>
                 <p>Profile: {{ product.flavor_profile }}</p>
                 <p>Caffiene level: {{ product.caffeine_level }}</p>
-                
+
                 {% if product.blog_post %}
 
                     <p>
