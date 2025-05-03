@@ -54,6 +54,12 @@ a {
     color: black;
 }
 
+button.btn:hover,
+a.btn:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
 .btn,
 button {
     border-radius: 5px;

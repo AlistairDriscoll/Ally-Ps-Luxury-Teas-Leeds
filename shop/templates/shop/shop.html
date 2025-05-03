@@ -48,10 +48,9 @@
                             <p>{{ product.get_tea_type_display }}</p>
                             <p>Starting from: £{{ product.base_price_number }}</p>
                             <p>{{ product.sku }}</p>
-                            <button>
-                                <a aria-label="Go to product page"
-                                   href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
-                            </button>
+
+                            <a class="btn" aria-label="Go to product page"
+                               href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
 
                         </div>
                     </div>

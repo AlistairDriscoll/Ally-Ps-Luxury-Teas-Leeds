@@ -73,11 +73,18 @@ ACCOUNT_USERNAME_MIN_LENGTH = 6
 LOGIN_REDIRECT_URL = "/shop/"
 LOGOUT_REDIRECT_URL = "/shop/"
 
-# login with username, but username and email mandatory
-ACCOUNT_AUTHENTICATION_METHOD = "username"
+# login with username or email, both mandatory
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend"
+)
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
