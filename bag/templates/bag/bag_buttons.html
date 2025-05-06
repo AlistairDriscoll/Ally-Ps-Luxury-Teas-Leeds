@@ -20,7 +20,7 @@
                         <input type="hidden" name="weight" value="5">
                         <input type="hidden" name="is_sample" value="true">
                         <input type="hidden" name="redirect_url" value="{% url 'view_bag' %}">
-                        <button type="submit" class="btn btn-sm btn-info">
+                        <button type="submit" class="btn btn-sm mb-2">
                             Continue with 5g of {{ tea.name }}
                         </button>
                     </form>
@@ -37,7 +37,7 @@
     <p><strong>You've selected your free sample!</strong></p>
 
     {% if request.user.is_authenticated %}
-    <a href="{% url 'checkout' %}" class="btn btn-lg btn-primary" aria-label="Go to checkout">
+    <a href="{% url 'checkout' %}" class="btn btn-lg" aria-label="Go to checkout">
         Proceed to Checkout
     </a>
     {% else %}

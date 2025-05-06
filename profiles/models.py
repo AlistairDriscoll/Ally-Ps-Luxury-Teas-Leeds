@@ -40,6 +40,16 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
     """
 
     if created:
-        UserProfile.objects.create(user=instance)
-    # existing users: just save the profile
-    instance.user_profile.save()
+        # Create the profile when the user is first created
+        user_profile = UserProfile.objects.create(user=instance)
+    else:
+        # Existing user: update the user profile
+        user_profile = instance.user_profile
+
+    # Gets UserProfile email from User Email
+    if user_profile.email != instance.email:
+        user_profile.email = instance.email
+        user_profile.save()
+
+    # Save the profile in case of any changes
+    user_profile.save()

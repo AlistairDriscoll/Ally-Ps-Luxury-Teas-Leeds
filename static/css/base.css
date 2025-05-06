@@ -12,6 +12,11 @@ html {
     height: auto;
 }
 
+.bag-img {
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
 .heavier-font {
     font-weight: 600;
 }
@@ -67,8 +72,9 @@ button {
     border: 1px solid black;
 }
 
-strong {
+a strong {
     color: #e67e22;
+    text-decoration: underline;
 }
 
 #account-base {

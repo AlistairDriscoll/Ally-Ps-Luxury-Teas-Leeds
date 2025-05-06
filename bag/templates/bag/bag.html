@@ -3,7 +3,7 @@
 
 {% block content %}
 
-    <div class="container-fluid">
+    <div class="container">
         <h1 class="text-center">Your Bag</h1>
         <hr>
 
@@ -14,26 +14,28 @@
                         {% for item in bag_items %}
                             <div class="col-12">
                                 {% if item.weight == 5 or item.weight == 20 %}
-                                    <h4>A free sample of {{ item.product.name }}</h4>
+                                    <h4>Your free sample: {{ item.product.name }}</h4>
                                 {% else %}
                                     <h4>{{ item.product.name }}</h4>
                                 {% endif %}
                                 {% if "placeholder" in item.product.picture.url %}
-                                <img width="200"
-                                     height="200"
-                                     src="{% static 'images/camellia-sinensis.jpg' %}"
-                                     alt="Camellia sinensis plant">
-                            {% else %}
-                                <img width="200"
-                                     height="200"
-                                     src="{{ item.product.picture.url }}"
-                                     alt="{{ item.product.name }}">
-                            {% endif %}
+                                    <img width="200"
+                                         height="200"
+                                         class="bag-img mb-2"
+                                         src="{% static 'images/camellia-sinensis.jpg' %}"
+                                         alt="Camellia sinensis plant">
+                                {% else %}
+                                    <img width="200"
+                                         height="200"
+                                         class="bag-img mb-2"
+                                         src="{{ item.product.picture.url }}"
+                                         alt="{{ item.product.name }}">
+                                {% endif %}
 
                                 {% if item.weight == 5 or item.weight == 20 %}
                                     <!-- Delete Form Only -->
                                     <a href="{% url 'delete_from_bag' product_id=item.product.id weight=item.weight %}"
-                                       class="btn btn-sm btn-danger"
+                                       class="btn btn-sm"
                                        aria-label="Delete sample from bag"
                                        onclick="return confirm('Are you sure you want to remove this item?');">
                                         <span>Delete From Bag</span>
@@ -42,7 +44,8 @@
                                 {% else %}
                                     <!-- Update and Delete Forms -->
                                     <form action="{% url 'edit_bag' product_id=item.product.id %}"
-                                          method="post" aria-label="Update product in bag">
+                                          method="post"
+                                          aria-label="Update product in bag">
                                         {% csrf_token %}
                                         <label for="weight">Weight:</label>
                                         <select name="weight" class="form-control w-50 d-inline">
@@ -58,10 +61,10 @@
                                                value="{{ item.quantity }}"
                                                min="0"
                                                class="form-control w-25 d-inline">
-                                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                        <button type="submit" class="btn btn-sm mb-2">Update</button>
                                     </form>
                                     <a href="{% url 'delete_from_bag' product_id=item.product.id weight=item.weight %}"
-                                       class="btn btn-sm btn-danger"
+                                       class="btn btn-sm"
                                        aria-label="Delete product from bag"
                                        onclick="return confirm('Are you sure you want to remove this item?');">
                                         <span>Delete From Bag</span>
@@ -78,8 +81,7 @@
         {% else %}
             <h2>There are no items in your bag!</h2>
         {% endif %}
-        <a href="{% url 'shop' %}"
-           class="btn btn-outline-black">
+        <a href="{% url 'shop' %}" class="btn btn-lg btn-outline-black mt-3">
             <span>Back to Shop</span>
         </a>
     </div>
