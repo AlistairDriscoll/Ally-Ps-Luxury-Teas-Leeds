@@ -97,11 +97,12 @@ Another thing would be to have the superuser be able to implement CRUD functiona
 
 Python linting can be found in the documentation/python linting file in my root directory
 
+### Testing
+
+I have implemented manual testing for my project that can be seen in the [TESTING.MD](TESTING.md) file.
 
 ### Mistakes
 
 After finding a bug before my deadline, I realise I didn't have the time to lint my CSS, JS or HTML files. Fortunately I do actually know they are ok because I have linting extentions that I adhered to obsesively so everything is as it should be.
 
-In my bootstrap modals the classes and ids are written in camel case still which is against conventio but I also do not have the time to change it currently.
-
-I also have testing screenshots but also do not have the time to upload and explain them. This will be changed eventually along with adding more about my features to my features file.
+In my bootstrap modals the classes and ids are written in camel case still which is against convention, it's what they come with in the documentation and so I decided to keep them there in case changing them would upset their functionality.
