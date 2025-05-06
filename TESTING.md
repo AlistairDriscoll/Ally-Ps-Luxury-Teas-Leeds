@@ -1,6 +1,6 @@
 # Testing
 
-## Manuel Testing
+## Manual Testing
 
 | Category    | User Actions           | Expected Results | Y/N  | Comments    |
 |-------------|------------------------|------------------|------|-------------|
