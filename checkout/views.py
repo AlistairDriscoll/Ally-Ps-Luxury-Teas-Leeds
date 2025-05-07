@@ -110,11 +110,11 @@ def checkout(request):
             "email": getattr(user_profile, "email", ""),
             "phone_number": getattr(user_profile, "phone_number", ""),
             "address_line1": getattr(user_profile, "address_line1", ""),
-            "address_line2": getattr(user_profile, "address_line2", ""),
+            "address_line2": getattr(user_profile, "address_line2", None),
             "town_or_city": getattr(user_profile, "town_or_city", ""),
             "state_or_region": getattr(user_profile, "state_or_region", ""),
             "country": getattr(user_profile, "country", ""),
-            "postcode": getattr(user_profile, "postcode", ""),
+            "postcode": getattr(user_profile, "postal_code", ""),
         }
 
         order_form = OrderForm(initial=initial_data)
