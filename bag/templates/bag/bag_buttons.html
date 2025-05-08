@@ -38,19 +38,19 @@
         <p>
             <a href="{% url 'account_login' %}">Sign In</a> or <a href="{% url 'account_signup' %}">Register an account</a> with us in order to continue with your order!
         </p>
+    {% endif %}
+{% else %}
+    <p>
+        <strong>You've selected your free sample!</strong>
+    </p>
 
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'checkout' %}"
+           class="btn btn-lg"
+           aria-label="Go to checkout">Proceed to Checkout</a>
     {% else %}
         <p>
-            <strong>You've selected your free sample!</strong>
+            You must be logged in to go to checkout! <a href="{% url 'account_login' %}">click here to sign in.</a>
         </p>
-
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'checkout' %}"
-               class="btn btn-lg"
-               aria-label="Go to checkout">Proceed to Checkout</a>
-        {% else %}
-            <p>
-                You must be logged in to go to checkout! <a href="{% url 'account_login' %}">click here to sign in.</a>
-            </p>
-        {% endif %}
     {% endif %}
+{% endif %}
