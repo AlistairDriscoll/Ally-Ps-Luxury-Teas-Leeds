@@ -60,6 +60,11 @@ a {
     color: black;
 }
 
+a strong:hover {
+    color: #0056b3;
+}
+
+button:hover,
 button.btn:hover,
 a.btn:hover {
     text-decoration: underline;
@@ -103,4 +108,8 @@ a strong {
 .background-colour {
     width: 100%;
     z-index: -1;
+}
+
+.orange-text {
+    color: rgba(205, 102, 51, 1);
 }

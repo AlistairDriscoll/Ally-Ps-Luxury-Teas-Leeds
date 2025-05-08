@@ -90,22 +90,29 @@
                     </div>
                 </div>
             </nav>
-            <div class="container-fluid welcome-delivery-banner-base mt-0 mb-2">
+            <div class="container-fluid welcome-delivery-banner-base mt-1">
                 <div class="row">
                     <div class="col-12 text-center">
-                        <h3>We Deliver Worldwide!</h3>
+                        {% if request.user.is_superuser %}
+                            <h3>
+                                <a href="{% url 'superuser_admin_page' %}">Go To Superuser Admin Page</a>
+                            </h3>
+                        {% elif request.user.is_authenticated %}
+                            <h3>We Deliver Worldwide!</h3>
+                        {% else %}
+                            <h3>
+                                Please <a href="{% url 'account_login' %}"><strong>Sign In</strong></a> or <a href="{% url 'account_signup' %}"><strong>Register</strong></a> to make a purchase with us!
+                            </h3>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+            <hr class="mb-2 mt-0">
 
             {% if request.user.is_superuser %}
                 <div class="container">
                     <div class="row">
-                        <div class="col text-center">
-                            <h3>
-                                <a href="{% url 'superuser_admin_page' %}">Go To Superuser Admin Page</a>
-                            </h3>
-                        </div>
+                        <div class="col text-center"></div>
                     </div>
                 </div>
             {% endif %}
@@ -143,12 +150,12 @@
                             <a aria-label="Link to Facebook"
                                href="https://facebook.com"
                                rel="noopener"
-                               target="_blank"><span class="fab fa-facebook-f" aria-hidden="true"></span> Find us on Facebook!</a>
+                               target="_blank"><span class="fab fa-facebook-f" aria-hidden="true"></span><span class="orange-text"> Find us on Facebook!</span></a>
                         </p>
                     </div>
                     <div class="col-12 col-md-6 mt-3">
                         <p>
-                            Or go to our <a aria-label="Go to about page" href="{% url 'about_us' %}">About Us</a> page to fill out the enquiry form!
+                            Or go to our <a aria-label="Go to about page" href="{% url 'about_us' %}"><strong>About Us</strong></a> page to fill out the enquiry form!
                         </p>
                     </div>
                 </div>

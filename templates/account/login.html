@@ -7,7 +7,7 @@
 
     <p>
         {% blocktrans %}If you have not created an account yet, then please
-<strong><a href="{{ signup_url }}">sign up</a></strong> first.{% endblocktrans %}
+<a href="{{ signup_url }}"><strong>sign up</strong></a> first.{% endblocktrans %}
     </p>
 
     <form class="login" method="post" action="{% url 'account_login' %}">
