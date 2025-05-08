@@ -21,3 +21,15 @@
     background-color: rgba(205, 102, 51, 0.2);
     color: white;
 }
+
+.product {
+    min-height: 700.5px;
+    max-height: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.btn {
+    align-self: center;
+}

@@ -9,18 +9,20 @@
 
     <div class="container-fluid">
         <!-- Filter Options, made with the basis of Code Institute's Boutique Ado plus Chat GPT -->
-        <div>
-            <h1 class="d-inline">Our Products:</h1>
-            <a aria-label="Search all products"
-               href="{% url 'shop' %}"
-               class="btn {% if not selected_type %}btn-orange{% else %}btn-outline-orange{% endif %}">All</a>
-            {% for type_value, type_name in tea_types %}
-                <a aria-label="Search by type"
-                   href="?type={{ type_value }}"
-                   class="btn {% if selected_type == type_value|stringformat:'s' %}btn-orange{% else %}btn-outline-orange{% endif %}">
-                    {{ type_name }}
-                </a>
-            {% endfor %}
+        <div class="d-flex justify-content-start align-items-center mb-4">
+            <h1 class="d-inline align-self-center mb-0 mr-3">Our Products:</h1>
+            <div class="d-flex flex-wrap justify-content-center align-items-center">
+                <a aria-label="Search all products"
+                   href="{% url 'shop' %}"
+                   class="btn {% if not selected_type %}btn-orange{% else %}btn-outline-orange{% endif %} mr-1 mb-2">All</a>
+                {% for type_value, type_name in tea_types %}
+                    <a aria-label="Search by type"
+                       href="?type={{ type_value }}"
+                       class="btn {% if selected_type == type_value|stringformat:'s' %}btn-orange{% else %}btn-outline-orange{% endif %} mr-1 mb-2">
+                        {{ type_name }}
+                    </a>
+                {% endfor %}
+            </div>
         </div>
 
         <!-- display each tea-->
@@ -44,18 +46,21 @@
                                  height="270">
                         {% endif %}
 
-                        <div class="text-left w-80">
-                            <p>{{ product.get_tea_type_display }}</p>
-                            <p>Starting from: £{{ product.base_price_number }}</p>
-                            <p>{{ product.sku }}</p>
-
-                            <a class="btn" aria-label="Go to product page"
-                               href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
-
+                        <!-- Add mt-auto to the container to push the product info and button to the bottom -->
+                        <div class="product-details mt-auto">
+                            <div class="text-left w-100 mt-3">
+                                <p>{{ product.get_tea_type_display }}</p>
+                                <p>Starting from: £{{ product.base_price_number }}</p>
+                                <p>{{ product.sku }}</p>
+                            </div>
                         </div>
+                        <a class="btn my-1"
+                           aria-label="Go to product page"
+                           href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
                     </div>
                 </div>
             {% endfor %}
+
         </div>
     </div>
 
