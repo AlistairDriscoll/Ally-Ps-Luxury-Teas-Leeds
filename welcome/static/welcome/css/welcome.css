@@ -25,14 +25,3 @@ h2 {
     text-align: center;
     width: 100%;
 }
-
-hr {
-    border: 1px solid #000;
-    /* Black border */
-    margin: 1.5rem 0;
-    /* Spacing around the HR */
-    position: relative;
-    /* Allow z-index to work */
-    z-index: 1000;
-    /* Set a z-index to ensure it's above other elements */
-}
