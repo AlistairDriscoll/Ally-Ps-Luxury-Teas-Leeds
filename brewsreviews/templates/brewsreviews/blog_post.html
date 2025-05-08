@@ -23,9 +23,11 @@
                             {% endif %}
                         </div>
                         <div class="col-6 d-flex flex-column align-items-center justify-content-center">
-                            <p class="taller-font">Starting from £{{ post.tea.base_price_number }}!</p>
-                            <a class="btn" href="{% url 'product_detail' sku=post.tea.sku %}"
+                            <p class="taller-font font-underline">Starting from £{{ post.tea.base_price_number }}!</p>
+                            <a class="btn mb-3" href="{% url 'product_detail' sku=post.tea.sku %}"
                                aria-label="See product of blog post">Go to Product Page to buy!</a>
+                            <a class="btn" href="{% url 'blog' %}"
+                               aria-label="See product of blog post"><< Back to blog</a>
                         </div>
                     </div>
                 </div>
