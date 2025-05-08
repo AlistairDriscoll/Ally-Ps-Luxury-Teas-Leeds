@@ -81,3 +81,26 @@ a strong {
 #account-base {
     max-width: 400px;
 }
+
+.give-border {
+    border: 2px solid black;
+    border-style: dashed;
+    border-radius: 10px;
+}
+
+/* Full Width Background Style */
+.full-width-bg {
+    background-color: rgba(102, 205, 102, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    z-index: 1;
+}
+
+/* Adjust to be behind other elements and text cleanly */
+.background-colour {
+    width: 100%;
+    z-index: -1;
+}

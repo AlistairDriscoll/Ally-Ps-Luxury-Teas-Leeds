@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block content %}
-
     <div class="container">
         <h1>{{ product.name }}</h1>
         <div class="row">
@@ -21,75 +20,83 @@
                          alt="{{ product.name }}"
                          class="shop-img">
                 {% endif %}
-                <form class="form"
+                <form class="form mt-2 d-flex"
                       action="{% url 'add_to_bag' product_id=product.id %}"
                       method="post">
                     {% csrf_token %}
                     <label for="weight">Choose Quantity:</label>
-                    <select name="weight" id="weight">
+                    <select name="weight" id="weight" class="ml-1">
                         <option value="30">30g: £{{ product.base_price_number|floatformat:2 }}</option>
                         <option value="100">100g: £{{ product.base_price_number|calculate_cost:3|floatformat:2 }}</option>
                         <option value="300">300g: £{{ product.base_price_number|calculate_cost:8|floatformat:2 }}</option>
                     </select>
-                    <button type="submit" class="btn">Add to Basket</button>
+                    <button type="submit" class="btn ml-2">Add to Basket</button>
                     <input type="hidden" name="redirect_url" value="{{ request.path }}">
                 </form>
             </div>
-            <div class="col-12 col-md-6 text-right">
-                <p>Origin: {{ product.origin }}</p>
-                <p>Profile: {{ product.flavor_profile }}</p>
-                <p>Caffiene level: {{ product.caffeine_level }}</p>
-
-                {% if product.blog_post %}
-
+            <div class="col-12 col-md-6 d-flex flex-column text-right">
+                <div class="give-border d-inline-block ml-auto p-3">
                     <p>
-                        <em>" {{ product.blog_post.content|truncatechars:120 }}"</em>
+                        <strong>Origin:</strong> {{ product.origin }}
                     </p>
-                    <span><a aria-label="Read the blog post of this tea"
-   href="{% url 'blog_post' pk=product.blog_post.pk %}"
-   class="btn mb-2">Blog Post Available Here!</a></span>
-                {% else %}
-                    <p>A blog post will follow soon!</p>
-                {% endif %}
-                <div class="row">
-                    <div class="col-12">
-                        {% if from_superuser %}
-                            <a aria-label="Back to superuser admin"
-                               href="{% url 'superuser_admin_page' %}"
-                               class="btn">Back to Superuser admin</a>
-                        {% else %}
-                            <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn mb-2">
-                                <span>Back to Shop</span>
-                                <span>
-                                    <i class="fas fa-shopping-bag"></i>
-                                </span>
+                    <p>
+                        <strong>Profile:</strong> {{ product.flavor_profile }}
+                    </p>
+                    <p class="mb-1">
+                        <strong>Caffeine level:</strong> {{ product.caffeine_level }}
+                    </p>
+                </div>
+                <div class="d-block my-auto text-left">
+                    {% if product.blog_post %}
+                        <hr>
+                        <p class="my-2">
+                            <em>"{{ product.blog_post.content|truncatechars:100 }}"</em>
+                            <a aria-label="Read the blog post of this tea"
+                               href="{% url 'blog_post' pk=product.blog_post.pk %}"
+                               class="mb-2">
+                                <strong>Read the rest of the blog post here!</strong>
                             </a>
-                        {% endif %}
-                    </div>
+                        </p>
+                        <hr>
+                    {% else %}
+                        <p>A blog post will follow soon!</p>
+                    {% endif %}
+                </div>
+                <div class="mt-auto">
+                    {% if from_superuser %}
+                        <a aria-label="Back to superuser admin"
+                           href="{% url 'superuser_admin_page' %}"
+                           class="btn">Back to Superuser admin</a>
+                    {% else %}
+                        <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn mb-2">
+                            <span>Back to Shop</span>
+                            <span>
+                                <i class="fas fa-shopping-bag"></i>
+                            </span>
+                        </a>
+                    {% endif %}
                 </div>
 
-                {% if not from_superuser %}
-                    {% if bag_items %}
-                    {% if request.user.is_authenticated %}
-                        <div class="col-12">
-                            <a href="{% url 'view_bag' %}" class="btn" aria-label="Go to checkout">
-                                <span class="text-uppercase">Go To Secure Checkout</span>
-                                <span class="icon">
-                                    <i class="fas fa-lock"></i>
-                                </span>
-                            </a>
-                        </div>
-                    {% else %}
-                        <div class="col-12">
-                            <a href="{{ signup_url }}" class="btn" aria-label="Go to sign up">
-                                <span class="text-uppercase">Sign up to go to checkout!</span>
-                            </a>
-                        </div>
+                <div class="mt-2">
+                    {% if not from_superuser %}
+                        {% if bag_items %}
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'view_bag' %}" class="btn" aria-label="Go to checkout">
+                                    <span class="text-uppercase">Go To Secure Checkout</span>
+                                    <span class="icon">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </a>
+                            {% else %}
+                                <p class="mt-3 p-2 give-border d-inline-block">
+                                    <a href="{% url 'account_signup' %}"><strong>Sign up</strong></a> or
+                                    <a href="{% url 'account_login' %}"><strong>Login</strong></a> to go to checkout!
+                                </p>
+                            {% endif %}
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-                {% endif %}
+                </div>
             </div>
         </div>
     </div>
-
 {% endblock content %}
