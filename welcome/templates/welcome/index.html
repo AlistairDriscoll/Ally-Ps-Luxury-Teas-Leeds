@@ -37,7 +37,7 @@
                                             <a href="{% url 'about_us' %}">About Us</a>
                                         </li>
                                         {% if request.user.is_superuser %}
-                                            <li class="mb-2">
+                                            <li class="mb-2 p-2 orange-text taller-font give-border">
                                                 <a href="{% url 'superuser_admin_page' %}">Go to the superuser admin</a>
                                             </li>
                                         {% endif %}
