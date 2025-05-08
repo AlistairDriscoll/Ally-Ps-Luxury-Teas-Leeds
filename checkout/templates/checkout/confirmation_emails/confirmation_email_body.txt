@@ -1,6 +1,6 @@
 Hello {{ order.full_name }}!
 
-We're just emailing you to confirm we have received your order you made with us and it is now in the process of being made and shipped.
+We're just emailing you to confirm we have received your order you made with us and it is now in the process of being prepared and shipped.
 
 If you have any other questions please contact us @ {{ default_from_email }}.
 
