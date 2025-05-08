@@ -5,20 +5,33 @@
     <div class="container">
         <div class="row">
             {% if post.tea %}
-            <div class="col-12 col-lg-8 mx-auto">
-                <div class="row">
-                    <div class="col-6">
-                        <img class="shop-img" src="{{ post.tea.picture.url }}" alt="{{ post.tea.name }}" width="330" height="330">
-                    </div>
-                    <div class="col-6 d-flex flex-column align-items-center justify-content-center">
-                        <p>Starting from £{{ post.tea.base_price_number }}!</p>
-                        <a href="{% url 'product_detail' sku=post.tea.sku %}" aria-label="See product of blog post">Go to Product's Page</a>
+                <div class="col-12 col-lg-8 mx-auto">
+                    <div class="row">
+                        <div class="col-6">
+                            {% if 'placeholder' in post.tea.picture.url %}
+                                <img class="shop-img"
+                                     src="{% static 'images/camellia-sinensis.jpg' %}"
+                                     alt="{{ post.tea.name }}"
+                                     width="330"
+                                     height="330">
+                            {% else %}
+                                <img class="shop-img"
+                                     src="{{ post.tea.picture.url }}"
+                                     alt="{{ post.tea.name }}"
+                                     width="330"
+                                     height="330">
+                            {% endif %}
+                        </div>
+                        <div class="col-6 d-flex flex-column align-items-center justify-content-center">
+                            <p class="taller-font">Starting from £{{ post.tea.base_price_number }}!</p>
+                            <a class="btn" href="{% url 'product_detail' sku=post.tea.sku %}"
+                               aria-label="See product of blog post">Go to Product Page to buy!</a>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endif %}
-            <div class="col-12 col-lg-8 mx-auto">
-                <h1>{{ post.title }}</h1>
+            <div class="col-12 col-lg-8 mx-auto mt-3">
+                <h1 class="orange-text">{{ post.title }}</h1>
                 {{ post.content|linebreaks }}
             </div>
         </div>

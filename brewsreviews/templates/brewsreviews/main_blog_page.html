@@ -2,15 +2,26 @@
 {% load static %}
 
 {% block content %}
-    <h1>The Brews Reviews!</h1>
 
     <div class="container">
+        <h1 class="text-lg-left"><strong>The Brews Reviews!</strong></h1>
+        <p class="taller-font">Click on the title of any of the post titles to read more...</p>
+
         <div class="row">
-            <div class="col-12 text-lg-center text-md-left text-sm-left text-xs-left">
-                {% for post in blog_posts %}
-                    <a aria-label="Go to individual blog post" href="{% url 'blog_post' pk=post.pk %}"><h2>{{ post.title }}</h2></a>
-                    <p>{{ post.content|truncatechars:90 }}</p>
-                {% endfor %}
+            <div class="col-12 text-lg-center text-md-left text-sm-left text-xs-left d-flex flex-column align-items-left">
+                <ul>
+                    {% for post in blog_posts %}
+                        <li>
+                            <div class="give-border mb-2 p-2">
+                                <a aria-label="Go to individual blog post"
+                                   href="{% url 'blog_post' pk=post.pk %}">
+                                    <h3 class="orange-text font-underline blue-hover">{{ post.title }}</h3>
+                                </a>
+                                <p>{{ post.content|truncatechars:90 }}</p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>

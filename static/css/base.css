@@ -35,6 +35,14 @@ html {
     font-size: 1.5rem;
 }
 
+.font-underline {
+    text-decoration: underline;
+}
+
+.blue-hover:hover {
+    color: #0056b3 !important;
+}
+
 .orange-text a,
 .orange-text {
     color: rgba(205, 102, 51, 1) !important;
