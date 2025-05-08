@@ -107,34 +107,31 @@ def add_to_bag(request, product_id):
 @require_POST
 def edit_bag(request, product_id):
     """
-    View to enable the user to edit the quantity and amount of each bag item
+    View to enable the user to edit the weight and quantity of each bag item
     """
-
     new_weight = request.POST.get("weight")
-    new_quantity = int(request.POST.get("quantity", 0))
-    bag = request.session.get('bag', {})
+    new_quantity = int(
+        request.POST.get("quantity", 1)
+    )  # Get quantity, default to 1 if not specified
+    bag = request.session.get("bag", {})
 
     product_id = str(product_id)
-    # If weight has changed, remove old weight and replace with the new one
+
     if product_id in bag:
         if new_weight in bag[product_id]:
-            # Update the quantity or weight
-            if new_quantity > 0:
-                bag[product_id][new_weight] = new_quantity
-                messages.success(request, "Bag updated successfully!")
-            else:
-                del bag[product_id][new_weight]
-                messages.success(request, "Weight removed from your bag!")
-
-                # If no weights remain for this product, remove entirely
-                if not bag[product_id]:
-                    del bag[product_id]
-                    messages.success(request, "Item removed from your bag!")
-
+            # If the weight is already in the bag, update the quantity
+            bag[product_id][new_weight] = new_quantity
+            messages.success(request, "Bag updated successfully!")
         else:
-            messages.error(
-                request, "Weight not found for this product in your bag!")
+            # If the weight isn't already in the bag, add it
+            current_weights = bag[product_id]
+            if current_weights:
+                old_weight, old_quantity = list(current_weights.items())[0]
+                bag[product_id][new_weight] = new_quantity
+                del bag[product_id][old_weight]
+            messages.success(request, "Bag updated successfully!")
 
+        # Save changes
         request.session["bag"] = bag
         request.session.modified = True
     else:

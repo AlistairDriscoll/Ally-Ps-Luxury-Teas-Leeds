@@ -5,6 +5,7 @@ html {
     height: 100%;
 }
 
+/* Image styles */
 .shop-img {
     border-radius: 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
@@ -15,7 +16,15 @@ html {
 .bag-img {
     border-radius: 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    width: 200px;
     height: auto;
+}
+
+.sample-img {
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    height: 80px;
+    width: auto;
 }
 
 /** Font related stuff */
@@ -128,4 +137,8 @@ a strong {
 .background-colour {
     width: 100%;
     z-index: -1;
+}
+
+.btn-danger {
+    background-color: red;
 }

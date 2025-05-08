@@ -1,29 +1,35 @@
+{% load static %}
+
 {% if sample_added == False %}
     {% if breakfast_blend_sample %}
-        <p>Since you're buying one of everything, we'd love to give you a 20g sample of our Breakfast Blend!</p>
+        <p>Get a free 20g sample of Breakfast Blend with your purchase!</p>
         <form action="{% url 'add_to_bag' product_id=breakfast_blend_sample %}"
               method="post">
             {% csrf_token %}
             <input type="hidden" name="weight" value="20">
             <input type="hidden" name="is_sample" value="true">
             <input type="hidden" name="redirect_url" value="{% url 'add_to_bag' %}">
-            <button type="submit" class="btn btn-lg btn-success">
+            <button type="submit"
+                    class="btn btn-lg btn-success"
+                    aria-label="Claim Free Sample of Breakfast Blend">
                 <strong>Claim Free Sample</strong>
             </button>
         </form>
     {% else %}
         <p>We'd love to offer you a sample of one of our other teas!</p>
-        <ul>
+        <ul class="list-unstyled">
             {% for tea in sample_or_samples %}
-                <li>
-                    <form action="{% url 'add_to_bag' product_id=tea.id %}"
-                          method="post"
-                          aria-label="Add sample to bag">
+                <li class="mb-2">
+                    <form action="{% url 'add_to_bag' product_id=tea.id %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="weight" value="5">
                         <input type="hidden" name="is_sample" value="true">
                         <input type="hidden" name="redirect_url" value="{% url 'view_bag' %}">
-                        <button type="submit" class="btn btn-sm mb-2">Continue with 5g of {{ tea.name }}</button>
+                        <button type="submit"
+                                class="btn btn-sm btn-secondary"
+                                aria-label="Add 5g sample of {{ tea.name }} to your bag">
+                            Continue with 5g of {{ tea.name }}
+                        </button>
                     </form>
                 </li>
             {% endfor %}
@@ -32,25 +38,11 @@
 
     {% if user.is_authenticated %}
         <a href="{% url 'checkout' %}"
-           class="btn"
-           aria-label="Go to checkout without free sample">Continue to Checkout Without Claiming Free Sample</a>
+           class="btn btn-lg btn-primary mt-3"
+           aria-label="Proceed to checkout without claiming a free sample">Continue to Checkout Without Free Sample</a>
     {% else %}
         <p>
-            <a href="{% url 'account_login' %}">Sign In</a> or <a href="{% url 'account_signup' %}">Register an account</a> with us in order to continue with your order!
-        </p>
-    {% endif %}
-{% else %}
-    <p>
-        <strong>You've selected your free sample!</strong>
-    </p>
-
-    {% if request.user.is_authenticated %}
-        <a href="{% url 'checkout' %}"
-           class="btn btn-lg"
-           aria-label="Go to checkout">Proceed to Checkout</a>
-    {% else %}
-        <p>
-            You must be logged in to go to checkout! <a href="{% url 'account_login' %}">click here to sign in.</a>
+            <a href="{% url 'account_login' %}">Sign In</a> or <a href="{% url 'account_signup' %}">Register an account</a> to continue your purchase.
         </p>
     {% endif %}
 {% endif %}
