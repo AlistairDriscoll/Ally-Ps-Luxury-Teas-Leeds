@@ -8,36 +8,41 @@
             <div class="col-12 col-md-12 col-lg-3">
                 <h4>Product List</h4>
                 {% for product in products %}
-                    <a aria-label="View product in full"
-                       href="{% url 'superuser_view_product' sku=product.sku %}">
-                        <p>{{ product.name }}</p>
-                    </a>
+                    <p>
+                        {{ product.name }} <a aria-label="View product in full"
+    href="{% url 'superuser_view_product' sku=product.sku %}"><strong>View item here</strong></a>
+                    </p>
+
                 {% endfor %}
             </div>
-            <div class="col-12 col-md-6 col-lg-3">
+            <div class="col-12 col-md-6 col-lg-3 border-start">
                 <h4>Your Blog Posts</h4>
+                <a class="btn btn-primary taller-font mb-3" aria-label="Add blog post" href="{% url 'add_post' %}">CLICK HERE to Add a new blog post</a>
                 {% for post in blog_posts %}
                     <p>
-                        {{ post.title }} <a aria-label="Post management"
+                        {{ post.title }} <a class="btn btn-primary"
+    aria-label="Post management"
     href="{% url 'manage_post' post_pk=post.pk %}">View/manage post</a>
                     </p>
                 {% endfor %}
-                <a aria-label="Add blog post" href="{% url 'add_post' %}">Add a new blog post</a>
+
             </div>
-            <div class="col-12 col-md-6 col-lg-3">
+            <div class="col-12 col-md-6 col-lg-3 border-start">
                 <h4>All Orders</h4>
                 {% for order in orders %}
-                    <a aria-label="View order"
-                       href="{% url 'superuser_view_order' pk=order.pk %}">
-                        <p>{{ order.order_number }}</p>
-                    </a>
+                    <p>
+                        <a class="btn btn-primary"
+                           aria-label="View order"
+                           href="{% url 'superuser_view_order' pk=order.pk %}">{{ order.order_number }}</a>
+                    </p>
                 {% endfor %}
             </div>
-            <div class="col-12 col-md-6 col-lg-3">
+            <div class="col-12 col-md-6 col-lg-3 border-start">
                 <h4>All Enquiries</h4>
                 {% for enquiry in enquiries %}
                     <div class="col">
                         <a aria-label="View enquiry"
+                           class="btn btn-primary mb-2"
                            href="{% url 'view_enquiry' pk=enquiry.pk %}">{{ enquiry.pk }}: {{ enquiry.subject }}</a>
                     </div>
                 {% endfor %}
