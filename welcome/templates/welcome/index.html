@@ -6,7 +6,7 @@
 {% endblock extra_css %}
 
 {% block content %}
-    <div class="container-fluid welcome-delivery-banner mt-0 mb-2">
+    <div class="container-fluid welcome-delivery-banner mt-0 pt-2 mb-2">
         <div class="row">
             <div class="col-12 text-center">
                 <h1>We Deliver Worldwide!</h1>
@@ -14,41 +14,40 @@
         </div>
     </div>
 
-    <div class="homepage-overlay d-flex justify-content-center">
+    <div class="homepage-overlay d-flex justify-content-center align-items-center">
         <div class="container-div">
             <div class="container-sm">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-12">
-                                <div class="col-12">
-                                    <h2>Welcome...</h2>
-                                </div>
-                                <div class="col-12 text-right my-5">
-                                    <h2 class="heavier-font">To Ally P's Luxury Teas Leeds!</h2>
-                                </div>
-                                <div class="col-12">
-                                    <ul class="list-inline-block mx-auto">
-                                        <li class="list-inline-item">
+                            <!-- Flex container for both heading and the list, keeping them centered -->
+                            <div class="col-12 d-flex flex-column align-items-center">
+                                <h2 class="my-5">
+                                    Welcome...
+                                    <span class="heavier-font ml-auto">To Ally P's Luxury Teas Leeds!</span>
+                                </h2>
+                                <div class="col-12 d-flex justify-content-center">
+                                    <ul class="list-unstyled d-flex flex-column align-items-center">
+                                        <li class="mb-2 p-2 orange-text taller-font give-border">
                                             <a href="{% url 'shop' %}">Shop</a>
                                         </li>
-                                        <li class="list-inline-item">
+                                        <li class="mb-2 p-2 orange-text taller-font give-border">
                                             <a href="{% url 'blog' %}">The Brews Reviews!</a>
                                         </li>
-                                        <li class="list-inline-item">
+                                        <li class="mb-2 p-2 orange-text taller-font give-border">
                                             <a href="{% url 'about_us' %}">About Us</a>
                                         </li>
                                         {% if request.user.is_superuser %}
-                                            <li class="list-inline-item">
+                                            <li class="mb-2">
                                                 <a href="{% url 'superuser_admin_page' %}">Go to the superuser admin</a>
                                             </li>
                                         {% endif %}
                                         {% if request.user.is_authenticated %}
-                                            <li class="list-inline-item">
+                                            <li class="mb-2 p-2 orange-text taller-font give-border">
                                                 <a href="{% url 'profile' %}">Your account</a>
                                             </li>
                                         {% else %}
-                                            <li class="list-inline-item">
+                                            <li class="mb-2 p-2 orange-text taller-font give-border">
                                                 <a href="{% url 'account_signup' %}">Sign-in/Register</a>
                                             </li>
                                         {% endif %}

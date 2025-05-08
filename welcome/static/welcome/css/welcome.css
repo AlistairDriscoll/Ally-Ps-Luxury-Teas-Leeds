@@ -1,14 +1,9 @@
 /* For the banner at the top */
 .welcome-delivery-banner {
-    background: rgba(102, 205, 102, 0.9);
-    color: white;
+    background: #F8F9FA;
     z-index: 1001 !important;
     position: absolute;
     top: 0;
-}
-
-.welcome-delivery-banner-base {
-    display: none;
 }
 
 /* Class for welcome page overlay screen */
@@ -22,7 +17,6 @@
     left: 0;
     color: black;
     position: fixed;
-    background: #c8f8ff;
+    background: #b4e7b5;
     z-index: 100;
 }
-

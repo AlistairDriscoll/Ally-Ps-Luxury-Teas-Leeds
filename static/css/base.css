@@ -18,15 +18,26 @@ html {
     height: auto;
 }
 
-.heavier-font {
-    font-weight: 600;
-}
+/** Font related stuff */
 
 /* Google font-delius */
 .delius-regular {
     font-family: "Delius", cursive;
     font-weight: 400;
     font-style: normal;
+}
+
+.heavier-font {
+    font-weight: 600;
+}
+
+.taller-font {
+    font-size: 1.5rem;
+}
+
+.orange-text a,
+.orange-text {
+    color: rgba(205, 102, 51, 1) !important;
 }
 
 body {
@@ -88,9 +99,10 @@ a strong {
 }
 
 .give-border {
-    border: 2px solid black;
-    border-style: dashed;
+    border: 2px dashed black;
     border-radius: 10px;
+    display: block;
+    width: fit-content;
 }
 
 /* Full Width Background Style */
@@ -108,8 +120,4 @@ a strong {
 .background-colour {
     width: 100%;
     z-index: -1;
-}
-
-.orange-text {
-    color: rgba(205, 102, 51, 1);
 }
