@@ -152,7 +152,6 @@ class OrderItem(models.Model):
     )
 
     def calculate_cost(self, weight, base_price):
-        print("Calculating product price")
         weight = int(weight)
         if weight == 5 or weight == 20:
             return 0
