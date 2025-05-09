@@ -186,18 +186,18 @@ def delete_from_bag(request, product_id, weight):
         else:
             messages.error(
                 request,
-                ("The specified product weight "
-                 "is not associated with your bag."),
+                "The specified product weight is "
+                "not associated with your bag.",
             )
     else:
         messages.error(request, "Product not found in your bag.")
 
-    # Check if user still qualifies for 20g sample
+    # Recalculate bag status after item removal
     all_product_ids = set(Product.objects.values_list("id", flat=True))
     bag_product_ids = set(map(int, bag.keys()))
     missing_products = list(all_product_ids - bag_product_ids)
 
-    # If they're now missing any teas, remove 20g Breakfast Blend if in bag
+    # If they no longer qualify for the 20g sample, remove it
     for item_id, weights in list(bag.items()):
         try:
             product = Product.objects.get(id=item_id)
@@ -208,11 +208,17 @@ def delete_from_bag(request, product_id, weight):
                         del bag[item_id]
                     messages.info(
                         request,
-                        "You no longer qualify for the 20g Breakfast"
-                        " Blend sample, so it was removed.",
+                        "You no longer qualify for the 20g Breakfast "
+                        "Blend sample, so it was removed.",
                     )
+                    # 🔥 Reset the session flag so 5g samples can show
+                    request.session["sample_product_id"] = None
         except Product.DoesNotExist:
             continue
+
+    # 🔥 Always reset sample flag if missing products exist
+    if missing_products:
+        request.session["sample_product_id"] = None
 
     request.session["bag"] = bag
     request.session.modified = True
