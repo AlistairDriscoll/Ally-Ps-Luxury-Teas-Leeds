@@ -1,55 +1,72 @@
-import random
-
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect
 from django.contrib import messages
-
 from shop.models import Product
+
+weight_multipliers = {
+    5: 0,  # Free sample
+    20: 0,  # Free sample
+    30: 1,
+    100: 3,
+    300: 8,
+}
 
 
 def view_bag(request):
     """
     View to see the contents of the basket in full.
-    Gets a list of missing products.
-    If they have ordered everything, offer 20g of Breakfast Blend.
-    Otherwise, offer 5g of up to 3 missing teas for the user to choose from.
+    Offers free samples based on products the user hasn't tried yet.
     """
-
     bag = request.session.get("bag", {}) or {}
 
-    # turn it into integers
     all_product_ids = set(Product.objects.values_list("id", flat=True))
     bag_product_ids = set(map(int, bag.keys()))
-
     missing_products = list(all_product_ids - bag_product_ids)
 
     breakfast_blend_sample = None
     sample_or_samples = []
 
-    # Functionality to get sample products
     if not missing_products:
+        # User has all products, offer Breakfast Blend 20g
         breakfast_blend_sample = (
             Product.objects.filter(name__icontains="Breakfast Blend")
             .values_list("id", flat=True)
             .first()
         )
-        print(f"Breakfast Blend Sample: {breakfast_blend_sample}")
+        if not breakfast_blend_sample:
+            messages.warning(request, "Breakfast Blend sample not found.")
     elif 1 <= len(missing_products) <= 3:
-        sample_or_samples = list(
-            Product.objects.filter(id__in=missing_products)[:3])
-    else:
-        sample_or_samples = list(
-            Product.objects.filter(
-                id__in=random.sample(
-                    missing_products, min(len(missing_products), 3))
-            )
-        )
+        # Offer up to 3 missing teas at 5g
+        sample_or_samples = Product.objects.filter(id__in=missing_products)[:3]
 
     context = {
+        "bag_items": [],
+        "total": 0,
+        "product_count": 0,
         "breakfast_blend_sample": breakfast_blend_sample,
         "sample_or_samples": sample_or_samples,
-        "weight_options": [30, 100, 300],
     }
+
+    for item_id, weights in bag.items():
+        try:
+            product = Product.objects.get(id=item_id)
+            for weight, quantity in weights.items():
+                context["bag_items"].append(
+                    {
+                        "product": product,
+                        "weight": int(weight),
+                        "quantity": quantity,
+                    }
+                )
+                base_price = product.base_price_number
+                multiplier = weight_multipliers.get(int(weight), 0)
+                item_total = quantity * base_price * multiplier
+                context["total"] += item_total
+
+                context["product_count"] += quantity
+        except Product.DoesNotExist:
+            messages.warning(request, f"Product ID {item_id} not found.")
+            continue
 
     return render(request, "bag/bag.html", context)
 

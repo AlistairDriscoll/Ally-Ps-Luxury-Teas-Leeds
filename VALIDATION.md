@@ -98,4 +98,13 @@ These are all the js files the project required. All Three again came back from 
 ![display_info.js](documentation/js-validation/display-info.png)
 ![stripe_elements.js](documentation/js-validation/stripe-elements.png)
 
-## Lighthouse
+## Cross Browser Compatibility
+
+All other screenshots seen are taken using Microsoft edge browser, but here are some screenshots of the site on Firefox, Google Chrome, and in Safari for Mobliles.
+
+![Index on Chrome](documentation/different-browsers/chrome-index.png)
+![About page on Chrome](documentation/different-browsers/chrome-about.png)
+![Index on firefox](documentation/different-browsers/firefox-index.png)
+![Shop on Firefox](documentation/different-browsers/firefox-shop.png)
+![Index on Safari Mobile](documentation/different-browsers/index-safari.png)
+![Blog on Safari Mobile](documentation/different-browsers/safari-blog.png)
