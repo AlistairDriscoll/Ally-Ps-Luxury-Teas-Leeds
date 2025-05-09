@@ -14,14 +14,6 @@
                       aria-label="Update profile form">
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <div class="form-check">
-                        <input type="checkbox"
-                               class="form-check-input"
-                               id="id_subscribed_to_email"
-                               name="subscribed_to_email"
-                               {% if user_profile.subscribed_to_email %}checked{% endif %}>
-                        <label class="form-check-label" for="id_subscribed_to_email">Subscribe to emails</label>
-                    </div>
                     <button type="submit" class="btn btn-black rounded-0 float-left">Update Information</button>
                 </form>
             </div>

@@ -93,9 +93,9 @@ A tea subscription system, as it would prove to help customers stay loyal if the
 
 Another thing would be to have the superuser be able to implement CRUD functionality with the Product model also without going onto the admin.
 
-### Linting
+### Validation
 
-Python linting can be found in the documentation/python linting file in my root directory
+Validation can be found in the [VALIDATION.md](VALIDATION.md) file.
 
 ### Testing
 

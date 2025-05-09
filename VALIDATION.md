@@ -97,3 +97,5 @@ These are all the js files the project required. All Three again came back from 
 ![checkout.js](documentation/js-validation/checkout.png)
 ![display_info.js](documentation/js-validation/display-info.png)
 ![stripe_elements.js](documentation/js-validation/stripe-elements.png)
+
+## Lighthouse

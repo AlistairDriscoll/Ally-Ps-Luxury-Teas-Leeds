@@ -61,14 +61,15 @@ def edit_profile(request, userkey):
         return redirect('shop')
 
     if request.method == "POST":
-        user_profile_form = UserProfileForm(
-            request.POST, instance=user_profile)
+        user_profile_form = UserProfileForm(request.POST,
+                                            instance=user_profile)
         if user_profile_form.is_valid():
-            user_profile_form.save()
             subscribed_to_email = request.POST.get(
                 'subscribed_to_email') == 'on'
             user_profile.subscribed_to_email = subscribed_to_email
-            user_profile.save()
+            user_profile_form.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect("edit_profile", userkey=user_profile.user.pk)
         else:
             messages.error(
                 request,

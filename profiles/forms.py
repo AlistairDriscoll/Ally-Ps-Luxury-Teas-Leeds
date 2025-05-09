@@ -19,6 +19,7 @@ class UserProfileForm(forms.ModelForm):
             "state_or_region",
             "postal_code",
             "country",
+            "subscribed_to_email",
         ]
 
     def __init__(self, *args, **kwargs):
@@ -30,7 +31,6 @@ class UserProfileForm(forms.ModelForm):
         placeholders = {
             "full_name": "Full Name",
             "email": "Email Address",
-            "subscribed_to_email": "Subscribed to Email",
             "phone_number": "Phone Number",
             "address_line1": "Address Line 1",
             "address_line2": "Address Line 2",
@@ -43,10 +43,12 @@ class UserProfileForm(forms.ModelForm):
         self.fields["full_name"].widget.attrs["autofocus"] = True
 
         for field in self.fields:
-            if field != "country":
+            # Add placeholders where appropriate
+            if field in placeholders:
                 self.fields[field].widget.attrs[
-                    "placeholder"
-                ] = placeholders[field]
+                    "placeholder"] = placeholders[field]
 
-            self.fields[field].widget.attrs["class"] = "form-control"
-            self.fields[field].label = False  # Hide default labels
+            # Style all fields except the checkbox
+            if field != "subscribed_to_email":
+                self.fields[field].widget.attrs["class"] = "form-control"
+                self.fields[field].label = False

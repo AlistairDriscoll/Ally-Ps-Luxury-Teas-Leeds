@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 from .forms import OrderForm
 from .models import OrderItem, Order
@@ -12,6 +13,7 @@ import json
 import stripe
 
 
+@login_required
 def checkout(request):
     """View for the checkout"""
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -38,6 +40,7 @@ def checkout(request):
         if order_form.is_valid():
             if request.user.is_authenticated:
                 profile = get_object_or_404(UserProfile, user=request.user)
+
                 if save_info:
                     profile.full_name = form_data["full_name"]
                     profile.email = form_data["email"]
@@ -48,7 +51,21 @@ def checkout(request):
                     profile.address_line1 = form_data["address_line1"]
                     profile.address_line2 = form_data["address_line2"]
                     profile.state_or_region = form_data["state_or_region"]
-                    profile.save()
+
+                subscribed_checkbox = request.POST.get(
+                    "subscribed_to_email") == "on"
+                if subscribed_checkbox and not profile.subscribed_to_email:
+                    profile.subscribed_to_email = True
+                    messages.success(
+                        request, "You've been subscribed to our newsletter!"
+                    )
+                elif not subscribed_checkbox and profile.subscribed_to_email:
+                    profile.subscribed_to_email = False
+                    messages.info(
+                        request, "You're now unsubscribed from our newsletter."
+                    )
+
+                profile.save()
 
             order = order_form.save(commit=False)
             order.user_profile = profile
@@ -82,11 +99,10 @@ def checkout(request):
         else:
             messages.error(
                 request,
-                (
-                    "There was an error with your form. "
-                    "Please double-check your information."
-                ),
+                "There was an error with your form."
+                "Please double-check your information.",
             )
+
     else:
         bag = request.session.get("bag", {})
 
@@ -104,6 +120,11 @@ def checkout(request):
         )
 
         user_profile = getattr(request.user, "user_profile", None)
+        subscribed_to_email = (
+            user_profile.subscribed_to_email
+            if request.user.is_authenticated and user_profile
+            else False
+        )
 
         initial_data = {
             "full_name": getattr(user_profile, "full_name", ""),
@@ -118,14 +139,16 @@ def checkout(request):
         }
 
         order_form = OrderForm(initial=initial_data)
-        template = "checkout/checkout.html"
-        context = {
-            "order_form": order_form,
-            "stripe_public_key": stripe_public_key,
-            "client_secret": intent.client_secret,
-        }
 
-        return render(request, template, context)
+    template = "checkout/checkout.html"
+    context = {
+        "order_form": order_form,
+        "stripe_public_key": stripe_public_key,
+        "client_secret": intent.client_secret,
+        "subscribed_to_email": subscribed_to_email,
+    }
+
+    return render(request, template, context)
 
 
 def checkout_success(request, order_number):

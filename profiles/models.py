@@ -19,6 +19,7 @@ class UserProfile(models.Model):
     )
     full_name = models.CharField(max_length=80, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
+    # Stores whether the user has subscribed to the newsletter.
     subscribed_to_email = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=20, null=True, blank=True)
     address_line1 = models.CharField(max_length=255, blank=True, null=True)
