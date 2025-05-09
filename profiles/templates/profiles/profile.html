@@ -13,7 +13,7 @@
                         <div id="orders-div">
                             {% for order in orders %}
                                 <p class="display-order">
-                                    <a href="{% url 'view_order' order_number=order.order_number %}">{{ order.order_number }}</a>
+                                    <a class="btn" href="{% url 'view_order' order_number=order.order_number %}">{{ order.order_number }}</a>
                                 </p>
                             {% endfor %}
                         </div>
@@ -32,7 +32,7 @@
                     </p>
                 {% endif %}
                 <div id="info-div">
-                    {% if user.user_profile.full_name %}<p class="display-info">{{ user.user_profile.full_name }}</p>{% endif %}
+                    {% if user.user_profile.full_name %}<p class="display-info"><strong>Full Name: </strong>{{ user.user_profile.full_name }}</p>{% endif %}
                     {% if user.email %}<p class="display-info"><strong>Your Email: </strong>{{ user.email }}</p>{% endif %}
                     {% if user.user_profile.phone_number %}<p class="display-info"><strong>Phone Number: </strong>{{ user.user_profile.phone_number }}</p>{% endif %}
                     {% if user.user_profile.address_line1 %}<p class="display-info"><strong>Address line 1: </strong>{{ user.user_profile.address_line1 }}</p>{% endif %}
