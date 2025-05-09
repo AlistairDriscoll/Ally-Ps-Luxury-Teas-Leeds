@@ -53,7 +53,7 @@ const europeanCountries = ["AL", // Albania
     "TR", // Turkey
     "UA", // Ukraine
     "VA", // Vatican City
-    ];
+];
 let countrySelect = $('#id_country');
 let orderTotal = parseFloat($('#order-total').text());
 let hiddenDeliveryCost = $('#id_delivery_cost');
@@ -70,7 +70,7 @@ let displayGrandTotal = $('#display-grand-total');
  */
 countrySelect.on('change', function () {
     let country = countrySelect.val();
-    console.log(country)
+    console.log(country);
     let deliveryCost = 15;
     if (country === "GB") {
         deliveryCost = 3;
@@ -84,6 +84,6 @@ countrySelect.on('change', function () {
     displayGrandTotal.text("Grand total: " + grandTotal);
     hiddenGrandTotal.val(orderTotal + deliveryCost);
 
-    console.log(hiddenDeliveryCost.val())
-    console.log(hiddenGrandTotal.val())
+    console.log(hiddenDeliveryCost.val());
+    console.log(hiddenGrandTotal.val());
 });

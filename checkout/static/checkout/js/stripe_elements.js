@@ -1,3 +1,6 @@
+/* jshint esversion: 6, globalstrict: true */
+/* global $, Stripe */
+
 /*
     Core logic/payment flow for this comes from here:
     https://stripe.com/docs/payments/accept-a-payment
@@ -61,7 +64,8 @@ countrySelector.addEventListener("change", function () {
     console.log("Require ZIP Code:", requireZip);
 
     // Exit function if no update is needed
-    if (currentZipState === !requireZip) {
+    if (currentZipState !== requireZip) {
+
         return;
     }
 
