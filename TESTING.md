@@ -107,4 +107,14 @@ Responsive behaviour tested using Chrome DevTools and real devices.
 
 ---
 
+### Free Sample Logic
+
+| Action | Expected Result | Y/N | Comments |
+|--------|------------------|-----|----------|
+| Add all regular teas to bag | 20g Breakfast Blend sample offered | Y | Sample appears with correct offer |
+| Remove one tea after claiming 20g sample | 20g Breakfast Blend is removed automatically | Y | Confirmed removed from bag via session |
+| Add fewer than all teas | Up to 3 × 5g samples of missing teas offered | Y | Dynamic logic adapts to current bag contents |
+| Try to claim both 5g and 20g samples | Only one sample can be claimed | Y | Session prevents multiple sample claims |
+
+
 

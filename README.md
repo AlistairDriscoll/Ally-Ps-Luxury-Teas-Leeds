@@ -93,6 +93,19 @@ A tea subscription system, as it would prove to help customers stay loyal if the
 
 Another thing would be to have the superuser be able to implement CRUD functionality with the Product model also without going onto the admin.
 
+## Free Sample System
+
+One of the site's most distinctive features is its dynamic free sample logic, which is designed to reward customer exploration and build loyalty.
+
+The logic works as follows:
+- If a customer has not yet tried all the teas available on the site, they are offered up to 3 × 5g samples of teas they haven’t yet added to their bag.
+- If a customer *has* added every available tea to their bag (excluding previous samples), they are offered a 20g sample of “Breakfast Blend” instead.
+- The 20g sample is only available under that condition and is automatically removed from the bag if the user later removes one of the teas and no longer qualifies.
+- This logic is recalculated every time the bag is updated or a product is removed, and the system ensures that a user can only claim **one free sample per checkout session**.
+
+This sample system has been fully tested (see `TESTING.md`) and dynamically adapts to the user's behaviour, offering a tailored experience that also encourages trying new products.
+
+
 ### Validation
 
 Validation can be found in the [VALIDATION.md](VALIDATION.md) file.
@@ -102,7 +115,5 @@ Validation can be found in the [VALIDATION.md](VALIDATION.md) file.
 I have implemented manual testing for my project that can be seen in the [TESTING.MD](TESTING.md) file.
 
 ### Mistakes
-
-After finding a bug before my deadline, I realise I didn't have the time to lint my CSS, JS or HTML files. Fortunately I do actually know they are ok because I have linting extentions that I adhered to obsesively so everything is as it should be.
 
 In my bootstrap modals the classes and ids are written in camel case still which is against convention, it's what they come with in the documentation and so I decided to keep them there in case changing them would upset their functionality.

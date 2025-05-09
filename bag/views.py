@@ -3,22 +3,16 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from shop.models import Product
 
-weight_multipliers = {
-    5: 0,  # Free sample
-    20: 0,  # Free sample
-    30: 1,
-    100: 3,
-    300: 8,
-}
-
 
 def view_bag(request):
     """
     View to see the contents of the basket in full.
-    Offers free samples based on products the user hasn't tried yet.
+    Offers free samples based on what's missing from the bag.
     """
+
     bag = request.session.get("bag", {}) or {}
 
+    # Calculate missing products (to decide sample eligibility)
     all_product_ids = set(Product.objects.values_list("id", flat=True))
     bag_product_ids = set(map(int, bag.keys()))
     missing_products = list(all_product_ids - bag_product_ids)
@@ -26,8 +20,8 @@ def view_bag(request):
     breakfast_blend_sample = None
     sample_or_samples = []
 
+    # Offer correct free sample
     if not missing_products:
-        # User has all products, offer Breakfast Blend 20g
         breakfast_blend_sample = (
             Product.objects.filter(name__icontains="Breakfast Blend")
             .values_list("id", flat=True)
@@ -36,8 +30,16 @@ def view_bag(request):
         if not breakfast_blend_sample:
             messages.warning(request, "Breakfast Blend sample not found.")
     elif 1 <= len(missing_products) <= 3:
-        # Offer up to 3 missing teas at 5g
         sample_or_samples = Product.objects.filter(id__in=missing_products)[:3]
+
+    # Price multipliers by weight
+    weight_multipliers = {
+        5: 0,
+        20: 0,
+        30: 1,
+        100: 3,
+        300: 8,
+    }
 
     context = {
         "bag_items": [],
@@ -47,23 +49,28 @@ def view_bag(request):
         "sample_or_samples": sample_or_samples,
     }
 
+    # Build up the bag display
     for item_id, weights in bag.items():
         try:
             product = Product.objects.get(id=item_id)
             for weight, quantity in weights.items():
+                weight = int(weight)
+                multiplier = weight_multipliers.get(weight, 0)
+                base_price = product.base_price_number
+                item_total = quantity * base_price * multiplier
+
                 context["bag_items"].append(
                     {
                         "product": product,
-                        "weight": int(weight),
+                        "weight": weight,
                         "quantity": quantity,
+                        "item_total": item_total,
                     }
                 )
-                base_price = product.base_price_number
-                multiplier = weight_multipliers.get(int(weight), 0)
-                item_total = quantity * base_price * multiplier
-                context["total"] += item_total
 
-                context["product_count"] += quantity
+                context["total"] += item_total
+                if weight not in [5, 20]:
+                    context["product_count"] += quantity
         except Product.DoesNotExist:
             messages.warning(request, f"Product ID {item_id} not found.")
             continue
@@ -162,39 +169,51 @@ def delete_from_bag(request, product_id, weight):
 
     bag = request.session.get("bag", {})
 
-    # Convert product_id and weight to strings
     product_id = str(product_id)
     weight = str(weight)
 
     if product_id in bag:
         if weight in bag[product_id]:
-            # Remove the specific weight from the product
             del bag[product_id][weight]
 
-            # If no more weights exist for this product, remove entirely
             if not bag[product_id]:
                 del bag[product_id]
 
-            # sample-specific logic (for 5g or 20g weights)
-            if weight == "5" or weight == "20":
-                print(request.session["sample_product_id"])
+            if weight in ["5", "20"]:
                 request.session["sample_product_id"] = None
 
             messages.success(request, "Item removed from your bag.")
         else:
-            # If the specific weight isn't found for this product
             messages.error(
                 request,
-                ("The specified product weight"
+                ("The specified product weight "
                  "is not associated with your bag."),
             )
     else:
-        # If the product itself isn't found in the bag
         messages.error(request, "Product not found in your bag.")
 
-    # Update the session with the modified bag
+    # Check if user still qualifies for 20g sample
+    all_product_ids = set(Product.objects.values_list("id", flat=True))
+    bag_product_ids = set(map(int, bag.keys()))
+    missing_products = list(all_product_ids - bag_product_ids)
+
+    # If they're now missing any teas, remove 20g Breakfast Blend if in bag
+    for item_id, weights in list(bag.items()):
+        try:
+            product = Product.objects.get(id=item_id)
+            if "breakfast blend" in product.name.lower() and "20" in weights:
+                if missing_products:
+                    del weights["20"]
+                    if not weights:
+                        del bag[item_id]
+                    messages.info(
+                        request,
+                        "You no longer qualify for the 20g Breakfast"
+                        " Blend sample, so it was removed.",
+                    )
+        except Product.DoesNotExist:
+            continue
+
     request.session["bag"] = bag
     request.session.modified = True
-
-    # Redirect the user back to the bag view
     return redirect("view_bag")
