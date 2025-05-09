@@ -25,9 +25,11 @@
                     <button type="submit" class="btn btn-black rounded-0 float-left">Update Information</button>
                 </form>
             </div>
-			<div class="col-12 col-md-2 col-lg-4">
-				<a aria-label="Manage account deletion" href="{% url 'account_deletion' userkey=user_profile.user.pk %}">Account Management</a>
-			</div>
+            <div class="col-12 col-md-2 col-lg-4">
+                <a class="btn btn-danger larger-text"
+                   aria-label="Manage account deletion"
+                   href="{% url 'account_deletion' userkey=user_profile.user.pk %}">Manage your account here.</a>
+            </div>
         </div>
     </div>
 

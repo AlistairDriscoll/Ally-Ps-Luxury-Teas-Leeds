@@ -2,14 +2,16 @@
 {% load static %}
 
 {% block content %}
-    <h2>Would you like to delete your account?</h2>
+    <div class="d-flex flex-column align-items-center text-center">
+        <h2>Would you like to delete your account?</h2>
 
-    <p>This cannot be undone.</p>
+        <p>This cannot be undone.</p>
 
-    <button type="button"
-            class="btn btn-danger"
-            data-toggle="modal"
-            data-target="#deleteAccountModal">Delete Account</button>
+        <button type="button"
+                class="btn btn-danger list-inline-item"
+                data-toggle="modal"
+                data-target="#deleteAccountModal">Delete Account</button>
+    </div>
 
     <div class="modal fade"
          id="deleteAccountModal"
