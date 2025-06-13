@@ -5,7 +5,6 @@
 
 {% block head_title %}{% trans "Confirm Email Address" %}{% endblock head_title %}
 
-
 {% block content %}
 <h1>{% trans "Confirm Email Address" %}</h1>
 
@@ -18,7 +17,7 @@
 
 <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
 {% csrf_token %}
-    <button type="submit">{% trans 'Confirm' %}</button>
+    <button type="submit">{% trans "Confirm" %}</button>
 </form>
 {% else %}
 <p>{% blocktrans %}Unable to confirm {{ email }} because it is already confirmed by a different account.{% endblocktrans %}</p>
