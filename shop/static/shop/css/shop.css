@@ -1,3 +1,5 @@
+/* Button stuff */
+
 .btn-orange {
     background-color: rgba(205, 102, 51, 1);
 
@@ -73,6 +75,56 @@
     font-size: 0.95rem;
 }
 
+/* For product detail content on smaller screens */
+@media (max-width: 767.98px) {
+    .product-detail-col {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 1.2rem;
+        /* Add spacing between blocks */
+    }
+
+    .product-detail-col .give-border {
+        margin: 0 auto !important;
+        text-align: left !important;
+        padding: 1rem !important;
+    }
+
+    .product-detail-col p,
+    .product-detail-col a,
+    .product-detail-col .btn {
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    form.form {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    form.form label,
+    form.form select,
+    form.form button {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* Normal font */
 .not-italic {
     font-style: normal !important;
+}
+
+/* Width classes */
+.max-400 {
+    max-width: 400px;
+}
+
+@media (max-width: 767.98px) {
+    .max-400 {
+        max-width: 100%;
+    }
 }

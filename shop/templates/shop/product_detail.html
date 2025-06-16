@@ -4,11 +4,11 @@
 
 {% block content %}
     <div class="container">
-        <h1>{{ product.name }}</h1>
-        <div class="row">
-            <div class="col-12 col-md-6">
+        <h1 class="text-center">{{ product.name }}</h1>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 d-flex flex-column align-items-center">
                 {% if "placeholder" in product.picture.url %}
-                    <img class="shop-img"
+                    <img class="shop-img img-fluid mb-3"
                          height="540"
                          width="540"
                          src="{% static 'images/camellia-sinensis.jpg' %}"
@@ -18,42 +18,43 @@
                          height="540"
                          width="540"
                          alt="{{ product.name }}"
-                         class="shop-img">
+                         class="shop-img img-fluid mb-3">
                 {% endif %}
-                <form class="form mt-2 d-flex"
-                      action="{% url 'add_to_bag' product_id=product.id %}"
-                      method="post">
+                <form class="form mt-2 w-100">
                     {% csrf_token %}
-                    <label for="weight">Choose Quantity:</label>
-                    <select name="weight" id="weight" class="ml-1">
-                        <option value="30">30g: £{{ product.base_price_number|floatformat:2 }}</option>
-                        <option value="100">100g: £{{ product.base_price_number|calculate_cost:3|floatformat:2 }}</option>
-                        <option value="300">300g: £{{ product.base_price_number|calculate_cost:8|floatformat:2 }}</option>
-                    </select>
-                    <button type="submit" class="btn ml-2">Add to Basket</button>
+                    <div class="row align-items-center gx-2">
+                        <div class="col-12 col-md-auto text-md-end mb-2 mb-md-0">
+                            <label for="weight">Choose Quantity:</label>
+                        </div>
+                        <div class="col-12 col-md-auto mb-2 mb-md-0">
+                            <select name="weight" id="weight" class="form-control">
+                                <option value="30">30g: £{{ product.base_price_number|floatformat:2 }}</option>
+                                <option value="100">100g: £{{ product.base_price_number|calculate_cost:3|floatformat:2 }}</option>
+                                <option value="300">300g: £{{ product.base_price_number|calculate_cost:8|floatformat:2 }}</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <button type="submit" class="btn btn-orange">Add to Basket</button>
+                        </div>
+                    </div>
                     <input type="hidden" name="redirect_url" value="{{ request.path }}">
                 </form>
             </div>
-            <div class="col-12 col-md-6 d-flex flex-column text-right">
-                <div class="give-border d-inline-block ml-auto p-3">
-                    <p>
-                        <strong>Origin:</strong> {{ product.origin }}
-                    </p>
-                    <p>
-                        <strong>Profile:</strong> {{ product.flavor_profile }}
-                    </p>
-                    <p class="mb-1">
-                        <strong>Caffeine level:</strong> {{ product.caffeine_level }}
-                    </p>
+            <div class="col-12 col-md-6 d-flex flex-column text-md-end text-center align-items-md-end align-items-center product-detail-col mt-4 mt-md-0">
+                <div class="give-border p-3 mb-3 max-400 text-center text-md-end mx-auto mx-md-0">
+                    <p><strong>Type:</strong> {{ product.get_tea_type_display }}</p>
+                    <p><strong>Origin:</strong> {{ product.origin }}</p>
+                    <p><strong>Flavour Profile:</strong> {{ product.flavor_profile }}</p>
+                    <p><strong>Caffeine level:</strong> {{ product.caffeine_level }}</p>
+                    <p><strong>SKU:</strong> {{ product.sku }}</p>
                 </div>
-                <div class="d-block my-auto text-left">
+                <div class="w-100 px-3 max-500">
                     {% if product.blog_post %}
                         <hr>
                         <p class="my-2">
                             <em>"{{ product.blog_post.content|truncatechars:100 }}"</em>
                             <a aria-label="Read the blog post of this tea"
-                               href="{% url 'blog_post' pk=product.blog_post.pk %}"
-                               class="mb-2">
+                               href="{% url 'blog_post' pk=product.blog_post.pk %}">
                                 <strong>Read the rest of the blog post here!</strong>
                             </a>
                         </p>
@@ -62,37 +63,31 @@
                         <p>A blog post will follow soon!</p>
                     {% endif %}
                 </div>
-                <div class="mt-auto">
+                <div class="mt-auto my-3">
                     {% if from_superuser %}
                         <a aria-label="Back to superuser admin"
                            href="{% url 'superuser_admin_page' %}"
-                           class="btn">Back to Superuser admin</a>
+                           class="btn btn-orange">Back to Superuser admin</a>
                     {% else %}
-                        <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn mb-2">
+                        <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn btn-orange mb-2">
                             <span>Back to Shop</span>
-                            <span>
-                                <i class="fas fa-shopping-bag"></i>
-                            </span>
+                            <span><i class="fas fa-shopping-bag"></i></span>
                         </a>
                     {% endif %}
                 </div>
 
-                <div class="mt-2">
-                    {% if not from_superuser %}
-                        {% if bag_items %}
-                            {% if request.user.is_authenticated %}
-                                <a href="{% url 'view_bag' %}" class="btn" aria-label="Go to checkout">
-                                    <span class="text-uppercase">Go To Secure Checkout</span>
-                                    <span class="icon">
-                                        <i class="fas fa-lock"></i>
-                                    </span>
-                                </a>
-                            {% else %}
-                                <p class="mt-3 p-2 give-border d-inline-block">
-                                    <a href="{% url 'account_signup' %}"><strong>Sign up</strong></a> or
-                                    <a href="{% url 'account_login' %}"><strong>Login</strong></a> to go to checkout!
-                                </p>
-                            {% endif %}
+                <div class="mb-3">
+                    {% if not from_superuser and bag_items %}
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'view_bag' %}" class="btn btn-orange" aria-label="Go to checkout">
+                                <span class="text-uppercase">Go To Secure Checkout</span>
+                                <span class="icon"><i class="fas fa-lock"></i></span>
+                            </a>
+                        {% else %}
+                            <p class="mt-3 p-2 give-border">
+                                <a href="{% url 'account_signup' %}"><strong>Sign up</strong></a> or
+                                <a href="{% url 'account_login' %}"><strong>Login</strong></a> to go to checkout!
+                            </p>
                         {% endif %}
                     {% endif %}
                 </div>
