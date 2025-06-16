@@ -142,3 +142,7 @@ a strong {
 .btn-danger {
     background-color: red;
 }
+
+.underline {
+    text-decoration: underline;
+}

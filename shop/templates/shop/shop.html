@@ -47,7 +47,7 @@
 
                     <div class="review-snippet position-relative">
                         {% if product.blog_post %}
-                            <p class="review-text">{{ product.blog_post.content|truncatewords:30 }} <a href="{% url 'blog_post' pk=product.blog_post.pk %}"><span class="not-italic">Click to read the product review!</span></a></p>
+                            <p class="review-text">"{{ product.blog_post.content|truncatewords:30 }}" <a href="{% url 'blog_post' pk=product.blog_post.pk %}"><span class="not-italic underline">Click to read the product review!</span></a></p>
                         {% else %}
                             <p class="review-text">A full review will be posted soon!</p>
                         {% endif %}
