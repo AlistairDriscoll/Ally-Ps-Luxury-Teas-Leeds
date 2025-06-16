@@ -6,62 +6,70 @@
 {% endblock extra_css %}
 
 {% block content %}
-
-    <div class="container-fluid">
-        <!-- Filter Options, made with the basis of Code Institute's Boutique Ado plus Chat GPT -->
-        <div class="d-flex justify-content-start align-items-center mb-4">
-            <h1 class="d-inline align-self-center mb-0 mr-3">Our Products:</h1>
-            <div class="d-flex flex-wrap justify-content-center align-items-center">
-                <a aria-label="Search all products"
-                   href="{% url 'shop' %}"
-                   class="btn {% if not selected_type %}btn-orange{% else %}btn-outline-orange{% endif %} mr-1 mb-2">All</a>
-                {% for type_value, type_name in tea_types %}
-                    <a aria-label="Search by type"
-                       href="?type={{ type_value }}"
-                       class="btn {% if selected_type == type_value|stringformat:'s' %}btn-orange{% else %}btn-outline-orange{% endif %} mr-1 mb-2">
-                        {{ type_name }}
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-
-        <!-- display each tea-->
-        <div class="row d-flex flex-wrap justify-content-start">
-            {% for product in products %}
-                <div class="col-12 col-md-6 col-lg-4 d-flex flex-column align-items-center mt-5">
-                    <div class="product col-10 mx-auto mx-2 p-2">
-                        <h4 class="text-center mb-3">{{ product.name }}</h4>
-
-                        {% if "placeholder" in product.picture.url %}
-                            <img class="shop-img mx-auto product-img mb-3"
-                                 src="{% static 'images/camellia-sinensis.jpg' %}"
-                                 alt="Camellia sinensis plant"
-                                 width="350"
-                                 height="270">
-                        {% else %}
-                            <img class="shop-img mx-auto product-img mb-3"
-                                 src="{{ product.picture.url }}"
-                                 alt="{{ product.name }}"
-                                 width="350"
-                                 height="270">
-                        {% endif %}
-
-                        <!-- Add mt-auto to the container to push the product info and button to the bottom -->
-                        <div class="product-details mt-auto">
-                            <div class="text-left w-100 mt-3">
-                                <p>{{ product.get_tea_type_display }}</p>
-                                <p>Starting from: £{{ product.base_price_number }}</p>
-                                <p>{{ product.sku }}</p>
-                            </div>
-                        </div>
-                        <a class="btn my-1"
-                           aria-label="Go to product page"
-                           href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
-                    </div>
-                </div>
+<div class="container-fluid">
+    <div class="d-flex justify-content-start align-items-center mb-4">
+        <h1 class="d-inline align-self-center mb-0 mr-3">Our Products:</h1>
+        <div class="d-flex flex-wrap justify-content-center align-items-center">
+            <a aria-label="Search all products"
+               href="{% url 'shop' %}"
+               class="btn {% if not selected_type %}btn-orange{% else %}btn-outline-orange{% endif %} mr-1 mb-2">All</a>
+            {% for type_value, type_name in tea_types %}
+                <a aria-label="Search by type"
+                   href="?type={{ type_value }}"
+                   class="btn {% if selected_type == type_value|stringformat:'s' %}btn-orange{% else %}btn-outline-orange{% endif %} mr-1 mb-2">
+                    {{ type_name }}
+                </a>
             {% endfor %}
-
         </div>
     </div>
 
+    <div class="row d-flex flex-wrap justify-content-start">
+        {% for product in products %}
+            <div class="col-12 col-md-6 col-lg-4 d-flex flex-column align-items-center mt-5">
+                <div class="product col-10 mx-auto mx-2 p-2">
+                    <h4 class="text-center mb-3">{{ product.name }}</h4>
+
+                    {% if "placeholder" in product.picture.url %}
+                        <div class="image-container">
+                            <img class="shop-img mx-auto product-img"
+                                 src="{% static 'images/camellia-sinensis.jpg' %}"
+                                 alt="Camellia sinensis plant"
+                                 width="350" height="270">
+                        </div>
+                    {% else %}
+                        <div class="image-container">
+                            <img class="shop-img mx-auto product-img"
+                                 src="{{ product.picture.url }}"
+                                 alt="{{ product.name }}"
+                                 width="350" height="270">
+                        </div>
+                    {% endif %}
+
+                    <div class="review-snippet position-relative">
+                        {% if product.blog_post %}
+                            <p class="review-text">{{ product.blog_post.content|truncatewords:30 }} <a href="{% url 'blog_post' pk=product.blog_post.pk %}"><span class="not-italic">Click to read the product review!</span></a></p>
+                        {% else %}
+                            <p class="review-text">A full review will be posted soon!</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="product-details mt-auto">
+                        <div class="text-left w-100 mt-3 bordered-details">
+                            <p><strong>Type:</strong> {{ product.get_tea_type_display }}</p>
+                            <p><strong>Origin:</strong> {{ product.origin }}</p>
+                            <p><strong>Flavour Profile:</strong> {{ product.flavor_profile }}</p>
+                            <p><strong>Caffeine Level:</strong> {{ product.caffeine_level }}</p>
+                            <p><strong>Starting Price:</strong> £{{ product.base_price_number }}</p>
+                            <p><strong>SKU:</strong> {{ product.sku }}</p>
+                        </div>
+                    </div>
+
+                    <a class="btn my-1"
+                       aria-label="Go to product page"
+                       href="{% url 'product_detail' sku=product.sku %}">Go to product page to buy!</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}

@@ -33,3 +33,46 @@
 .btn {
     align-self: center;
 }
+
+/* Image container with cropping */
+.image-container {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Review snippet section */
+.review-snippet {
+    background-color: rgba(255, 255, 255, 0.6);
+    color: #333;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 5px;
+    font-style: italic;
+    border: 1px solid #ddd;
+}
+
+/* Product detail background with subtle stripes */
+.bordered-details {
+    border: 1px solid #ddd;
+    background: repeating-linear-gradient(45deg,
+            #ffffff,
+            #ffffff 10px,
+            #fef7f1 10px,
+            #fef7f1 20px);
+    border-radius: 5px;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.not-italic {
+    font-style: normal !important;
+}
