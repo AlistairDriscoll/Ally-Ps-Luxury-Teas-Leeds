@@ -77,4 +77,5 @@ def bag_contents(request):
         "sample_added": sample_added,
         "sample_product": sample_product,
     }
+
     return context

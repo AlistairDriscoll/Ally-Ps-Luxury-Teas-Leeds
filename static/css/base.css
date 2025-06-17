@@ -29,6 +29,25 @@ html {
 
 /** Font related stuff */
 
+/* Normal font */
+.not-italic {
+    font-style: normal !important;
+}
+
+/* Sample buttons */
+.btn-sample {
+    background-color: #f78e1e;
+    color: white;
+    border: 2px solid #e47c00;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.btn-sample:hover {
+    background-color: #e47c00;
+    color: white;
+}
+
 /* Google font-delius */
 .delius-regular {
     font-family: "Delius", cursive;
@@ -145,4 +164,24 @@ a strong {
 
 .underline {
     text-decoration: underline;
+}
+
+.bag-sample-offers .card {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Product detail background with subtle stripes */
+.bordered-details {
+    border: 1px solid #ddd;
+    background: repeating-linear-gradient(45deg,
+            #ffffff,
+            #ffffff 10px,
+            #fef7f1 10px,
+            #fef7f1 20px);
+    border-radius: 5px;
+    padding: 0.75rem;
+    font-size: 0.95rem;
 }

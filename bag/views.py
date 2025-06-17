@@ -2,6 +2,7 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from shop.models import Product
+from bag.contexts import bag_contents
 
 
 def view_bag(request):
@@ -10,9 +11,12 @@ def view_bag(request):
     Offers free samples based on what's missing from the bag.
     """
 
+    # Get the full context from bag_contents
+    context = bag_contents(request)
+
     bag = request.session.get("bag", {}) or {}
 
-    # Calculate missing products (to decide sample eligibility)
+    # Get all tea product IDs in the shop
     all_product_ids = set(Product.objects.values_list("id", flat=True))
     bag_product_ids = set(map(int, bag.keys()))
     missing_products = list(all_product_ids - bag_product_ids)
@@ -20,8 +24,8 @@ def view_bag(request):
     breakfast_blend_sample = None
     sample_or_samples = []
 
-    # Offer correct free sample
-    if not missing_products:
+    if len(missing_products) == 0:
+        # User has bought one of each tea —offer the big Breakfast Blend sample
         breakfast_blend_sample = (
             Product.objects.filter(name__icontains="Breakfast Blend")
             .values_list("id", flat=True)
@@ -29,51 +33,13 @@ def view_bag(request):
         )
         if not breakfast_blend_sample:
             messages.warning(request, "Breakfast Blend sample not found.")
-    elif 1 <= len(missing_products) <= 3:
+    else:
+        # Always offer up to 3 teas they don't yet have
         sample_or_samples = Product.objects.filter(id__in=missing_products)[:3]
 
-    # Price multipliers by weight
-    weight_multipliers = {
-        5: 0,
-        20: 0,
-        30: 1,
-        100: 3,
-        300: 8,
-    }
-
-    context = {
-        "bag_items": [],
-        "total": 0,
-        "product_count": 0,
-        "breakfast_blend_sample": breakfast_blend_sample,
-        "sample_or_samples": sample_or_samples,
-    }
-
-    # Build up the bag display
-    for item_id, weights in bag.items():
-        try:
-            product = Product.objects.get(id=item_id)
-            for weight, quantity in weights.items():
-                weight = int(weight)
-                multiplier = weight_multipliers.get(weight, 0)
-                base_price = product.base_price_number
-                item_total = quantity * base_price * multiplier
-
-                context["bag_items"].append(
-                    {
-                        "product": product,
-                        "weight": weight,
-                        "quantity": quantity,
-                        "item_total": item_total,
-                    }
-                )
-
-                context["total"] += item_total
-                if weight not in [5, 20]:
-                    context["product_count"] += quantity
-        except Product.DoesNotExist:
-            messages.warning(request, f"Product ID {item_id} not found.")
-            continue
+    # Add to context for template rendering
+    context["breakfast_blend_sample"] = breakfast_blend_sample
+    context["sample_or_samples"] = sample_or_samples
 
     return render(request, "bag/bag.html", context)
 

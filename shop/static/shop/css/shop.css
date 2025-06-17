@@ -62,19 +62,6 @@
     border: 1px solid #ddd;
 }
 
-/* Product detail background with subtle stripes */
-.bordered-details {
-    border: 1px solid #ddd;
-    background: repeating-linear-gradient(45deg,
-            #ffffff,
-            #ffffff 10px,
-            #fef7f1 10px,
-            #fef7f1 20px);
-    border-radius: 5px;
-    padding: 0.75rem;
-    font-size: 0.95rem;
-}
-
 /* For product detail content on smaller screens */
 @media (max-width: 767.98px) {
     .product-detail-col {
@@ -111,11 +98,6 @@
         width: 100%;
         max-width: 300px;
     }
-}
-
-/* Normal font */
-.not-italic {
-    font-style: normal !important;
 }
 
 /* Width classes */
