@@ -20,8 +20,12 @@
                          alt="{{ product.name }}"
                          class="shop-img img-fluid mb-3">
                 {% endif %}
-                <form class="form mt-2 w-100">
+
+                <form method="post"
+                      action="{% url 'add_to_bag' product_id=product.id %}"
+                      class="form mt-2 w-100">
                     {% csrf_token %}
+
                     <div class="row align-items-center gx-2">
                         <div class="col-12 col-md-auto text-md-end mb-2 mb-md-0">
                             <label for="weight">Choose Quantity:</label>
@@ -42,11 +46,21 @@
             </div>
             <div class="col-12 col-md-6 d-flex flex-column text-md-end text-center align-items-md-end align-items-center product-detail-col mt-4 mt-md-0">
                 <div class="give-border p-3 mb-3 max-400 text-center text-md-end mx-auto mx-md-0">
-                    <p><strong>Type:</strong> {{ product.get_tea_type_display }}</p>
-                    <p><strong>Origin:</strong> {{ product.origin }}</p>
-                    <p><strong>Flavour Profile:</strong> {{ product.flavor_profile }}</p>
-                    <p><strong>Caffeine level:</strong> {{ product.caffeine_level }}</p>
-                    <p><strong>SKU:</strong> {{ product.sku }}</p>
+                    <p>
+                        <strong>Type:</strong> {{ product.get_tea_type_display }}
+                    </p>
+                    <p>
+                        <strong>Origin:</strong> {{ product.origin }}
+                    </p>
+                    <p>
+                        <strong>Flavour Profile:</strong> {{ product.flavor_profile }}
+                    </p>
+                    <p>
+                        <strong>Caffeine level:</strong> {{ product.caffeine_level }}
+                    </p>
+                    <p>
+                        <strong>SKU:</strong> {{ product.sku }}
+                    </p>
                 </div>
                 <div class="w-100 px-3 max-500">
                     {% if product.blog_post %}
@@ -69,7 +83,9 @@
                            href="{% url 'superuser_admin_page' %}"
                            class="btn btn-orange">Back to Superuser admin</a>
                     {% else %}
-                        <a aria-label="Go back to shop" href="{% url 'shop' %}" class="btn btn-orange mb-2">
+                        <a aria-label="Go back to shop"
+                           href="{% url 'shop' %}"
+                           class="btn btn-orange mb-2">
                             <span>Back to Shop</span>
                             <span><i class="fas fa-shopping-bag"></i></span>
                         </a>
@@ -79,7 +95,9 @@
                 <div class="mb-3">
                     {% if not from_superuser and bag_items %}
                         {% if request.user.is_authenticated %}
-                            <a href="{% url 'view_bag' %}" class="btn btn-orange" aria-label="Go to checkout">
+                            <a href="{% url 'view_bag' %}"
+                               class="btn btn-orange"
+                               aria-label="Go to checkout">
                                 <span class="text-uppercase">Go To Secure Checkout</span>
                                 <span class="icon"><i class="fas fa-lock"></i></span>
                             </a>
