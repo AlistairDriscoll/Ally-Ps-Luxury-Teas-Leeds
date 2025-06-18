@@ -1,0 +1,32 @@
+/* bag.css */
+
+.edit-btn-container {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* Both buttons take half the space */
+.edit-btn-container .btn {
+    flex: 1;
+}
+
+/* Update button hidden by default */
+.update-button {
+    display: none;
+}
+
+/* Show when weight is changed */
+.update-button.show {
+    display: inline-block;
+}
+
+/* Delete hidden only when update is shown */
+.delete-button.hidden {
+    display: none;
+}
+
+/* Border to separate left and right sides of row*/
+.border-end {
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+}

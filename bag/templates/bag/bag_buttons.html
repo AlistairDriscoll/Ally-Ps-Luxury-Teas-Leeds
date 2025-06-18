@@ -4,11 +4,10 @@
     <div class="bag-sample-offers w-100 mt-4">
 
         {% if breakfast_blend_sample %}
-            <h4 class="orange-text">
-                As you have bought one of each of our teas, you get a free 20g sample of Breakfast Blend!
-            </h4>
+            <h4 class="orange-text">As you have bought one of each of our teas, you get a free 20g sample of Breakfast Blend!</h4>
             <form action="{% url 'add_to_bag' product_id=breakfast_blend_sample %}"
-                  method="post" class="mt-3">
+                  method="post"
+                  class="mt-3">
                 {% csrf_token %}
                 <input type="hidden" name="weight" value="20">
                 <input type="hidden" name="is_sample" value="true">
@@ -29,17 +28,18 @@
                             <h5 class="card-title mb-2">{{ tea.name }}</h5>
                             <p class="mb-1">5g sample</p>
                             <p class="text-muted small mb-3">
-                                Type: {{ tea.get_tea_type_display }}<br>
+                                Type: {{ tea.get_tea_type_display }}
+                                <br>
                                 Caffeine: {{ tea.get_caffeine_level_display }}
                             </p>
-                            <form action="{% url 'add_to_bag' product_id=tea.id %}" method="post" class="mt-auto">
+                            <form action="{% url 'add_to_bag' product_id=tea.id %}"
+                                  method="post"
+                                  class="mt-auto">
                                 {% csrf_token %}
                                 <input type="hidden" name="weight" value="5">
                                 <input type="hidden" name="is_sample" value="true">
                                 <input type="hidden" name="redirect_url" value="{% url 'view_bag' %}">
-                                <button type="submit" class="btn btn-info w-100">
-                                    Add 5g of {{ tea.name }}
-                                </button>
+                                <button type="submit" class="btn btn-info w-100">Add 5g of {{ tea.name }}</button>
                             </form>
                         </div>
                     </div>

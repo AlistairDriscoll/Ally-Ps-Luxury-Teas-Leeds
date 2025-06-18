@@ -6,53 +6,55 @@ def bag_contents(request):
     """
     For storing bag contents
     and providing context without modifying the session.
+    New version for list-style bag entries.
     """
 
-    bag = request.session.get("bag", {})
+    bag = request.session.get("bag", [])
     sample_product_id = request.session.get("sample_product_id")
-    sample_added = bool(sample_product_id)
+    sample_added = False
 
     bag_items = []
     total = 0
     total_items = 0
     sample_product = None
 
-    for item_id, weights in bag.items():
-        product = Product.objects.filter(id=item_id).first()
+    for item in bag:
+        product_id = item.get("product_id")
+        weight = int(item.get("weight"))
 
+        product = Product.objects.filter(id=product_id).first()
         if not product:
-            continue  # Skip any invalid product IDs in the bag
+            continue
 
-        for weight, quantity in weights.items():
-            weight = int(weight)
-            total_items += quantity
+        # Pricing logic
+        if weight in [5, 20]:
+            price = 0
+            sample_added = True
+            if weight == 5:
+                request.session["sample_product_id"] = product_id
+        elif weight == 30:
+            price = product.base_price_number
+        elif weight == 100:
+            price = product.base_price_number * 3
+        elif weight == 300:
+            price = product.base_price_number * 8
+        else:
+            price = 0  # Fallback safeguard
 
-            # Ensure samples (5g & 20g) are free
-            if weight == 5 or weight == 20:
-                price = 0
-                request.session["sample_product_id"] = product.id
-            elif weight == 30:
-                price = product.base_price_number
-            elif weight == 100:
-                price = product.base_price_number * 3
-            elif weight == 300:
-                price = product.base_price_number * 8
-            else:
-                price = 0  # Default safeguard
+        bag_items.append(
+            {
+                "product": product,
+                "weight": weight,
+                "price": round(price, 2),
+                "subtotal": round(price, 2),
+            }
+        )
 
-            total += price * quantity
-            bag_items.append(
-                {
-                    "product": product,
-                    "weight": weight,
-                    "quantity": quantity,
-                    "price": round(price, 2),
-                    "subtotal": round(price * quantity, 2),
-                }
-            )
+        total += price
+        total_items += 1
 
-    # Ensure sample is added if user has selected it
-    if sample_added and not any(
+    # Handle sample appearance if it should still show up
+    if sample_product_id and not any(
         item["product"].id == sample_product_id and item["weight"] == 5
         for item in bag_items
     ):
@@ -61,12 +63,12 @@ def bag_contents(request):
             {
                 "product": sample_product,
                 "weight": 5,
-                "quantity": 1,
                 "price": 0,
                 "subtotal": 0,
             }
         )
         total_items += 1
+        sample_added = True
 
     total = round(total, 2)
 

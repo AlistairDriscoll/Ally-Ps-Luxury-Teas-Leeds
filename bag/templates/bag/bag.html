@@ -1,6 +1,10 @@
-<!-- Enhanced Bag UI - Compact Version -->
 {% extends "base.html" %}
 {% load static %}
+{% load shop_tools %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'bag/css/bag.css' %}">
+{% endblock extra_css %}
 
 {% block content %}
     <div class="container">
@@ -8,73 +12,68 @@
         <hr>
 
         {% if bag_items %}
-            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start">
+            <div class="row">
                 <!-- Left Column -->
-                <div class="bag-left col-12 col-lg-6 pe-lg-4 mb-4">
-                    <div class="row g-3">
-                        <h3>Your Items:</h3>
+                <div class="col-12 col-lg-7 border-end pe-lg-5">
+                    <h3 class="mb-3">Your Items:</h3>
+                    <div class="row row-cols-1 row-cols-md-2 g-3">
                         {% for item in bag_items %}
                             {% if item.weight != 5 and item.weight != 20 %}
-                                <div class="col-12 mb-3">
-                                    <div class="card p-3 h-100 d-flex flex-column give-border">
+                                <div class="col">
+                                    <div class="card p-3 h-100 d-flex flex-column give-border bordered-details">
                                         <h5 class="card-title">{{ item.product.name }}</h5>
-                                        <div>
-                                            {% if "placeholder" in item.product.picture.url %}
-                                                <img width="200"
-                                                     height="200"
-                                                     class="bag-img mb-2"
-                                                     src="{% static 'images/camellia-sinensis.jpg' %}"
-                                                     alt="Camellia sinensis plant">
-                                            {% else %}
-                                                <img width="200"
-                                                     height="200"
-                                                     class="bag-img mb-2"
-                                                     src="{{ item.product.picture.url }}"
-                                                     alt="{{ item.product.name }}">
-                                            {% endif %}
-                                            <div>
-                                                <form action="{% url 'edit_bag' product_id=item.product.id %}"
-                                                      method="post">
-                                                    {% csrf_token %}
-                                                    <label class="me-2">Weight:</label>
-                                                    <select name="weight" class="form-select d-inline w-auto">
-                                                        {% for w in weight_options %}
-                                                            <option value="{{ w }}" {% if w == item.weight %}selected{% endif %}>{{ w }}g</option>
-                                                        {% endfor %}
-                                                    </select>
 
-                                                    <!-- Add quantity field -->
-                                                    <label class="me-2">Quantity:</label>
-                                                    <input type="number"
-                                                           name="quantity"
-                                                           value="{{ item.quantity }}"
-                                                           class="form-control d-inline w-auto"
-                                                           min="1"
-                                                           step="1">
+                                        {% if "placeholder" in item.product.picture.url %}
+                                            <img width="200"
+                                                 height="200"
+                                                 class="bag-img mb-2"
+                                                 src="{% static 'images/camellia-sinensis.jpg' %}"
+                                                 alt="Camellia sinensis plant">
+                                        {% else %}
+                                            <img width="200"
+                                                 height="200"
+                                                 class="bag-img mb-2"
+                                                 src="{{ item.product.picture.url }}"
+                                                 alt="{{ item.product.name }}">
+                                        {% endif %}
 
-                                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                                                </form>
+                                        <div class="mt-auto pt-2">
+                                            <form action="{% url 'edit_bag' product_id=item.product.id %}"
+                                                  method="post"
+                                                  class="edit-weight-form">
+                                                {% csrf_token %}
+                                                <label for="weight-{{ item.product.id }}" class="me-2">Weight:</label>
+                                                <select id="weight-{{ item.product.id }}"
+                                                        name="weight"
+                                                        class="form-select d-inline w-auto weight-select mb-2"
+                                                        data-original-weight="{{ item.weight }}">
+                                                    <option value="30" {% if item.weight == 30 %}selected{% endif %}>30g</option>
+                                                    <option value="100" {% if item.weight == 100 %}selected{% endif %}>100g</option>
+                                                    <option value="300" {% if item.weight == 300 %}selected{% endif %}>300g</option>
+                                                </select>
 
-                                                <a href="{% url 'delete_from_bag' product_id=item.product.id weight=item.weight %}"
-                                                   class="btn btn-danger btn-sm mt-2">Delete</a>
-                                            </div>
+                                                <div class="edit-btn-container">
+                                                    <button type="submit" class="btn btn-primary btn-sm update-button">Update</button>
+                                                    <a href="{% url 'delete_from_bag' product_id=item.product.id weight=item.weight %}"
+                                                       class="btn btn-danger btn-sm delete-button">Delete</a>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             {% endif %}
                         {% endfor %}
-
                     </div>
                 </div>
 
                 <!-- Right Column -->
-                <div class="bag-right col-12 col-lg-6 d-flex flex-column align-items-lg-end">
+                <div class="col-12 col-lg-5">
+                    <h3 class="mb-3">Your Free Sample:</h3>
                     <div class="row">
                         {% for item in bag_items %}
                             {% if item.weight == 5 or item.weight == 20 %}
-                                <h3>Your Free Sample:</h3>
                                 <div class="col-12 mb-3">
-                                    <div class="card p-3 h-100 d-flex flex-column give-border">
+                                    <div class="card p-3 h-100 d-flex flex-column give-border bordered-details">
                                         <h5>{{ item.product.name }}: {{ item.weight }}g</h5>
                                         {% if "placeholder" in item.product.picture.url %}
                                             <img width="200"
@@ -104,14 +103,16 @@
 
             <div class="d-flex justify-content-between align-items-center mt-5">
                 <a href="{% url 'shop' %}" class="btn btn-lg btn-outline-dark">&lt;&lt; Back to Shop</a>
-
                 {% if sample_added %}
                     <a href="{% url 'checkout' %}" class="btn btn-lg">Proceed to Checkout</a>
                 {% endif %}
             </div>
-
         {% else %}
             <h2 class="text-center mt-4">There are no items in your bag!</h2>
         {% endif %}
     </div>
 {% endblock content %}
+
+{% block extra_js %}
+    <script src="{% static 'bag/js/bag.js' %}"></script>
+{% endblock extra_js %}

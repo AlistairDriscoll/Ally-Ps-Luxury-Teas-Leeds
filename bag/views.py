@@ -1,5 +1,5 @@
 from django.views.decorators.http import require_POST
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from shop.models import Product
 from bag.contexts import bag_contents
@@ -14,18 +14,20 @@ def view_bag(request):
     # Get the full context from bag_contents
     context = bag_contents(request)
 
-    bag = request.session.get("bag", {}) or {}
+    bag = request.session.get("bag", [])
+
+    # Get all product IDs the user currently has in the bag
+    bag_product_ids = {int(item["product_id"]) for item in bag}
 
     # Get all tea product IDs in the shop
     all_product_ids = set(Product.objects.values_list("id", flat=True))
-    bag_product_ids = set(map(int, bag.keys()))
     missing_products = list(all_product_ids - bag_product_ids)
 
     breakfast_blend_sample = None
     sample_or_samples = []
 
     if len(missing_products) == 0:
-        # User has bought one of each tea —offer the big Breakfast Blend sample
+        # User has bought one of each tea— offer the big Breakfast Blend sample
         breakfast_blend_sample = (
             Product.objects.filter(name__icontains="Breakfast Blend")
             .values_list("id", flat=True)
@@ -45,147 +47,109 @@ def view_bag(request):
 
 
 def add_to_bag(request, product_id):
-    """View to add products to the basket"""
-
-    # Retrieve input data
+    """Add a product and weight to the bag session"""
+    product = get_object_or_404(Product, pk=product_id)
     weight = int(request.POST.get("weight"))
-    redirect_url = request.POST.get("redirect_url", "view_bag")
-    is_sample = request.POST.get("is_sample") == "true"
+    redirect_url = request.POST.get("redirect_url")
 
-    # Retrieve session data
-    sample_product_id = request.session.get("sample_product_id")
-    bag = request.session.get("bag", {})
+    # Get or reset bag as a list (ensuring it's not the old dict format)
+    bag = request.session.get("bag", [])
+    if not isinstance(bag, list):
+        bag = []
 
-    # Validate weight
-    valid_weights = {5, 20, 30, 100, 300}
-    if weight not in valid_weights:
-        messages.error(request, "You need to select a compatible weight!")
-        return redirect("shop")
+    # Add new item without merging
+    bag.append(
+        {
+            "product_id": int(product_id),
+            "weight": weight,
+        }
+    )
 
-    # Sample-specific logic
-    if is_sample:
-        if sample_product_id:
-            # Prevent duplicate free samples
-            messages.warning(request,
-                             "You have already claimed a free sample!")
-            return redirect("view_bag")
-        # Add the sample
-        request.session["sample_product_id"] = product_id
-
-    # Convert weight and product_id to strings
-    weight = str(weight)
-    product_id = str(product_id)
-
-    # Add the product and weight to the bag
-    if product_id in bag:
-        if weight in bag[product_id]:
-            bag[product_id][weight] += 1  # Increment quantity
-        else:
-            bag[product_id][weight] = 1  # Add weight
-    else:
-        bag[product_id] = {weight: 1}  # Add new product
-
-    # Save the updated bag and session
     request.session["bag"] = bag
-    request.session.modified = True
-
-    # Success message
-    messages.success(request, "Added to your Bag!")
+    messages.success(request, f"{product.name} ({weight}g) added to your bag.")
     return redirect(redirect_url)
 
 
 @require_POST
 def edit_bag(request, product_id):
     """
-    View to enable the user to edit the weight and quantity of each bag item
+    View to allow users to change the weight of a single bag item.
+    Quantity is removed; each product+weight is unique.
     """
-    new_weight = request.POST.get("weight")
-    new_quantity = int(
-        request.POST.get("quantity", 1)
-    )  # Get quantity, default to 1 if not specified
-    bag = request.session.get("bag", {})
+    product = get_object_or_404(Product, pk=product_id)
+    new_weight = int(request.POST.get("weight"))
 
-    product_id = str(product_id)
+    bag = request.session.get("bag", [])
+    updated_bag = []
+    updated = False
 
-    if product_id in bag:
-        if new_weight in bag[product_id]:
-            # If the weight is already in the bag, update the quantity
-            bag[product_id][new_weight] = new_quantity
-            messages.success(request, "Bag updated successfully!")
+    for item in bag:
+        if int(item["product_id"]) == int(product_id):
+            if not updated:
+                updated_bag.append(
+                    {
+                        "product_id": product_id,
+                        "weight": new_weight,
+                    }
+                )
+                updated = True  # Only change one matching item
+            else:
+                updated_bag.append(item)
         else:
-            # If the weight isn't already in the bag, add it
-            current_weights = bag[product_id]
-            if current_weights:
-                old_weight, old_quantity = list(current_weights.items())[0]
-                bag[product_id][new_weight] = new_quantity
-                del bag[product_id][old_weight]
-            messages.success(request, "Bag updated successfully!")
+            updated_bag.append(item)
 
-        # Save changes
-        request.session["bag"] = bag
-        request.session.modified = True
-    else:
-        messages.error(request, "Item not found in your bag!")
+    request.session["bag"] = updated_bag
+    request.session.modified = True
+    messages.success(request,
+                     f"{product.name} weight updated to {new_weight}g.")
 
     return redirect("view_bag")
 
 
 def delete_from_bag(request, product_id, weight):
-    """View to remove a specific product and weight from the bag"""
+    """Remove a specific product and weight from the bag"""
+    product = get_object_or_404(Product, pk=product_id)
+    weight = int(weight)
 
-    bag = request.session.get("bag", {})
+    bag = request.session.get("bag", [])
 
-    product_id = str(product_id)
-    weight = str(weight)
+    # Remove the matching item
+    new_bag = []
+    sample_removed = False
+    for item in bag:
+        if int(
+            item["product_id"]) == int(product_id) and int(
+                item["weight"]) == weight:
+            if weight in [5, 20]:
+                sample_removed = True
+            continue  # Skip this item (we're removing it)
+        new_bag.append(item)
 
-    if product_id in bag:
-        if weight in bag[product_id]:
-            del bag[product_id][weight]
-
-            if not bag[product_id]:
-                del bag[product_id]
-
-            if weight in ["5", "20"]:
-                request.session["sample_product_id"] = None
-
-            messages.success(request, "Item removed from your bag.")
-        else:
-            messages.error(
-                request,
-                "The specified product weight is "
-                "not associated with your bag.",
-            )
-    else:
-        messages.error(request, "Product not found in your bag.")
-
-    # Recalculate bag status after item removal
-    all_product_ids = set(Product.objects.values_list("id", flat=True))
-    bag_product_ids = set(map(int, bag.keys()))
-    missing_products = list(all_product_ids - bag_product_ids)
-
-    # If they no longer qualify for the 20g sample, remove it
-    for item_id, weights in list(bag.items()):
-        try:
-            product = Product.objects.get(id=item_id)
-            if "breakfast blend" in product.name.lower() and "20" in weights:
-                if missing_products:
-                    del weights["20"]
-                    if not weights:
-                        del bag[item_id]
-                    messages.info(
-                        request,
-                        "You no longer qualify for the 20g Breakfast "
-                        "Blend sample, so it was removed.",
-                    )
-                    # 🔥 Reset the session flag so 5g samples can show
-                    request.session["sample_product_id"] = None
-        except Product.DoesNotExist:
-            continue
-
-    # 🔥 Always reset sample flag if missing products exist
-    if missing_products:
+    request.session["bag"] = new_bag
+    if sample_removed:
         request.session["sample_product_id"] = None
 
-    request.session["bag"] = bag
-    request.session.modified = True
+    # Check if 20g Breakfast Blend sample should still be allowed
+    current_ids = {int(i["product_id"]) for i in new_bag}
+    all_ids = set(Product.objects.values_list("id", flat=True))
+    missing_products = list(all_ids - current_ids)
+
+    # If Breakfast Blend 20g exists and no longer qualifies, remove it
+    if missing_products:
+        filtered = []
+        for item in new_bag:
+            prod = Product.objects.get(id=item["product_id"])
+            if "breakfast blend" in prod.name.lower() and item["weight"] == 20:
+                messages.info(
+                    request,
+                    "You no longer qualify for the 20g"
+                    "Breakfast Blend sample, so it was removed.",
+                )
+                continue  # Skip removing
+            filtered.append(item)
+        request.session["bag"] = filtered
+        request.session["sample_product_id"] = None
+
+    messages.success(request,
+                     f"{product.name} ({weight}g) removed from your bag.")
     return redirect("view_bag")
