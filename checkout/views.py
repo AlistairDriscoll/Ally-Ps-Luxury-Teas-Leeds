@@ -71,7 +71,6 @@ def checkout(request):
                         order=order,
                         product=product,
                         weight=weight,
-                        quantity=1,
                     )
                 except Product.DoesNotExist:
                     messages.warning(

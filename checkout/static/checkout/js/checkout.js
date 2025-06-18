@@ -54,12 +54,6 @@ const europeanCountries = ["AL", // Albania
     "UA", // Ukraine
     "VA", // Vatican City
 ];
-let countrySelect = $('#id_country');
-let orderTotal = parseFloat($('#order-total').text());
-let hiddenDeliveryCost = $('#id_delivery_cost');
-let hiddenGrandTotal = $('#id_grand_total');
-let displayDeliveryCost = $('#display-delivery');
-let displayGrandTotal = $('#display-grand-total');
 
 /**
  * Checks to see if country selector has been changed
@@ -68,22 +62,35 @@ let displayGrandTotal = $('#display-grand-total');
  * Calculates grand total based on this and displays it, along with
  * adding the values to the submit_order form
  */
-countrySelect.on('change', function () {
-    let country = countrySelect.val();
-    console.log(country);
-    let deliveryCost = 15;
-    if (country === "GB") {
-        deliveryCost = 3;
-    } else if (europeanCountries.includes(country)) {
-        deliveryCost = 7;
-    }
+$(document).ready(function () {
+    const europeanCountries = [ /* ... countries ... */];
 
-    displayDeliveryCost.text("Delivery cost: " + deliveryCost);
-    hiddenDeliveryCost.val(deliveryCost);
-    let grandTotal = orderTotal + deliveryCost;
-    displayGrandTotal.text("Grand total: " + grandTotal);
-    hiddenGrandTotal.val(orderTotal + deliveryCost);
+    let countrySelect = $('#id_country');
+    let orderTotal = parseFloat($('#order-total').text());
+    let hiddenDeliveryCost = $('#id_delivery_cost');
+    let hiddenGrandTotal = $('#id_grand_total');
+    let displayDeliveryCost = $('#display-delivery');
+    let displayGrandTotal = $('#display-grand-total');
 
-    console.log(hiddenDeliveryCost.val());
-    console.log(hiddenGrandTotal.val());
+    countrySelect.on('change', function () {
+        console.log("change detected");
+
+        let country = countrySelect.val();
+        let deliveryCost = 15;
+
+        if (country === "GB") {
+            deliveryCost = 3;
+        } else if (europeanCountries.includes(country)) {
+            deliveryCost = 7;
+        }
+
+        displayDeliveryCost.text("Delivery cost: £" + deliveryCost);
+        hiddenDeliveryCost.val(deliveryCost);
+        let grandTotal = orderTotal + deliveryCost;
+        displayGrandTotal.text("Grand Total: £" + grandTotal);
+        hiddenGrandTotal.val(grandTotal);
+
+    });
+    // Manually trigger change on page load in case the country is already pre-filled
+    countrySelect.trigger('change');
 });
