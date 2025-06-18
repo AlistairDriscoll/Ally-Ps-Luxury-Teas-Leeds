@@ -1,81 +1,63 @@
-from django.shortcuts import get_object_or_404
+from decimal import Decimal
 from shop.models import Product
 
 
 def bag_contents(request):
     """
-    For storing bag contents
-    and providing context without modifying the session.
-    New version for list-style bag entries.
+    Returns context with bag items, total cost, and sample status.
+    Assumes each product+weight combo is added once, no quantity.
     """
 
-    bag = request.session.get("bag", [])
-    sample_product_id = request.session.get("sample_product_id")
-    sample_added = False
-
+    bag = request.session.get("bag", {})
     bag_items = []
-    total = 0
+    total = Decimal("0.00")
     total_items = 0
+    sample_added = False
     sample_product = None
 
-    for item in bag:
-        product_id = item.get("product_id")
-        weight = int(item.get("weight"))
-
-        product = Product.objects.filter(id=product_id).first()
-        if not product:
+    for product_id, weights in bag.items():
+        try:
+            product = Product.objects.get(pk=product_id)
+        except Product.DoesNotExist:
             continue
 
-        # Pricing logic
-        if weight in [5, 20]:
-            price = 0
-            sample_added = True
-            if weight == 5:
-                request.session["sample_product_id"] = product_id
-        elif weight == 30:
-            price = product.base_price_number
-        elif weight == 100:
-            price = product.base_price_number * 3
-        elif weight == 300:
-            price = product.base_price_number * 8
-        else:
-            price = 0  # Fallback safeguard
+        for weight_str in weights:
+            weight = int(weight_str)
 
-        bag_items.append(
-            {
-                "product": product,
-                "weight": weight,
-                "price": round(price, 2),
-                "subtotal": round(price, 2),
-            }
-        )
+            if weight in [5, 20]:
+                price = Decimal("0.00")
+                sample_added = True
+                sample_product = product
+            elif weight == 30:
+                price = product.base_price_number
+                total += price
+                total_items += 1
+            elif weight == 100:
+                price = product.base_price_number * 3
+                total += price
+                total_items += 1
+            elif weight == 300:
+                price = product.base_price_number * 8
+                total += price
+                total_items += 1
+            else:
+                # Catch-all fallback (shouldn’t really happen)
+                price = product.base_price_number
+                total += price
+                total_items += 1
 
-        total += price
-        total_items += 1
-
-    # Handle sample appearance if it should still show up
-    if sample_product_id and not any(
-        item["product"].id == sample_product_id and item["weight"] == 5
-        for item in bag_items
-    ):
-        sample_product = get_object_or_404(Product, id=sample_product_id)
-        bag_items.append(
-            {
-                "product": sample_product,
-                "weight": 5,
-                "price": 0,
-                "subtotal": 0,
-            }
-        )
-        total_items += 1
-        sample_added = True
-
-    total = round(total, 2)
+            bag_items.append(
+                {
+                    "product": product,
+                    "weight": weight,
+                    "price": price,
+                }
+            )
 
     context = {
         "bag_items": bag_items,
-        "total_items": total_items,
         "total": total,
+        "total_items": total_items,
         "sample_added": sample_added,
         "sample_product": sample_product,
     }

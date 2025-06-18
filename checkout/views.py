@@ -20,7 +20,7 @@ def checkout(request):
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     if request.method == "POST":
-        bag = request.session.get("bag", {})
+        bag = request.session.get("bag", [])
         save_info = request.POST.get("save_info", False)
 
         form_data = {
@@ -54,17 +54,7 @@ def checkout(request):
 
                 subscribed_checkbox = request.POST.get(
                     "subscribed_to_email") == "on"
-                if subscribed_checkbox and not profile.subscribed_to_email:
-                    profile.subscribed_to_email = True
-                    messages.success(
-                        request, "You've been subscribed to our newsletter!"
-                    )
-                elif not subscribed_checkbox and profile.subscribed_to_email:
-                    profile.subscribed_to_email = False
-                    messages.info(
-                        request, "You're now unsubscribed from our newsletter."
-                    )
-
+                profile.subscribed_to_email = subscribed_checkbox
                 profile.save()
 
             order = order_form.save(commit=False)
@@ -72,39 +62,39 @@ def checkout(request):
             order.original_bag = json.dumps(bag)
             order.save()
 
-            for item_id, weights in bag.items():
+            for item in bag:
                 try:
-                    product = Product.objects.get(pk=item_id)
-                    for weight, quantity in weights.items():
-                        OrderItem.objects.create(
-                            order=order,
-                            product=product,
-                            weight=weight,
-                            quantity=quantity,
-                        )
+                    product = Product.objects.get(pk=item["product_id"])
+                    weight = item["weight"]
+
+                    OrderItem.objects.create(
+                        order=order,
+                        product=product,
+                        weight=weight,
+                        quantity=1,
+                    )
                 except Product.DoesNotExist:
                     messages.warning(
                         request,
-                        "One of your products doesn't exist in our database! "
-                        "Please contact us for further information.",
+                        "A product in your bag no longer exists."
+                        " Please contact us.",
                     )
                     order.delete()
-                    return redirect(reverse("view_bag"))
+                    return redirect("view_bag")
 
             order.save()
-
             return redirect(
-                reverse("checkout_success", args=[order.order_number]))
+                "checkout_success", order_number=order.order_number)
 
         else:
             messages.error(
                 request,
                 "There was an error with your form."
-                "Please double-check your information.",
+                " Please double-check your information.",
             )
 
     else:
-        bag = request.session.get("bag", {})
+        bag = request.session.get("bag", [])
 
         if not bag:
             messages.error(request, "There is nothing in your bag!")
@@ -155,7 +145,6 @@ def checkout_success(request, order_number):
     """
     Displays once successful checkout is made
     """
-
     order = get_object_or_404(Order, order_number=order_number)
 
     if order.delivery_cost == 3:
@@ -171,6 +160,7 @@ def checkout_success(request, order_number):
         f"Your order will arrive in {messages_time}",
     )
 
+    # Clear updated list-based bag session
     request.session.pop("bag", None)
     request.session.pop("sample_product_id", None)
     request.session.modified = True
@@ -186,8 +176,7 @@ def checkout_with_sample(request, pk):
     """
     Handles checkout when a user selects a free sample.
     """
-
-    bag = request.session.get("bag", {})
+    bag = request.session.get("bag", [])
 
     if not bag:
         messages.error(request, "There is nothing in your bag!")
@@ -195,10 +184,19 @@ def checkout_with_sample(request, pk):
 
     sample_product = get_object_or_404(Product, pk=pk)
 
+    # Check if a sample has already been added
     if "sample_product_id" in request.session:
         messages.warning(request, "You have already claimed a free sample!")
         return redirect("view_bag")
 
+    # Add the sample item to the bag
+    sample_item = {
+        "product_id": sample_product.id,
+        "weight": "5",
+    }
+
+    bag.append(sample_item)
+    request.session["bag"] = bag
     request.session["sample_product_id"] = pk
     request.session.modified = True
 
