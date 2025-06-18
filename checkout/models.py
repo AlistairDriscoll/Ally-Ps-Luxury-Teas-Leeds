@@ -19,8 +19,8 @@ def validate_delivery_cost(value):
     """Makes sure delivery cost is right"""
     if value not in DELIVERY_CHOICES:
         raise ValidationError(
-                f"Delivery cost must be {DELIVERY_CHOICES}. Given: {value}"
-            )
+            f"Delivery cost must be {DELIVERY_CHOICES}. Given: {value}"
+        )
 
 
 class Order(models.Model):
@@ -39,20 +39,15 @@ class Order(models.Model):
         """
         cust_email = self.email
         subject = render_to_string(
-            'checkout/confirmation_emails/confirmation_email_subject.txt',
-            {'order': self},
+            "checkout/confirmation_emails/confirmation_email_subject.txt",
+            {"order": self},
         )
         body = render_to_string(
             "checkout/confirmation_emails/confirmation_email_body.txt",
             {"order": self, "default_from_email": settings.DEFAULT_FROM_EMAIL},
         )
 
-        send_mail(
-            subject,
-            body,
-            settings.DEFAULT_FROM_EMAIL,
-            [cust_email]
-        )
+        send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [cust_email])
 
     order_number = models.CharField(max_length=32, null=False, editable=False)
 
@@ -74,9 +69,7 @@ class Order(models.Model):
     postcode = models.CharField(max_length=20, null=True, blank=False)
     date = models.DateTimeField(auto_now_add=True)
     delivery_cost = models.IntegerField(
-        default=3,
-        validators=[validate_delivery_cost]
-    )
+        default=3, validators=[validate_delivery_cost])
     order_total = models.DecimalField(
         max_digits=10, decimal_places=2, null=False, default=0
     )
@@ -98,8 +91,7 @@ class Order(models.Model):
 
         self.order_total = (
             self.lineitems.aggregate(
-                Sum("item_total")).get("item_total__sum", 0)
-            or 0
+                Sum("item_total")).get("item_total__sum", 0) or 0
         )
 
         self.grand_total = self.order_total + self.delivery_cost
@@ -123,32 +115,23 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    """
-    Model for each item added to the order
-    Taken from Code Institute Boutique Ado walkthrough
-    """
-
     order = models.ForeignKey(
         Order,
         null=False,
         blank=False,
         on_delete=models.CASCADE,
-        related_name='lineitems'
+        related_name="lineitems",
     )
     product = models.ForeignKey(
         Product,
         null=False,
         blank=False,
         on_delete=models.CASCADE,
-        related_name='product'
+        related_name="product",
     )
-    weight = models.CharField(max_length=3, blank=True, default=30)
-    quantity = models.IntegerField(null=False, blank=False, default=1)
+    weight = models.PositiveIntegerField(default=30)
     item_total = models.DecimalField(
-        max_digits=6,
-        decimal_places=2,
-        null=False,
-        blank=False
+        max_digits=6, decimal_places=2, null=False, blank=False
     )
 
     def calculate_cost(self, weight, base_price):
@@ -165,15 +148,11 @@ class OrderItem(models.Model):
             return base_price
 
     def save(self, *args, **kwargs):
-        """
-        Override the original save method to set the lineitem total
-        And update the order total
-        """
-
         self.item_total = self.calculate_cost(
             self.weight, self.product.base_price_number
-        ) * self.quantity
+        )
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'SKU {self.product.sku} on order {self.order.order_number}'
+        return f"{self.weight}g of {
+                self.product.name} on order {self.order.order_number}"
