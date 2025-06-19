@@ -185,3 +185,34 @@ a strong {
     padding: 0.75rem;
     font-size: 0.95rem;
 }
+
+/* For the success toast */
+
+.bag-notification-wrapper {
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 5px;
+    /* ensures room for scrollbar */
+}
+
+/* Custom scrollbar (WebKit browsers) */
+.bag-notification-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.bag-notification-wrapper::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border-radius: 3px;
+}
+
+.bag-notification-wrapper .row {
+    margin: 0;
+    padding: 0.5rem 0;
+}
+
+/* Responsive: reduce max-height on smaller screens */
+@media screen and (max-width: 576px) {
+    .bag-notification-wrapper {
+        max-height: 160px;
+    }
+}
