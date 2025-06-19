@@ -1,53 +1,64 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Superuser Admin</h1>
+<div class="container my-4">
+    <h1 class="text-center mb-4">Superuser Admin</h1>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-12 col-lg-3">
-                <h4>Product List</h4>
-                {% for product in products %}
-                    <p>
-                        {{ product.name }} <a aria-label="View product in full"
-    href="{% url 'superuser_view_product' sku=product.sku %}"><strong>View item here</strong></a>
-                    </p>
+    <div class="row">
+        <!-- Products -->
+        <div class="col-12 col-md-6 col-lg-3 mb-4">
+            <h4 class="border-bottom pb-2">Product List</h4>
+            {% for product in products %}
+                <p class="mb-2">
+                    {{ product.name }}<br>
+                    <a href="{% url 'superuser_view_product' sku=product.sku %}" class="text-decoration-none small" aria-label="View product in full">
+                        <strong>View item here</strong>
+                    </a>
+                </p>
+            {% endfor %}
+        </div>
 
-                {% endfor %}
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 border-start">
-                <h4>Your Blog Posts</h4>
-                <a class="btn btn-primary taller-font mb-3" aria-label="Add blog post" href="{% url 'add_post' %}">CLICK HERE to Add a new blog post</a>
-                {% for post in blog_posts %}
-                    <p>
-                        {{ post.title }} <a class="btn btn-primary"
-    aria-label="Post management"
-    href="{% url 'manage_post' post_pk=post.pk %}">View/manage post</a>
-                    </p>
-                {% endfor %}
+        <!-- Blog Posts -->
+        <div class="col-12 col-md-6 col-lg-3 mb-4 border-left">
+            <h4 class="border-bottom pb-2">Your Blog Posts</h4>
+            <a href="{% url 'add_post' %}" class="btn btn-warning btn-sm mb-3 w-100" aria-label="Add blog post">
+                ➕ Add a New Blog Post
+            </a>
+            {% for post in blog_posts %}
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-truncate me-2">{{ post.title }}</span>
+                    <a href="{% url 'manage_post' post_pk=post.pk %}" class="btn btn-outline-dark btn-sm" aria-label="Manage post">Manage</a>
+                </div>
+            {% endfor %}
+        </div>
 
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 border-start">
-                <h4>All Orders</h4>
-                {% for order in orders %}
-                    <p>
-                        <a class="btn btn-primary"
-                           aria-label="View order"
-                           href="{% url 'superuser_view_order' pk=order.pk %}">{{ order.order_number }}</a>
-                    </p>
-                {% endfor %}
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 border-start">
-                <h4>All Enquiries</h4>
-                {% for enquiry in enquiries %}
-                    <div class="col">
-                        <a aria-label="View enquiry"
-                           class="btn btn-primary mb-2"
-                           href="{% url 'view_enquiry' pk=enquiry.pk %}">{{ enquiry.pk }}: {{ enquiry.subject }}</a>
-                    </div>
-                {% endfor %}
-            </div>
+        <!-- Orders -->
+        <div class="col-12 col-md-6 col-lg-3 mb-4 border-left">
+            <h4 class="border-bottom pb-2">All Orders</h4>
+            {% for order in orders %}
+                <p class="mb-2">
+                    <a href="{% url 'superuser_view_order' pk=order.pk %}"
+                       class="btn btn-success btn-sm text-truncate w-100"
+                       aria-label="View order">
+                        {{ order.order_number }}
+                    </a>
+                </p>
+            {% endfor %}
+        </div>
+
+        <!-- Enquiries -->
+        <div class="col-12 col-md-6 col-lg-3 mb-4 border-left">
+            <h4 class="border-bottom pb-2">All Enquiries</h4>
+            {% for enquiry in enquiries %}
+                <p class="mb-2">
+                    <a href="{% url 'view_enquiry' pk=enquiry.pk %}"
+                       class="btn btn-info btn-sm w-100 text-truncate"
+                       aria-label="View enquiry">
+                        {{ enquiry.pk }}: {{ enquiry.subject }}
+                    </a>
+                </p>
+            {% endfor %}
         </div>
     </div>
-
+</div>
 {% endblock content %}

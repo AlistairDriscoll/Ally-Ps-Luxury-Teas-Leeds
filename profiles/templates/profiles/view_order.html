@@ -2,52 +2,104 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <h1>User order: {{ order.order_number }}</h1>
-    <div class="row">
-        <div class="col-12 col-md-6">
-            <h3>Order Details</h3>
-            {% if order.full_name %}<p>{{ order.full_name }}</p>{% endif %}
+    <div class="container">
+        <h1>User Order: {{ order.order_number }}</h1>
+        <div class="row">
+            <!-- Order Info -->
+            <div class="col-12 col-md-6">
+                <h3>Order Details</h3>
+                {% if order.full_name %}
+                    <p>
+                        <strong>Name:</strong> {{ order.full_name }}
+                    </p>
+                {% endif %}
+                {% if order.email %}
+                    <p>
+                        <strong>Email:</strong> {{ order.email }}
+                    </p>
+                {% endif %}
+                {% if order.phone_number %}
+                    <p>
+                        <strong>Phone:</strong> {{ order.phone_number }}
+                    </p>
+                {% endif %}
+                {% if order.address_line1 %}
+                    <p>
+                        <strong>Address 1:</strong> {{ order.address_line1 }}
+                    </p>
+                {% endif %}
+                {% if order.address_line2 %}
+                    <p>
+                        <strong>Address 2:</strong> {{ order.address_line2 }}
+                    </p>
+                {% endif %}
+                {% if order.town_or_city %}
+                    <p>
+                        <strong>City:</strong> {{ order.town_or_city }}
+                    </p>
+                {% endif %}
+                {% if order.state_or_region %}
+                    <p>
+                        <strong>Region:</strong> {{ order.state_or_region }}
+                    </p>
+                {% endif %}
+                {% if order.country %}
+                    <p>
+                        <strong>Country:</strong> {{ order.country }}
+                    </p>
+                {% endif %}
+                {% if order.postcode %}
+                    <p>
+                        <strong>Postcode:</strong> {{ order.postcode }}
+                    </p>
+                {% endif %}
+                {% if order.date %}
+                    <p>
+                        <strong>Order Date:</strong> {{ order.date }}
+                    </p>
+                {% endif %}
+                <hr>
+                {% if order.order_total %}
+                    <p>
+                        <strong>Subtotal:</strong> £{{ order.order_total }}
+                    </p>
+                {% endif %}
+                {% if order.delivery_cost %}
+                    <p>
+                        <strong>Delivery:</strong> £{{ order.delivery_cost }}
+                    </p>
+                {% endif %}
+                {% if order.grand_total %}
+                    <p>
+                        <strong>Total:</strong> £{{ order.grand_total }}
+                    </p>
+                {% endif %}
+            </div>
 
-            {% if order.email %}<p>{{ order.email }}</p>{% endif %}
-
-            {% if order.phone_number %}<p>{{ order.phone_number }}</p>{% endif %}
-
-            {% if order.address_line1 %}<p>{{ order.address_line1 }}</p>{% endif %}
-
-            {% if order.address_line2 %}<p>{{ order.address_line2 }}</p>{% endif %}
-
-            {% if order.town_or_city %}<p>{{ order.town_or_city }}</p>{% endif %}
-
-            {% if order.state_or_region %}<p>{{ order.state_or_region }}</p>{% endif %}
-
-            {% if order.country %}<p>{{ order.country }}</p>{% endif %}
-
-            {% if order.postcode %}<p>{{ order.postcode }}</p>{% endif %}
-
-            {% if order.date %}<p>{{ order.date }}</p>{% endif %}
-
-            {% if order.delivery_cost %}<p>{{ order.delivery_cost }}</p>{% endif %}
-
-            {% if order.order_total %}<p>{{ order.order_total }}</p>{% endif %}
-
-            {% if order.grand_total %}<p>{{ order.grand_total }}</p>{% endif %}
+            <!-- Item Info -->
+            <div class="col-12 col-md-6">
+                <h3>Items</h3>
+                {% for item in order_items %}
+                    <div class="mb-3 p-2 border rounded">
+                        <p class="mb-1">
+                            <strong>{{ item.product.name }}</strong>
+                        </p>
+                        <p class="mb-1">Weight: {{ item.weight }}g</p>
+                        <p class="mb-1">Item Total: £{{ item.item_total }}</p>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-        <div class="col-12 col-md-6">
-            <h3>By Item</h3>
-            {% for item in order_items %}
-                <p>{{ item.product.name }}</p>
-                <p>{{ item.weight }}</p>
-                <p>{{ item.quantity }}</p>
-                <p>{{ item.item_total }}</p>
-                <img src="{{ item.product.picture.url }}" alt="{{ item.product.name }}" width="100px" height="auto">
-            {% endfor %}
+
+        <!-- Back Button -->
+        <div class="row mt-4">
+            <div class="col">
+                {% if from_superuser %}
+                    <a href="{% url 'superuser_admin_page' %}" class="btn btn-secondary">Back to Admin</a>
+                {% else %}
+                    <a href="{% url 'profile' %}" class="btn btn-secondary">Back to Profile</a>
+                {% endif %}
+            </div>
         </div>
-        {% if not from_superuser %}
-            <a href="{% url 'profile' %}" aria-label="Go back to your profile">Go Back</a>
-        {% else %}
-            <a href="{% url 'superuser_admin_page' %}" aria-label="Go back to superuser admin">Back to admin</a>
-        {% endif %}
     </div>
-</div>
 {% endblock content %}

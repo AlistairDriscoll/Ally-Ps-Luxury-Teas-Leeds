@@ -72,14 +72,13 @@ def checkout(request):
                         product=product,
                         weight=weight,
                     )
-                except Product.DoesNotExist:
-                    messages.warning(
+                except Exception:
+                    messages.error(
                         request,
-                        "A product in your bag no longer exists."
-                        " Please contact us.",
-                    )
+                        "There was a problem processing your order. "
+                        "It has not been processed")
                     order.delete()
-                    return redirect("view_bag")
+                    return redirect("shop")
 
             order.save()
             return redirect(
