@@ -54,12 +54,10 @@ The following tests were performed manually to ensure expected functionality. Re
 
 Site tested on:
 
-| Browser      | Version | Result |
-|--------------|---------|--------|
-| Google Chrome | vXX | ✅ |
-| Mozilla Firefox | vXX | ✅ |
-| Safari (mobile) | iOS XX | ✅ |
-| Microsoft Edge | vXX | ✅ |
+| Google Chrome | v114.0 | ✅ |
+| Firefox       | v123.0 | ✅ |
+| Safari iOS    | 17.4   | ✅ |
+| Edge          | v113.0 | ✅ |
 
 Screenshots available in `/documentation/` folder.
 

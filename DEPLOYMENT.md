@@ -21,12 +21,12 @@ Note: This is how one deploys when using VSCode. *If you are using Gitpod, you c
 
 You will need a Django secret key. [this](https://djecrety.ir/) website worked fine for me.
 
-The database was deployed to Code Institute Postgres Database server, provided to me by The Code Institute who I am studying with currently. This project will be my Project 5 submission in their 'Diploma in Full Stack Development' course. One can look online for other database storage resources if not on this course. In order to deploy you will need to find one and get its URL.
+The database was deployed to Code Institute Postgres Database server, provided to me by The Code Institute who I am studying with currently. This project will be my Project 5 submission in their 'Diploma in Full Stack Development' course. One can look online for other database storage resources if not on this course. In order to deploy you will need to find one and get its URL. Failing that you can use the sqlite that comes with Django but it doesn't have as much storage.
 
 
 For taking payment I used [Stripe](https://stripe.com). You will need to click on the link and create an account. You will need to get the public and secret keys.
 
-In order to use media files for this app, I also used ![Cloudinary](https://cloudinary.com), although other services can be used also such as Amazon S3. Once you have made a Coudinary account make sure you can get its cloud name, API key and API secret.
+In order to use media files for this app, I also used [Cloudinary](https://cloudinary.com), although other services can be used also such as Amazon S3. Once you have made a Coudinary account make sure you can get its cloud name, API key and API secret.
 
 
 and have 'import dj_database_url' underneath your import os stuff at the top of your settings file.
@@ -70,6 +70,7 @@ Add the following lines to ```env.py```:
     - ```os.environ["CLOUDINARY_URL"]``` = <your cloudinary URL (Cloudinary explains how to find this out on their website)>
     - ```os.environ["STRIPE_PUBLIC_KEY"]``` = <your stripe public key>
     - ```os.environ["STRIPE_SECRET_KEY"]``` = <your stripe secret key>
+
 
 
 ## Deployment to Heroku
@@ -121,8 +122,11 @@ else:
     }
 ```
 
-Now wether you have deplyed locally or to Heroku, you just need to make your migrations to the database!
+In the settings of your project, you will need to go to the 'reveal config vars' button and add the same variables as you did for your env.py file (APART FROM 'DEVELOPMENT', THIS IS REALLY IMPORTANT)
+Now wether you have deployed locally or to Heroku, you just need to make your migrations to the database and collect static!
 
+
+- ```python manage.py collectstatic```
 - ```python manage.py makemigrations```
 - ```python manage.py migrate```
 

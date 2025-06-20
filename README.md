@@ -71,6 +71,8 @@ Pros: The audience have a much more educated idea of what they want, and as high
 
 Another pro is that the product transcends ages, genders, locations, classes, religions and is in almost every culture to a certain degree, so although loose leaf tea drinkers are a minority of the minority of the worlds population that drinks tea, they can be found amongst every social group in existence nearly.
 
+I particularly enjoyed making this project as I got to channel my passion for tea without any filters in a way that I thought would make the project as good as it could be (I'm not joking when I say in the 'about' section of the website it is more of a spiritual connection than it is a passion if truth be told!) I felt like this was a good idea to do because after my own market research of other tea websites, I have always preferred using the ones that have a bit of personality behind them, as it shows people who are passionate about tea more which of course sells it more. I also thought that most tea websites (if not all, actually) could have more information about them besides the names and where they come from, so combining all this together I thought of the idea of tea's having their own blog posts where they are spoken about in deeper detail would be the way that I personally would like more tea websites to have and so included that in my project.
+
 ### Keywords
 
 After market research of trying different searches, I settled on the following keywords to add to the project as although search engines do not take them into account as much as they used to I thought I would still add some: 'Leeds tea merchant, Leeds tea store, northern tea seller UK, tea merchant Yorkshire, tea blends Leeds, tea merchant UK, loose leaf tea Leeds, tea supplies Leeds'
@@ -97,6 +99,8 @@ Another thing would be to have the superuser be able to implement CRUD functiona
 
 One of the site's most distinctive features is its dynamic free sample logic, which is designed to reward customer exploration and build loyalty.
 
+![Samples example](documentation/features/sample-example.png)
+
 The logic works as follows:
 - If a customer has not yet tried all the teas available on the site, they are offered up to 3 × 5g samples of teas they haven’t yet added to their bag.
 - If a customer *has* added every available tea to their bag (excluding previous samples), they are offered a 20g sample of “Breakfast Blend” instead.
@@ -117,3 +121,12 @@ I have implemented manual testing for my project that can be seen in the [TESTIN
 ### Mistakes
 
 In my bootstrap modals the classes and ids are written in camel case still which is against convention, it's what they come with in the documentation and so I decided to keep them there in case changing them would upset their functionality.
+
+
+## Credits
+
+Thanks to many people on the internet whose posts and advice helped guide this project — including one user who shared a great method for using the seed command, which saved me from having to re-upload all my old data individually every time I flushed the database.
+
+Special thanks to my mentor, Julia Konovalova, for always pushing me out of my comfort zone, encouraging me to do better, staying level-headed when I wasn’t, and being great company even while tearing my code apart.
+
+And thank you to ChatGPT for helping me get things done more efficiently when I needed it.

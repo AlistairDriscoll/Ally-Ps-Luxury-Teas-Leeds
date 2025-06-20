@@ -15,6 +15,25 @@ This document outlines the key features of the Luxury Teas e-commerce site, buil
 
 ---
 
+## Color Scheme
+
+In going for a luxury tea company I did realise that a certain theme had to be made. Light pastel colours were used to make my website easy on the eye.
+
+| Colour Description             | Value                        | Swatch |
+|-------------------------------|------------------------------|--------|
+| Primary Accent Orange         | `#f78e1e`                    | <div style="width:20px; height:20px; background:#f78e1e; border:1px solid #000;"></div> |
+| Sample Hover Orange           | `#e47c00`                    | <div style="width:20px; height:20px; background:#e47c00; border:1px solid #000;"></div> |
+| Button Orange (Secondary)     | `#e67e22`                    | <div style="width:20px; height:20px; background:#e67e22; border:1px solid #000;"></div> |
+| Text Accent Orange            | `rgba(205, 102, 51, 1)`      | <div style="width:20px; height:20px; background:rgba(205,102,51,1); border:1px solid #000;"></div> |
+| Soft Green Background         | `rgba(102, 205, 102, 0.4)`   | <div style="width:20px; height:20px; background:rgba(102,205,102,0.4); border:1px solid #000;"></div> |
+| Stripe Base                   | `#ffffff`                    | <div style="width:20px; height:20px; background:#ffffff; border:1px solid #000;"></div> |
+| Stripe Alt                    | `#fef7f1`                    | <div style="width:20px; height:20px; background:#fef7f1; border:1px solid #000;"></div> |
+| Link Hover Blue               | `#0056b3`                    | <div style="width:20px; height:20px; background:#0056b3; border:1px solid #000;"></div> |
+| General Black (text/borders) | `black`                      | <div style="width:20px; height:20px; background:black; border:1px solid #000;"></div> |
+| Scrollbar Grey                | `#aaa`                       | <div style="width:20px; height:20px; background:#aaa; border:1px solid #000;"></div> |
+
+
+
 ## Products and Shopping
 
 - View all available loose-leaf teas with images, weights, and prices
@@ -24,6 +43,9 @@ This document outlines the key features of the Luxury Teas e-commerce site, buil
 - Remove individual items
 - Total and subtotal dynamically calculated
 - Bag displays both regular teas and free samples (if added)
+
+![Shop card examples](documentation/features/shop.png)
+![Product detail example](documentation/features/prod-detail.png)
 
 ---
 
@@ -66,14 +88,15 @@ This document outlines the key features of the Luxury Teas e-commerce site, buil
 
 ## Newsletter Subscription
 
-- Users can opt-in to email updates:
-  - Via a checkbox at checkout (if not already subscribed)
-  - Via the profile edit page
-- If already subscribed:
-  - The checkbox is replaced by an alert message at checkout
-- Subscription state is stored in the `UserProfile` model (`subscribed_to_email`)
-- Users can unsubscribe anytime from their profile page
+#### Email subscription
 
+I was first encouraged by my course to include an email marketing embedment from Mailchimp, but as a user can only buy from my website when they are signed up I deemed this at first not the right way to handle email marketing. I then made my own 'subscribed_to_email' variable in my UserProfile model and included my own HTML for this, but after encouragement from a tutor decided to also include a mailchimp newsletter subscription form. Instead of deleting my old functionality though I then turned it into a 'members_club' subscription where members with an account already can subscribe to get early offers on new teas amongst other perks (an idea I actually adopted from another tea company who invited me to do the same after I bought enough of their tea!)
+
+![Members club subscription html](documentation/features/member_club.png)
+Here is an example of the HTML showing when the user has subscribed already
+![Footer](documentation/features/mailchimp-box.png) Then here is the footer including an email marketing form that both users and non users can subscribe to.
+![Mailchimp subscribers](documentation/features/mailchimp-storage.png)
+Here is a list of email subscribers that mailchimp store for you.
 ---
 
 ## Blog (Superuser-Only Feature)
