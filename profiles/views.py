@@ -64,9 +64,9 @@ def edit_profile(request, userkey):
         user_profile_form = UserProfileForm(request.POST,
                                             instance=user_profile)
         if user_profile_form.is_valid():
-            subscribed_to_email = request.POST.get(
-                'subscribed_to_email') == 'on'
-            user_profile.subscribed_to_email = subscribed_to_email
+            subscribed_to_members = request.POST.get(
+                'subscribed_to_members_club') == 'on'
+            user_profile.subscribed_to_members_club = subscribed_to_members
             user_profile_form.save()
             messages.success(request, "Profile updated successfully.")
             return redirect("edit_profile", userkey=user_profile.user.pk)

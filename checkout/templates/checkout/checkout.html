@@ -110,11 +110,11 @@
                         <input type="hidden" value="{{ client_secret }}" name="client_secret">
 
                         {% if user.is_authenticated %}
-                            {% if not subscribed_to_email %}
+                            {% if not subscribed_to_members_club %}
                                 <div class="form-check mt-3">
                                     <input type="checkbox"
                                            id="id-email-subscription"
-                                           name="subscribed_to_email"
+                                           name="subscribed_to_members_club"
                                            class="form-check-input mr-1">
                                     <label for="id-email-subscription" class="form-check-label ml-2">
                                         Join our Special Members Club to hear about new tea releases before anyone else!

@@ -3,10 +3,6 @@ from .models import UserProfile
 
 
 class UserProfileForm(forms.ModelForm):
-    """
-    Form for updating UserProfile details.
-    """
-
     class Meta:
         model = UserProfile
         fields = [
@@ -19,13 +15,10 @@ class UserProfileForm(forms.ModelForm):
             "state_or_region",
             "postal_code",
             "country",
-            "subscribed_to_members_club",
+            "subscribed_to_members_club",  # updated field
         ]
 
     def __init__(self, *args, **kwargs):
-        """
-        Customize form placeholders and attributes.
-        """
         super().__init__(*args, **kwargs)
 
         placeholders = {
@@ -43,12 +36,15 @@ class UserProfileForm(forms.ModelForm):
         self.fields["full_name"].widget.attrs["autofocus"] = True
 
         for field in self.fields:
-            # Add placeholders where appropriate
             if field in placeholders:
                 self.fields[field].widget.attrs[
                     "placeholder"] = placeholders[field]
 
-            # Style all fields except the checkbox
             if field != "subscribed_to_members_club":
                 self.fields[field].widget.attrs["class"] = "form-control"
                 self.fields[field].label = False
+
+        # 💡 Custom label for the checkbox
+        self.fields["subscribed_to_members_club"].label = (
+            "Join the Special Members Club for early access to new teas!"
+        )

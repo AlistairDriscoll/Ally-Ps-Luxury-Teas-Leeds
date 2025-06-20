@@ -53,8 +53,8 @@ def checkout(request):
                     profile.state_or_region = form_data["state_or_region"]
 
                 subscribed_checkbox = request.POST.get(
-                    "subscribed_to_email") == "on"
-                profile.subscribed_to_email = subscribed_checkbox
+                    "subscribed_to_members_club") == "on"
+                profile.subscribed_to_members_club = subscribed_checkbox
                 profile.save()
 
             order = order_form.save(commit=False)
@@ -108,8 +108,8 @@ def checkout(request):
         )
 
         user_profile = getattr(request.user, "user_profile", None)
-        subscribed_to_email = (
-            user_profile.subscribed_to_email
+        subscribed_to_members_club = (
+            user_profile.subscribed_to_members_club
             if request.user.is_authenticated and user_profile
             else False
         )
@@ -133,7 +133,7 @@ def checkout(request):
         "order_form": order_form,
         "stripe_public_key": stripe_public_key,
         "client_secret": intent.client_secret,
-        "subscribed_to_email": subscribed_to_email,
+        "subscribed_to_members_club": subscribed_to_members_club,
     }
 
     return render(request, template, context)
