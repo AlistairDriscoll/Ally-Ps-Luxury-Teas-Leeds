@@ -19,7 +19,7 @@ class UserProfileForm(forms.ModelForm):
             "state_or_region",
             "postal_code",
             "country",
-            "subscribed_to_email",
+            "subscribed_to_members_club",
         ]
 
     def __init__(self, *args, **kwargs):
@@ -49,6 +49,6 @@ class UserProfileForm(forms.ModelForm):
                     "placeholder"] = placeholders[field]
 
             # Style all fields except the checkbox
-            if field != "subscribed_to_email":
+            if field != "subscribed_to_members_club":
                 self.fields[field].widget.attrs["class"] = "form-control"
                 self.fields[field].label = False

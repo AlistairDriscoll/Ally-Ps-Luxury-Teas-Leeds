@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% load static %}
 
 {% block extra_css %}
@@ -116,15 +117,14 @@
                                            name="subscribed_to_email"
                                            class="form-check-input mr-1">
                                     <label for="id-email-subscription" class="form-check-label ml-2">
-                                        Subscribe to our newsletter for offers and updates.
+                                        Join our Special Members Club to hear about new tea releases before anyone else!
                                     </label>
                                 </div>
                             {% else %}
                                 <div class="alert alert-info mt-3">
-                                    You're already subscribed to our newsletter.
-                                    You can manage your preferences in your
-                                    <a href="{% url 'edit_profile' userkey=request.user.pk %}"
-                                       class="alert-link">profile settings</a>.
+                                    You're already a member of our Special Members Club!
+                                    You can manage this in your <a href="{% url 'edit_profile' userkey=request.user.pk %}"
+    class="alert-link">profile settings</a>.
                                 </div>
                             {% endif %}
                         {% endif %}
@@ -150,7 +150,6 @@
         </div>
     </div>
 
-    <!-- loading overlay borrowed from code institute -->
     <div id="loading-overlay">
         <h3 class="text-light logo-font loading-spinner">
             <span class="icon">

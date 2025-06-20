@@ -212,7 +212,8 @@
         <div class="row">
             <div class="col-12 col-lg-7 text-right">
                 {% if from_superuser %}
-                    <a href="{% url 'superuser_admin_page' %}">Back to Superuser admin</a>
+                    <a href="{% url 'superuser_admin_page' %}"
+                       class="btn btn-black my-2">Back to Superuser admin</a>
                 {% else %}
                     <a href="{% url 'shop' %}"
                        class="btn btn-black rounded-0 my-2"
