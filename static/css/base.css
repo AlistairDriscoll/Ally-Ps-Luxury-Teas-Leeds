@@ -216,3 +216,39 @@ a strong {
         max-height: 160px;
     }
 }
+
+/* Mailchimp */
+#mc_embed_signup {
+    background: #fff;
+    clear: left;
+    font: 14px Helvetica, Arial, sans-serif;
+    width: 400px;
+}
+
+.refferal_badge {
+    width: 220px;
+    height: 40px;
+    display: flex;
+    padding: 2px 0px;
+    justify-content: center;
+    align-items: center
+}
+
+.mc-spn {
+    display: inline-block;
+    background-color: transparent;
+    border-radius: 4px
+}
+
+.mc-p {
+    margin: 0px auto;
+}
+
+.response {
+    display: none;
+}
+
+.mc-d {
+    position: absolute;
+    left: -5000px;
+}
